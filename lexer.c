@@ -1,0 +1,130 @@
+// C program to illustrate the implementation of lexical
+// analyser
+//source: geekforgeek => need to rewrite my own version
+#include "lexer.h"
+#include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/*
+typedef struct {
+    const char *input;
+    size_t pos;
+    char current;
+} Lexer; */
+// this function moves the lexer one character forward in the input string
+static void advance(Lexer *lex) {
+    if (lex->input[lex->pos] == '\0') { // keep track of the current index
+        lex->current = '\0'; // hold the current index being examined
+        return;
+    }
+    lex->pos++; // advance to the next posistion on the string
+    lex->current = lex->input[lex->pos];
+}
+// this function is to skip over any whitespace 
+static void skip_whitespace(Lexer *lex) {
+    while (lex->current && isspace((unsigned char)lex->current)) {
+        advance(lex);
+    }
+}
+/*typedef enum {
+    TOK_INT,     // integer literal
+    TOK_ID,      // identifier
+    TOK_PLUS,    // '+'
+    TOK_MINUS,   // '-'
+    TOK_TIMES,   // '*'
+    TOK_DIVIDE,  // '/'
+    TOK_LPAREN,  // '('
+    TOK_RPAREN,  // ')'
+    TOK_EOF      // end of file
+} TokenType;
+ typedef struct {
+    TokenType type;
+    int value;      // only valid when type == TOK_INTEGER
+    size_t pos;     // index in source
+} Token;
+
+*/
+// this function to generate token or tokenize
+static Token token_gen(TokenType t, int v, const char *lex, size_t p) {
+    Token tok = {.type = t, .value = v,.lexeme = {0}, .pos = p}; // generate token type, value and position
+    if (lex && *lex) {
+        strncpy(tok.lexeme, lex, sizeof(tok.lexeme) - 1);
+    }
+    return tok;
+}
+// this function to read number from the input string then return it as a token
+static Token number(Lexer *lex) {
+    size_t start = lex->pos;
+    long val = 0;
+    while (lex->current && isdigit(lex->current)) // loop as long as the end of the string is reached and if it is a digit
+    {
+        val = val * 10 + (lex->current - '0'); // multiply the previous digits to the left and add the current digit. 
+        advance(lex);
+    }
+    return token_gen(TOK_INT, (int)val, "number" ,start);
+}
+// this function to find identifier and return it as token. 
+static Token identifier(Lexer *lex) {
+    size_t start = lex->pos;
+    size_t i = 0;
+    char buf[64];
+
+    while (lex->current && (isalpha((unsigned char)lex->current) || isdigit((unsigned char)lex->current) || lex->current == '_')) {
+        if (i < sizeof(buf) - 1)
+            buf[i++] = lex->current;
+        advance(lex);
+    }
+    buf[i] = '\0';
+
+    Token tok = { TOK_ID, 0, "", start };
+    strncpy(tok.lexeme, buf, sizeof(tok.lexeme));
+    return tok;
+}
+void lexer_init(Lexer *lex, const char *input) {
+    lex->input = input;
+    lex->pos = 0;
+    lex->current = input && input[0] ? input[0] : '\0';
+}
+// consider next token in the input stream 
+Token lexer_next_token(Lexer *lex) {
+    while (lex->current) {
+        // checking if white space
+        if (isspace((unsigned char)lex->current)) {
+            skip_whitespace(lex);
+            continue;
+        }
+        // checking if number
+        if (isdigit((unsigned char)lex->current)) {
+            return number(lex);
+        }
+        //checking if identifiers.
+        if (isalpha((unsigned char)lex->current) || lex->current == '_') {
+            return identifier(lex);
+        }
+        
+        size_t p = lex->pos;
+        char ch = lex->current;
+        advance(lex);
+        // lord, this is for single char operations, please do double char later. -Thuong 
+        switch (ch) {
+            case '+': return token_gen(TOK_PLUS, 0, "+" , p);
+            case '-': return token_gen(TOK_MINUS, 0,"-", p);
+            case '*': return token_gen(TOK_MUL, 0, "*",p);
+            case '/': return token_gen(TOK_DIV, 0, "/",p);
+            case '(': return token_gen(TOK_LPAREN, 0,"(", p);
+            case ')': return token_gen(TOK_RPAREN, 0, ")",p);
+            case '=': if (lex->current == '=') 
+                    { advance(lex); return token_gen(TOK_EQ, p,"==" ,p); }
+                      else {return token_gen(TOK_ASSIGN, p,"=" ,p);}
+            default:  // unknown char: consume until end; caller can treat as END
+                return token_gen(TOK_EOF, 0, "EOF",p);
+        }
+    }
+    return token_gen(TOK_EOF, 0, "EOF",lex->pos);
+}
+
+
+
