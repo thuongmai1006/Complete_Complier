@@ -280,7 +280,7 @@ static char *indent_next(const char *indent, int last) {
     return s;
 }
 void print_tree_ascii(const AST* n, const char* indent, int last){
-  printf("%s%s", indent, last ? "`-" : "|--- ");
+  printf("%s%s", indent, last ? " \\_" : "|--- ");
   switch(n->type){
     case AST_NUM: printf("NUM(%d)\n", n->value); break;
     case AST_ID:  printf("ID(%s)\n",  n->name); break;
@@ -309,10 +309,224 @@ void print_tree_ascii(const AST* n, const char* indent, int last){
     print_tree_ascii(n->right, next, 1);
   }*/
 }
+// prototypes
+static int get_height(const AST* n);
+void print_tree(const AST*);
+void print_tree_better(const AST*);
+static void print_ASTNode(const AST* n);
+static void print_spacing(int);
 
+// Better tree printing with profile-based layout
+#define MAX_HEIGHT 1000
+static int lprofile[MAX_HEIGHT];
+static int rprofile[MAX_HEIGHT];
+#define INFINITY (1<<20)
+static int print_next;
+static int gap = 3;
+
+typedef struct ASTWrapper {
+    struct ASTWrapper *left, *right;
+    const AST *node;
+    int edge_length;
+    int height;
+    int label_width;
+    int parent_dir; // -1=left, 0=root, 1=right
+    char label[64];
+} ASTWrapper;
+
+static int get_height(const AST* n){
+    if (!n) return 0;
+    int l = get_height(n->left);
+    int r = get_height(n->right);
+    return 1 + (l > r ? l : r);
+}
+
+static void print_spacing(int reps){
+    for (int i = 0; i < reps; ++i){
+        putchar(' ');
+    }
+}
+
+
+static void print_ASTNode(const AST* n){
+  switch(n->type){
+    case AST_NUM: printf("NUM(%d)", n->value); break;
+    case AST_ID:  printf("ID(%s)", n->name); break;
+    case AST_ASSIGN:printf("ASSIGN(%s)", n->op.lexeme);  break;
+    case AST_UNARY:  printf("UNARY(%s)", n->op.lexeme); break;
+    case AST_BINOP: printf("BIN('%s')", n->op.lexeme); break;
+    default:        printf("?"); break;
+  }
+}
+    
 void free_ast(AST *node) {
     if (!node) return;
     free_ast(node->left);
     free_ast(node->right);
     free(node);
+}
+
+// Better tree printing implementation
+static ASTWrapper *build_wrapper_tree(const AST *node) {
+    if (!node) return NULL;
+
+    ASTWrapper *wrapper = malloc(sizeof(ASTWrapper));
+    wrapper->node = node;
+    wrapper->left = build_wrapper_tree(node->left);
+    wrapper->right = build_wrapper_tree(node->right);
+
+    if (wrapper->left) wrapper->left->parent_dir = -1;
+    if (wrapper->right) wrapper->right->parent_dir = 1;
+
+    // Format label based on node type
+    switch(node->type) {
+        case AST_NUM: sprintf(wrapper->label, "NUM(%d)", node->value); break;
+        case AST_ID:  sprintf(wrapper->label, "ID(%s)", node->name); break;
+        case AST_ASSIGN: sprintf(wrapper->label, "ASSIGN(%s)", node->op.lexeme); break;
+        case AST_UNARY:  sprintf(wrapper->label, "UNARY(%s)", node->op.lexeme); break;
+        case AST_BINOP: sprintf(wrapper->label, "BIN('%s')", node->op.lexeme); break;
+        default: sprintf(wrapper->label, "?"); break;
+    }
+    wrapper->label_width = strlen(wrapper->label);
+
+    return wrapper;
+}
+
+static void free_wrapper_tree(ASTWrapper *node) {
+    if (!node) return;
+    free_wrapper_tree(node->left);
+    free_wrapper_tree(node->right);
+    free(node);
+}
+
+static int MIN(int x, int y) { return x < y ? x : y; }
+static int MAX(int x, int y) { return x > y ? x : y; }
+
+static void compute_lprofile(ASTWrapper *node, int x, int y) {
+    if (!node) return;
+    int isleft = (node->parent_dir == -1);
+    lprofile[y] = MIN(lprofile[y], x - ((node->label_width - isleft) / 2));
+    if (node->left) {
+        for (int i = 1; i <= node->edge_length && y + i < MAX_HEIGHT; i++) {
+            lprofile[y + i] = MIN(lprofile[y + i], x - i);
+        }
+    }
+    compute_lprofile(node->left, x - node->edge_length - 1, y + node->edge_length + 1);
+    compute_lprofile(node->right, x + node->edge_length + 1, y + node->edge_length + 1);
+}
+
+static void compute_rprofile(ASTWrapper *node, int x, int y) {
+    if (!node) return;
+    int notleft = (node->parent_dir != -1);
+    rprofile[y] = MAX(rprofile[y], x + ((node->label_width - notleft) / 2));
+    if (node->right) {
+        for (int i = 1; i <= node->edge_length && y + i < MAX_HEIGHT; i++) {
+            rprofile[y + i] = MAX(rprofile[y + i], x + i);
+        }
+    }
+    compute_rprofile(node->left, x - node->edge_length - 1, y + node->edge_length + 1);
+    compute_rprofile(node->right, x + node->edge_length + 1, y + node->edge_length + 1);
+}
+
+static void compute_edge_lengths(ASTWrapper *node) {
+    if (!node) return;
+    compute_edge_lengths(node->left);
+    compute_edge_lengths(node->right);
+
+    if (!node->right && !node->left) {
+        node->edge_length = 0;
+    } else {
+        int hmin = 0;
+        if (node->left) {
+            for (int i = 0; i < node->left->height && i < MAX_HEIGHT; i++) {
+                rprofile[i] = -INFINITY;
+            }
+            compute_rprofile(node->left, 0, 0);
+            hmin = node->left->height;
+        }
+        if (node->right) {
+            for (int i = 0; i < node->right->height && i < MAX_HEIGHT; i++) {
+                lprofile[i] = INFINITY;
+            }
+            compute_lprofile(node->right, 0, 0);
+            hmin = node->right ? MIN(node->right->height, hmin) : hmin;
+        }
+
+        int delta = 4;
+        for (int i = 0; i < hmin; i++) {
+            delta = MAX(delta, gap + 1 + rprofile[i] - lprofile[i]);
+        }
+
+        if (((node->left && node->left->height == 1) ||
+             (node->right && node->right->height == 1)) && delta > 4) {
+            delta--;
+        }
+
+        node->edge_length = ((delta + 1) / 2) - 1;
+    }
+
+    int h = 1;
+    if (node->left) h = MAX(node->left->height + node->edge_length + 1, h);
+    if (node->right) h = MAX(node->right->height + node->edge_length + 1, h);
+    node->height = h;
+}
+
+static void print_level(ASTWrapper *node, int x, int level) {
+    if (!node) return;
+    int isleft = (node->parent_dir == -1);
+
+    if (level == 0) {
+        for (int i = 0; i < (x - print_next - ((node->label_width - isleft) / 2)); i++) {
+            printf(" ");
+        }
+        print_next += (x - print_next - ((node->label_width - isleft) / 2));
+        printf("%s", node->label);
+        print_next += node->label_width;
+    } else if (node->edge_length >= level) {
+        if (node->left) {
+            for (int i = 0; i < (x - print_next - level); i++) {
+                printf(" ");
+            }
+            print_next += (x - print_next - level);
+            printf("/");
+            print_next++;
+        }
+        if (node->right) {
+            for (int i = 0; i < (x - print_next + level); i++) {
+                printf(" ");
+            }
+            print_next += (x - print_next + level);
+            printf("\\");
+            print_next++;
+        }
+    } else {
+        print_level(node->left, x - node->edge_length - 1, level - node->edge_length - 1);
+        print_level(node->right, x + node->edge_length + 1, level - node->edge_length - 1);
+    }
+}
+
+void print_tree_better(const AST *root) {
+    if (!root) return;
+
+    ASTWrapper *wrapper = build_wrapper_tree(root);
+    wrapper->parent_dir = 0;
+    compute_edge_lengths(wrapper);
+
+    for (int i = 0; i < wrapper->height && i < MAX_HEIGHT; i++) {
+        lprofile[i] = INFINITY;
+    }
+    compute_lprofile(wrapper, 0, 0);
+
+    int xmin = 0;
+    for (int i = 0; i < wrapper->height && i < MAX_HEIGHT; i++) {
+        xmin = MIN(xmin, lprofile[i]);
+    }
+
+    for (int i = 0; i < wrapper->height; i++) {
+        print_next = 0;
+        print_level(wrapper, -xmin, i);
+        printf("\n");
+    }
+
+    free_wrapper_tree(wrapper);
 }

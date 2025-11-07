@@ -53,7 +53,8 @@ static void print_token(const Token *tk) {
     else
         printf("<%s> ",
                token_type_name(tk->type));
-        }
+}
+
 void dump_tokens(char *examples) {
     Lexer lx; lexer_init(&lx, examples);
     for (;;) {
@@ -62,6 +63,8 @@ void dump_tokens(char *examples) {
         if (tk.type == TOK_EOF) break;
     }
 }
+
+
 void dump_token_input(char *input) {  // madness right here * for print_token by string or by each buf[i]. Time wasted: 30'
     Lexer lx; lexer_init(&lx, input);
     for (;;) {
@@ -70,6 +73,28 @@ void dump_token_input(char *input) {  // madness right here * for print_token by
         if (tk.type == TOK_EOF) break;
     }
 }
+
+void print_tokens(Lexer *lx){
+    size_t r_pos = lx->pos;
+    char r_char = lx->current;
+    while(1){
+        Token tk = lexer_next_token(lx);
+        print_token(&tk);
+        if (tk.type == TOK_EOF){
+            lx->pos = r_pos;
+            lx->current = r_char;
+            break;
+        }
+    }
+}
+
+static void print_sep(){
+    for (int i = 0; i < 50; ++i){
+        putchar('-');
+    }
+    putchar('\n');
+}
+
 int main(void) {
      char *examples[] = {
         "(1 + 2) * 3 - 4 / 2",
@@ -88,9 +113,13 @@ int main(void) {
 
     for (int i = 0; examples[i]; ++i) {
         Lexer lx;
+        print_sep();
+        puts("\n== Input ==");
+        printf("%s\n", examples[i]);
         lexer_init(&lx, examples[i]);
-         puts("== Tokenize  ==");
-        dump_tokens(examples[i]);
+        puts("\n== Tokenize  ==");
+//      dump_tokens(examples[i]);
+        print_tokens(&lx);
         Parser ps;
         parser_init(&ps, &lx);
 
@@ -104,8 +133,11 @@ int main(void) {
 
         int result = eval_ast_assignment(tree);
         printf("%s = %d\n", examples[i], result);
-        puts("== Parse tree ==");
-        print_tree_ascii(tree, "", 1);
+        puts("\n== Parse tree ==");
+//        print_tree_ascii(tree, "", 1);
+        print_tree_better(tree);
+        print_sep();
+
         free_ast(tree);
     }
 

@@ -36,6 +36,8 @@ AST* parse_statement(Parser *ps);
 // Evaluate AST to an int (uses integer division for '/')
 int eval_ast_assignment(const AST *node);
 void print_tree_ascii(const AST* n, const char* indent, int last);
+void print_tree(const AST* n);
+void print_tree_better(const AST* n);  // Profile-based tree printing with proper spacing
 // Free AST
 void free_ast(AST *node);
 

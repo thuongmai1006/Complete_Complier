@@ -1,0 +1,124 @@
+\hypertarget{main_8c}{}\doxysection{main.\+c File Reference}
+\label{main_8c}\index{main.c@{main.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}lexer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}syntax.\+h\char`\"{}}\newline
+Include dependency graph for main.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=318pt]{main_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const char $\ast$ \mbox{\hyperlink{main_8c_a3cbb1eca7c05a4f9bc2ad6889ffcf85c}{token\+\_\+type\+\_\+name}} (\mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}} t)
+\item 
+static void \mbox{\hyperlink{main_8c_aa6f2c52521727c41d6c7a84f128e87e9}{print\+\_\+token}} (const \mbox{\hyperlink{structToken}{Token}} $\ast$tk)
+\item 
+void \mbox{\hyperlink{main_8c_a86a0b93014ef0d8d199ea583f47ea000}{dump\+\_\+tokens}} (char $\ast$examples)
+\item 
+void \mbox{\hyperlink{main_8c_abfacd76e70e5f99f77d9c9daf9fb8c8a}{dump\+\_\+token\+\_\+input}} (char $\ast$input)
+\item 
+int \mbox{\hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8c_abfacd76e70e5f99f77d9c9daf9fb8c8a}\label{main_8c_abfacd76e70e5f99f77d9c9daf9fb8c8a}} 
+\index{main.c@{main.c}!dump\_token\_input@{dump\_token\_input}}
+\index{dump\_token\_input@{dump\_token\_input}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{dump\_token\_input()}{dump\_token\_input()}}
+{\footnotesize\ttfamily void dump\+\_\+token\+\_\+input (\begin{DoxyParamCaption}\item[{char $\ast$}]{input }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c_abfacd76e70e5f99f77d9c9daf9fb8c8a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=264pt]{main_8c_abfacd76e70e5f99f77d9c9daf9fb8c8a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8c_a86a0b93014ef0d8d199ea583f47ea000}\label{main_8c_a86a0b93014ef0d8d199ea583f47ea000}} 
+\index{main.c@{main.c}!dump\_tokens@{dump\_tokens}}
+\index{dump\_tokens@{dump\_tokens}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{dump\_tokens()}{dump\_tokens()}}
+{\footnotesize\ttfamily void dump\+\_\+tokens (\begin{DoxyParamCaption}\item[{char $\ast$}]{examples }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c_a86a0b93014ef0d8d199ea583f47ea000_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=239pt]{main_8c_a86a0b93014ef0d8d199ea583f47ea000_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}\label{main_8c_a840291bc02cba5474a4cb46a9b9566fe}} 
+\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c_a840291bc02cba5474a4cb46a9b9566fe_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8c_aa6f2c52521727c41d6c7a84f128e87e9}\label{main_8c_aa6f2c52521727c41d6c7a84f128e87e9}} 
+\index{main.c@{main.c}!print\_token@{print\_token}}
+\index{print\_token@{print\_token}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{print\_token()}{print\_token()}}
+{\footnotesize\ttfamily static void print\+\_\+token (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structToken}{Token}} $\ast$}]{tk }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=291pt]{main_8c_aa6f2c52521727c41d6c7a84f128e87e9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c_aa6f2c52521727c41d6c7a84f128e87e9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8c_a3cbb1eca7c05a4f9bc2ad6889ffcf85c}\label{main_8c_a3cbb1eca7c05a4f9bc2ad6889ffcf85c}} 
+\index{main.c@{main.c}!token\_type\_name@{token\_type\_name}}
+\index{token\_type\_name@{token\_type\_name}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{token\_type\_name()}{token\_type\_name()}}
+{\footnotesize\ttfamily static const char$\ast$ token\+\_\+type\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}}}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c_a3cbb1eca7c05a4f9bc2ad6889ffcf85c_icgraph}
+\end{center}
+\end{figure}
