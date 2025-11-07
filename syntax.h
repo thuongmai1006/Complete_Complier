@@ -5,9 +5,11 @@
 
 typedef enum { 
     AST_NUM, 
-    AST_ID,   //define AST op
-    AST_ASSIGN,
-    AST_BINOP } 
+    AST_ID,   //define AST ID
+    AST_ASSIGN, 
+    AST_BINOP,  // BINARY OPERATION
+    AST_UNARY, 
+    } 
     ASTType;
 
 typedef struct AST {
@@ -17,6 +19,7 @@ typedef struct AST {
     char name[64]; // for AST_ID
     struct AST *left;  // for AST_BINOP
     struct AST *right; // for AST_BINOP
+    struct AST *cond; //condition for ternary op, ehhhh tired, if u read to this point please do it for me, I dont want to do ternary. 
 } AST;
 
 typedef struct {

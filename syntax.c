@@ -29,13 +29,39 @@ static AST* parse_term(Parser *ps);
 // expr   : term ((PLUS|MINUS) term)*
 // term   : factor ((MUL|DIV) factor)*
 // factor : INTEGER | LPAREN expr RPAREN | MINUS factor
+
+//-------------------statement
+AST* parse_statement(Parser *ps) {
+    if (ps->current.type == TOK_ID && (ps->next.type == TOK_ASSIGN  || ps->next.type == TOK_COMPOUND_MINUS 
+        || ps->next.type == TOK_COMPOUND_PLUS || ps->next.type == TOK_COMPOUND_MUL || ps->next.type == TOK_COMPOUND_DIV )) {
+       
+        char name[64]; 
+        strncpy(name, ps->current.lexeme, sizeof(name)-1);
+        
+        eat(ps, TOK_ID);
+        Token op = ps->current; 
+        eat(ps, ps->current.type); 
+       
+        AST *rhs = parse_expr(ps); // or parse_equality()
+        AST *n = calloc(1,sizeof(*n)); 
+        n->type = AST_ASSIGN;
+        strncpy(n->name, name, sizeof(n->name)-1);
+        n->op = op; 
+        n->right = rhs;
+        return n;
+    }
+    return parse_expr(ps);
+}
+//-------------------expression 
 AST* parse_expr(Parser *ps) {
     AST *node = parse_term(ps);
-    while (ps->current.type == TOK_PLUS || ps->current.type == TOK_MINUS) {
+    while (ps->current.type == TOK_PLUS || ps->current.type == TOK_MINUS
+        ||ps->current.type == TOK_BITWISE_AND|| ps->current.type == TOK_BITWISE_OR||ps->current.type == TOK_LESS || ps->current.type == TOK_GREATER
+        ||ps->current.type == TOK_OR||ps->current.type == TOK_AND||ps->current.type == TOK_LESS_EQ || ps->current.type == TOK_GREATER_EQ 
+        ||ps->current.type == TOK_SHIFT_LEFT || ps->current.type == TOK_SHIFT_RIGHT|| ps->current.type == TOK_EQ || ps->current.type == TOK_NOT_EQ) {
         Token op = ps->current;
         eat(ps, op.type);
         AST *rhs = parse_term(ps);
-
         AST *bin = (AST*)calloc(1, sizeof(AST));
         bin->type = AST_BINOP;
         bin->op = op;
@@ -45,19 +71,6 @@ AST* parse_expr(Parser *ps) {
     }
     return node;
 }
-AST* parse_statement(Parser *ps) {
-    if (ps->current.type == TOK_ID && ps->next.type == TOK_ASSIGN) {
-        char name[64]; strncpy(name, ps->current.lexeme, sizeof(name)-1);
-        eat(ps, TOK_ID);
-        eat(ps, TOK_ASSIGN);
-        AST *rhs = parse_expr(ps); // or parse_equality()
-        AST *n = calloc(1,sizeof(*n)); n->type = AST_ASSIGN;
-        strncpy(n->name, name, sizeof(n->name)-1);
-        n->right = rhs;
-        return n;
-    }
-    return parse_expr(ps);
-}
 
 static AST* make_id(const char* s) {
     AST* n = calloc(1, sizeof(AST));   // allocate memory for the AST node
@@ -66,52 +79,66 @@ static AST* make_id(const char* s) {
     n->name[sizeof(n->name) - 1] = '\0';      // make sure it's null-terminated
     return n;
 }
-
+//-------------------factor
 static AST* parse_factor(Parser *ps) {
     Token tok = ps->current;
 
-    if (tok.type == TOK_INT) {
-        eat(ps, TOK_INT);
-        AST *num = (AST*)calloc(1, sizeof(AST));
-        num->type = AST_NUM;
-        num->value = tok.value;
-        return num;
-    }
-     if (tok.type ==TOK_ID)
-    {
-         eat(ps, TOK_ID);
-         return make_id(tok.lexeme);
-    }
-    if (tok.type == TOK_LPAREN) {
-        eat(ps, TOK_LPAREN);
-        AST *inner = parse_expr(ps);
-        if (ps->current.type != TOK_RPAREN) {
-            syntax_error("expected ')'", ps->current);
+        if (tok.type == TOK_INT) {
+            eat(ps, TOK_INT);
+            AST *num = (AST*)calloc(1, sizeof(AST));
+            num->type = AST_NUM;
+            num->value = tok.value;
+            return num;
         }
-        eat(ps, TOK_RPAREN);
-        return inner;
-    }
-    if (tok.type == TOK_MINUS) { // unary minus
-        eat(ps, TOK_MINUS);
-        AST *zero = (AST*)calloc(1, sizeof(AST));
-        zero->type = AST_NUM;
-        zero->value = 0;
-
-        AST *rhs = parse_factor(ps);
-
-        AST *bin = (AST*)calloc(1, sizeof(AST));
-        bin->type = AST_BINOP;
-        bin->op = tok; // minus
-        bin->left = zero;
-        bin->right = rhs;
-        return bin;
-    }
-   
+        if (tok.type ==TOK_ID)
+        {
+            eat(ps, TOK_ID);
+            AST*var = make_id(tok.lexeme);
+            if (ps->current.type == TOK_INCREMENT || ps->current.type == TOK_DECREMENT) 
+            { 
+                Token post = ps->current;
+                eat(ps, ps->current.type);
+                AST *node = calloc(1, sizeof(AST));
+                node->type = AST_UNARY;        // new node type
+                node->op = post;
+                node->left = var;             // store operand on the left
+                return node;
+            }
+            return var; // return make_id(tok.lexeme)
+        }
+        if (tok.type == TOK_LPAREN) {
+            eat(ps, TOK_LPAREN);
+            AST *inner = parse_expr(ps);
+            if (ps->current.type != TOK_RPAREN) {
+                syntax_error("expected ')'", ps->current);
+            }
+            eat(ps, TOK_RPAREN);
+            return inner;
+        }
+    // prefix increment/decrement 
+        if (tok.type == TOK_INCREMENT || tok.type == TOK_DECREMENT) {
+            eat(ps, tok.type);
+            AST *var = parse_factor(ps);   // must be an identifier
+            AST *node = calloc(1, sizeof(AST));
+            node->type = AST_UNARY;        // new node type
+            node->op = tok;
+            node->right = var;             // store operand on the right
+            return node;
+        }
+        if (tok.type == TOK_MINUS || tok.type == TOK_NOT|| tok.type == TOK_BITWISE_NOT) { // unary op
+            eat(ps, tok.type);
+            AST *rhs = parse_factor(ps); //parse the right hs
+            AST *node = (AST*)calloc(1, sizeof(AST));
+            node->type = AST_UNARY;
+            node->op = tok; // minus
+            node->right = rhs;
+            return node;
+        }
 
     syntax_error("expected number, '(', or '-'", tok);
     return NULL; // unreachable
 }
-
+//-------------------term---------------------- 
 static AST* parse_term(Parser *ps) {
     AST *node = parse_factor(ps);
     while (ps->current.type == TOK_MUL || ps->current.type == TOK_DIV) {
@@ -134,22 +161,38 @@ void parser_init(Parser *ps, Lexer *lx) {
     ps->current = lexer_next_token(lx);
     ps->next    = lexer_next_token(lx);
 }
-
- int eval_ast( TokenType op, int left, int right) {
-   
+// evaluate the binary operation, arithmetic 
+ int eval_binary( TokenType op, int left, int right) {
 
     switch (op) {
+        // binary arithmertic
         case TOK_PLUS:  return left + right;
         case TOK_MINUS: return left - right;
         case TOK_MUL:   return left * right;
-        case TOK_DIV:
-            if (right == 0) {
+        case TOK_DIV: if (right == 0) {
                 fprintf(stderr, "Runtime error: division by zero\n"); // error handler for the x/0 case
-                exit(EXIT_FAILURE);
-            }
+                exit(EXIT_FAILURE); }
             return left / right; // integer division
+        // relational maths
+        case TOK_LESS:         return left <  right;
+        case TOK_GREATER:      return left >  right;
+        case TOK_LESS_EQ:      return left <= right; 
+        case TOK_GREATER_EQ:   return left >= right; 
+        // equality 
+        case TOK_EQ:           return left == right; // notworking 
+        case TOK_NOT_EQ:       return left != right;
+        // bitwise
+        case TOK_BITWISE_AND:  return left &  right;
+        case TOK_BITWISE_OR:   return left |  right;
+        case TOK_BITWISE_XOR:  return left ^  right;
+        // logical (non-zero = true). If prefer short-circuit, handle at AST level.
+        case TOK_AND:          return (left != 0) && (right != 0);
+        case TOK_OR:           return (left != 0) || (right != 0);
+        //shifting
+        case TOK_SHIFT_LEFT:   return left << right; 
+        case TOK_SHIFT_RIGHT:  return left >> right;
         default:
-            fprintf(stderr, "Runtime error: bad operator\n");
+            fprintf(stderr, "Runtime error: unknown operator\n");
             exit(EXIT_FAILURE);
     }
 }
@@ -176,14 +219,52 @@ int eval_ast_assignment(const AST *node) {
         case AST_BINOP: {
             int left = eval_ast_assignment(node->left);
             int right = eval_ast_assignment(node->right);
-            return eval_ast(node->op.type, left, right);
+            return eval_binary(node->op.type, left, right);
         }
 
-        case AST_ASSIGN: {                      // <-- handle assignment here
+        case AST_ASSIGN: {                      // handle assignment here
             int val = eval_ast_assignment(node->right);
             int *slot = slot_for(node->name);   // lhs must be an identifier name
-            *slot = val;
-            return val;                         // many REPLs return assigned value
+             switch (node->op.type) {
+                case TOK_ASSIGN:         *slot  = val;       break;
+                case TOK_COMPOUND_PLUS:  *slot += val;       break;
+                case TOK_COMPOUND_MINUS: *slot -= val;       break;
+                case TOK_COMPOUND_MUL:   *slot *= val;       break;
+                case TOK_COMPOUND_DIV:  if (val == 0) { fprintf(stderr, "Division by zero\n"); exit(1); }
+                                        *slot /= val;
+                                        break;
+                default: fprintf(stderr, "Unknown assignment op\n");
+                exit(1);
+                }
+                return *slot;
+            }
+        case AST_UNARY: {
+            
+            if ((node->op.type == TOK_INCREMENT || node->op.type == TOK_DECREMENT)&& node-> right) {
+                int *slot = slot_for(node->right->name);
+                if (node->op.type == TOK_INCREMENT) {(*slot)++;}
+                else {(*slot)--; }
+                return *slot;
+            }
+             if ((node->op.type == TOK_INCREMENT || node->op.type == TOK_DECREMENT)&& node-> left) {
+                int *slot = slot_for(node->left->name);
+                if (node->op.type == TOK_INCREMENT) {(*slot)++;}
+                else {(*slot)--; }
+                return *slot;
+            }
+            if (node->op.type == TOK_NOT) {
+                int val = eval_ast_assignment(node->right);
+                return !(val);
+            }
+            if (node->op.type == TOK_MINUS) {
+                int val = eval_ast_assignment(node->right); // value is on the right side
+                return -(val);
+            }
+            if (node->op.type == TOK_BITWISE_NOT) {
+                int val = eval_ast_assignment(node->right); // value is on the right side
+                return ~val;
+            }
+            
         }
     }
     fprintf(stderr,"Runtime error: bad AST node\n"); exit(EXIT_FAILURE);

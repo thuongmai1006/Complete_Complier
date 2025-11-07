@@ -84,7 +84,7 @@ static Token identifier(Lexer *lex) {
     strncpy(tok.lexeme, buf, sizeof(tok.lexeme));
     return tok;
 }
-void lexer_init(Lexer *lex, const char *input) {
+void lexer_init(Lexer *lex, char *input) {
     lex->input = input;
     lex->pos = 0;
     lex->current = input && input[0] ? input[0] : '\0';
@@ -111,15 +111,36 @@ Token lexer_next_token(Lexer *lex) {
         advance(lex);
         // lord, this is for single char operations, please do double char later. -Thuong 
         switch (ch) {
-            case '+': return token_gen(TOK_PLUS, 0, "+" , p);
-            case '-': return token_gen(TOK_MINUS, 0,"-", p);
-            case '*': return token_gen(TOK_MUL, 0, "*",p);
-            case '/': return token_gen(TOK_DIV, 0, "/",p);
+            case '+': if (lex->current == '+') {advance(lex); return token_gen(TOK_INCREMENT, 0, "++", p);}
+                      else if (lex->current == '=') {advance(lex); return token_gen(TOK_COMPOUND_PLUS, 0, "+=", p);}
+                      else { return token_gen(TOK_PLUS, 0, "+" , p); }
+            case '-': if (lex->current == '-') { advance(lex); return token_gen(TOK_DECREMENT, 0, "--", p); }
+                      else if (lex->current == '=') { advance(lex); return token_gen(TOK_COMPOUND_MINUS, 0, "-=", p); }
+                      else {return token_gen(TOK_MINUS, 0,"-", p);}
+            case '*': if (lex->current == '=') { advance(lex); return token_gen(TOK_COMPOUND_MUL, 0, "*=", p); } 
+                      return token_gen(TOK_MUL, 0, "*",p);
+            case '/': if (lex->current == '=') { advance(lex); return token_gen(TOK_COMPOUND_DIV, 0, "/=", p); }
+                      return token_gen(TOK_DIV, 0, "/",p);
             case '(': return token_gen(TOK_LPAREN, 0,"(", p);
             case ')': return token_gen(TOK_RPAREN, 0, ")",p);
-            case '=': if (lex->current == '=') 
-                    { advance(lex); return token_gen(TOK_EQ, 0,"==" ,p); }
+            case '=': if (lex->current == '=') { advance(lex); return token_gen(TOK_EQ, 0,"==" ,p); }
                       else {return token_gen(TOK_ASSIGN, 0,"=" ,p);}
+            case '>': if (lex->current == '>') { advance(lex); return token_gen(TOK_SHIFT_RIGHT, 0,">>" ,p); }
+                      else if (lex->current == '=') {advance(lex); return token_gen(TOK_GREATER_EQ, 0, ">=", p);}
+                      else {return token_gen(TOK_GREATER, 0,">" ,p);}
+            case '<': if (lex->current == '<') { advance(lex); return token_gen(TOK_SHIFT_LEFT, 0,"<<" ,p); }
+                      else if (lex->current == '=') {advance(lex); return token_gen(TOK_LESS_EQ, 0, "<=", p);}
+                      else {return token_gen(TOK_LESS, 0,"<" ,p);}
+            case '&': if (lex->current == '&') { advance(lex); return token_gen(TOK_AND, 0,"&&" ,p); }
+                      else {return token_gen(TOK_BITWISE_AND, 0,"&" ,p);}
+            case '^': return token_gen(TOK_BITWISE_XOR, 0,"^" ,p); 
+            case '~': return token_gen(TOK_BITWISE_NOT, 0,"~" ,p); 
+            //case '?': return token_gen(TOK_QUESTION, 0,"?" ,p);
+            //case ':': return token_gen(TOK_COLON, 0,":" ,p);
+            case '!': if (lex->current == '=') { advance(lex); return token_gen(TOK_NOT_EQ, 0,"!=" ,p); }
+                      else {return token_gen(TOK_NOT, 0,"!" ,p);}      
+            case '|': if (lex->current == '|') { advance(lex); return token_gen(TOK_OR, 0,"||" ,p); }
+                      else {return token_gen(TOK_BITWISE_OR, 0,"|" ,p);}    
             default:  // unknown char: consume until end; caller can treat as END
                 return token_gen(TOK_EOF, 0, "EOF",p);
         }

@@ -15,6 +15,14 @@ static const char* token_type_name(TokenType t) {
         case TOK_LPAREN:  return "(";
         case TOK_RPAREN:  return ")";
         case TOK_EOF:     return "End of File";
+        case TOK_OR:           return "||";
+        case TOK_BITWISE_XOR:           return "^";
+        case TOK_BITWISE_OR:   return "|";
+        case TOK_AND:          return "&&";
+        case TOK_BITWISE_AND:  return "&";
+        case TOK_NOT_EQ:          return "!=";
+        case TOK_SHIFT_LEFT:    return "<<";// <<
+        case TOK_SHIFT_RIGHT:   return ">>"; // >>
         default:          return "?";
     }
 }
@@ -34,7 +42,7 @@ static const char* token_type_name(TokenType t) {
 }*/
 static void print_token(const Token *tk) {
     if (tk->type == TOK_INT)
-        printf(" %s,(%d) ",
+        printf(" %s(%d) ",
                token_type_name(tk->type), tk->value);
     else if (tk->type == TOK_ID)
         printf(" <%s,%zu> ",
@@ -46,7 +54,7 @@ static void print_token(const Token *tk) {
         printf("<%s> ",
                token_type_name(tk->type));
         }
-void dump_tokens(const char *examples) {
+void dump_tokens(char *examples) {
     Lexer lx; lexer_init(&lx, examples);
     for (;;) {
         Token tk = lexer_next_token(&lx);
@@ -54,11 +62,23 @@ void dump_tokens(const char *examples) {
         if (tk.type == TOK_EOF) break;
     }
 }
+void dump_token_input(char *input) {  // madness right here * for print_token by string or by each buf[i]. Time wasted: 30'
+    Lexer lx; lexer_init(&lx, input);
+    for (;;) {
+        Token tk = lexer_next_token(&lx);
+        print_token(&tk);
+        if (tk.type == TOK_EOF) break;
+    }
+}
 int main(void) {
-    const char *examples[] = {
+     char *examples[] = {
         "X = 3",
-        //"X = Y + Z*3 + K/2 ",
-        //"X + 2 ",
+        "X++",
+        "Y=0",
+        "Z=4",
+        "K=5",
+        "X = Y + Z*3 + K/2 ",
+        "!X ",
         "(1 + 2) * 3 - 4 / 2",
         "-5 + (10 - 3) * 2",
         NULL
@@ -92,22 +112,23 @@ int main(void) {
         // trim newline
         buf[strcspn(buf, "\n")] = '\0';
         if (buf[0] == '\0') continue;
-
-        Lexer lx;
-        lexer_init(&lx, buf);
-        Parser ps;
-        parser_init(&ps, &lx);
-
-        AST *tree = parse_statement(&ps);
-        if (ps.current.type != TOK_EOF) {
-            fprintf(stderr, "Trailing input at position %zu\n", ps.current.pos);
+        
+            Lexer lx;
+            lexer_init(&lx, buf);
+            dump_token_input(buf);
+            Parser ps;
+            parser_init(&ps, &lx);
+         
+            AST *tree = parse_statement(&ps);
+            if (ps.current.type != TOK_EOF) {
+                fprintf(stderr, "Trailing input at position %zu\n", ps.current.pos);
+                free_ast(tree);
+                continue;
+            }
+            int result = eval_ast_assignment(tree);
+            printf("%d\n", result);
             free_ast(tree);
-            continue;
-        }
-        int result = eval_ast_assignment(tree);
-        printf("%d\n", result);
-        free_ast(tree);
+        
     }
-
     return 0;
 }
