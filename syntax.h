@@ -16,7 +16,7 @@ typedef struct AST {
     ASTType type;
     int value;         // for AST_NUM
     Token op;          // for AST_BINOP
-    char name[64]; // for AST_ID
+    char name[128]; // for AST_ID
     struct AST *left;  // for AST_BINOP
     struct AST *right; // for AST_BINOP
     struct AST *cond; //condition for ternary op, ehhhh tired, if u read to this point please do it for me, I dont want to do ternary. 
@@ -35,7 +35,7 @@ AST* parse_expr(Parser *ps);
 AST* parse_statement(Parser *ps);
 // Evaluate AST to an int (uses integer division for '/')
 int eval_ast_assignment(const AST *node);
-
+void print_tree_ascii(const AST* n, const char* indent, int last);
 // Free AST
 void free_ast(AST *node);
 

@@ -72,13 +72,15 @@ void dump_token_input(char *input) {  // madness right here * for print_token by
 }
 int main(void) {
      char *examples[] = {
+        "(1 + 2) * 3 - 4 / 2",
+        "X=1 ",
+        "!X ",
         "X = 3",
         "X++",
         "Y=0",
         "Z=4",
         "K=5",
         "X = Y + Z*3 + K/2 ",
-        "!X ",
         "(1 + 2) * 3 - 4 / 2",
         "-5 + (10 - 3) * 2",
         NULL
@@ -87,6 +89,7 @@ int main(void) {
     for (int i = 0; examples[i]; ++i) {
         Lexer lx;
         lexer_init(&lx, examples[i]);
+         puts("== Tokenize  ==");
         dump_tokens(examples[i]);
         Parser ps;
         parser_init(&ps, &lx);
@@ -101,6 +104,8 @@ int main(void) {
 
         int result = eval_ast_assignment(tree);
         printf("%s = %d\n", examples[i], result);
+        puts("== Parse tree ==");
+        print_tree_ascii(tree, "", 1);
         free_ast(tree);
     }
 
@@ -127,6 +132,8 @@ int main(void) {
             }
             int result = eval_ast_assignment(tree);
             printf("%d\n", result);
+            puts("== Parse tree ==");
+            print_tree_ascii(tree, "", 1);
             free_ast(tree);
         
     }

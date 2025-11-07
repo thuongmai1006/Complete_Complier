@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct { char name[64]; int value; int used; } Var;
-static Var vars[128];
+typedef struct { char name[64]; int value; int used; } Var; //dont ask me why, idk why
+static Var vars[128]; //dont ask me this, the rest I know it vert damn well, but not this line. Too simple to explain 
+
 static void syntax_error(const char *msg, Token got) {
     fprintf(stderr, "Syntax error at %zu: %s (got token %d)\n",
             got.pos, msg, got.type);
@@ -32,6 +33,7 @@ static AST* parse_term(Parser *ps);
 
 //-------------------statement
 AST* parse_statement(Parser *ps) {
+    //AST *lhs = parse_expr(ps); 
     if (ps->current.type == TOK_ID && (ps->next.type == TOK_ASSIGN  || ps->next.type == TOK_COMPOUND_MINUS 
         || ps->next.type == TOK_COMPOUND_PLUS || ps->next.type == TOK_COMPOUND_MUL || ps->next.type == TOK_COMPOUND_DIV )) {
        
@@ -41,14 +43,15 @@ AST* parse_statement(Parser *ps) {
         eat(ps, TOK_ID);
         Token op = ps->current; 
         eat(ps, ps->current.type); 
-       
+        
         AST *rhs = parse_expr(ps); // or parse_equality()
-        AST *n = calloc(1,sizeof(*n)); 
-        n->type = AST_ASSIGN;
-        strncpy(n->name, name, sizeof(n->name)-1);
-        n->op = op; 
-        n->right = rhs;
-        return n;
+        AST *node = calloc(1,sizeof(*node)); 
+        node->type = AST_ASSIGN;
+        strncpy(node->name, name, sizeof(node->name)-1);
+        node->op = op; 
+        //n->left= node;
+        node->right = rhs;
+        return node;
     }
     return parse_expr(ps);
 }
@@ -73,11 +76,11 @@ AST* parse_expr(Parser *ps) {
 }
 
 static AST* make_id(const char* s) {
-    AST* n = calloc(1, sizeof(AST));   // allocate memory for the AST node
-    n->type = AST_ID;                  // mark this node as an identifier
-    strncpy(n->name, s, sizeof(n->name) - 1); // store the variable name
-    n->name[sizeof(n->name) - 1] = '\0';      // make sure it's null-terminated
-    return n;
+    AST* node = calloc(1, sizeof(AST));   // allocate memory for the AST node
+    node->type = AST_ID;                  // mark this node as an identifier
+    strncpy(node->name, s, sizeof(node->name) - 1); // store the variable name
+    node->name[sizeof(node->name) - 1] = '\0';      // make sure it's null-terminated
+    return node;
 }
 //-------------------factor
 static AST* parse_factor(Parser *ps) {
@@ -221,7 +224,6 @@ int eval_ast_assignment(const AST *node) {
             int right = eval_ast_assignment(node->right);
             return eval_binary(node->op.type, left, right);
         }
-
         case AST_ASSIGN: {                      // handle assignment here
             int val = eval_ast_assignment(node->right);
             int *slot = slot_for(node->name);   // lhs must be an identifier name
@@ -269,6 +271,45 @@ int eval_ast_assignment(const AST *node) {
     }
     fprintf(stderr,"Runtime error: bad AST node\n"); exit(EXIT_FAILURE);
 }
+static char *indent_next(const char *indent, int last) {
+    size_t a = strlen(indent), b = 4;
+    char *s = malloc(a + b + 1);
+    memcpy(s, indent, a);
+    memcpy(s + a, last ? "    " : "|   ", b);
+    s[a + b] = '\0';
+    return s;
+}
+void print_tree_ascii(const AST* n, const char* indent, int last){
+  printf("%s%s", indent, last ? "`-" : "|--- ");
+  switch(n->type){
+    case AST_NUM: printf("NUM(%d)\n", n->value); break;
+    case AST_ID:  printf("ID(%s)\n",  n->name); break;
+    case AST_ASSIGN:printf("ASSIGN(%s)\n", n->op.lexeme);  break;
+    case AST_UNARY:  printf("UNARY(%s)\n", n->op.lexeme); break;
+    case AST_BINOP: printf("BIN('%s')\n", n->op.lexeme); break;
+    default:        printf("?\n"); break;
+  }
+   int child_count = 0;
+    const AST *kids[2];
+    if (n->type == AST_BINOP || n->type == AST_ASSIGN||n->type == AST_UNARY) {
+        if (n->left)  kids[child_count++]  = n->left;
+        if (n->right) kids[child_count++]  = n->right;
+    }
+     if (child_count == 0) return;
+
+    char *next = indent_next(indent, last);
+   
+    for (int i = 0; i < child_count; ++i) {
+         print_tree_ascii(kids[i], next, i == child_count - 1);
+    }
+    free(next);
+ /* char next[256]; snprintf(next,sizeof(next), "%s%s", indent, last ? "    " : "|   ");
+  if (n->type==AST_BINOP){
+    print_tree_ascii(n->left, next, 0);
+    print_tree_ascii(n->right, next, 1);
+  }*/
+}
+
 void free_ast(AST *node) {
     if (!node) return;
     free_ast(node->left);
