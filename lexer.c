@@ -59,12 +59,13 @@ static Token token_gen(TokenType t, int v, const char *lex, size_t p) {
 static Token number(Lexer *lex) {
     size_t start = lex->pos;
     long val = 0;
+    char buf[64] = {0};
     while (lex->current && isdigit(lex->current)) // loop as long as the end of the string is reached and if it is a digit
     {
         val = val * 10 + (lex->current - '0'); // multiply the previous digits to the left and add the current digit. 
         advance(lex);
     }
-    return token_gen(TOK_INT, (int)val, "number" ,start);
+    return token_gen(TOK_INT, (int)val, buf ,start);
 }
 // this function to find identifier and return it as token. 
 static Token identifier(Lexer *lex) {
@@ -117,8 +118,8 @@ Token lexer_next_token(Lexer *lex) {
             case '(': return token_gen(TOK_LPAREN, 0,"(", p);
             case ')': return token_gen(TOK_RPAREN, 0, ")",p);
             case '=': if (lex->current == '=') 
-                    { advance(lex); return token_gen(TOK_EQ, p,"==" ,p); }
-                      else {return token_gen(TOK_ASSIGN, p,"=" ,p);}
+                    { advance(lex); return token_gen(TOK_EQ, 0,"==" ,p); }
+                      else {return token_gen(TOK_ASSIGN, 0,"=" ,p);}
             default:  // unknown char: consume until end; caller can treat as END
                 return token_gen(TOK_EOF, 0, "EOF",p);
         }

@@ -4,31 +4,48 @@
 #include "syntax.h"
 static const char* token_type_name(TokenType t) {
     switch (t) {
-        case TOK_INT: return "INTEGER";
+        case TOK_INT: return "INT";
         case TOK_ID:      return "ID";
-        case TOK_ASSIGN:    return "ASSIGNMENT";
-        case TOK_EQ:    return "EQUAL";
-        case TOK_PLUS:    return "PLUS";
-        case TOK_MINUS:   return "MINUS";
-        case TOK_MUL:     return "MUL";
-        case TOK_DIV:     return "DIV";
-        case TOK_LPAREN:  return "Left Parenthese";
-        case TOK_RPAREN:  return "Right Parenthese";
-        case TOK_EOF:     return "END OF STRING";
+        case TOK_ASSIGN:    return "=";
+        case TOK_EQ:    return "==";
+        case TOK_PLUS:    return "+";
+        case TOK_MINUS:   return "-";
+        case TOK_MUL:     return "*";
+        case TOK_DIV:     return "/";
+        case TOK_LPAREN:  return "(";
+        case TOK_RPAREN:  return ")";
+        case TOK_EOF:     return "End of File";
         default:          return "?";
     }
 }
+/*static void print_token(const Token *tk) {
+    if (tk->type == TOK_INT)
+        printf("%s,(%d), lexeme=\"%s\", pos=%zu ",
+               token_type_name(tk->type), tk->value, tk->lexeme,tk->pos);
+    else if (tk->type == TOK_ID)
+        printf("<%s,%zu>, lexeme=\"%s\" ",
+               token_type_name(tk->type), tk->pos, tk->lexeme);
+    else if (tk->type == TOK_EOF)
+        printf("<%s,%zu>, lexeme=\"%s\"\n ",
+               token_type_name(tk->type), tk->pos, tk->lexeme);
+    else
+        printf("<%s,%zu> lexeme=\"%s\" ",
+               token_type_name(tk->type),tk->pos, tk->lexeme);
+}*/
 static void print_token(const Token *tk) {
     if (tk->type == TOK_INT)
-        printf("Token=> Catergory:%s, value=%d, lexeme=\"%s\", pos=%zu\n",
-               token_type_name(tk->type), tk->value, tk->lexeme, tk->pos);
+        printf(" %s,(%d) ",
+               token_type_name(tk->type), tk->value);
     else if (tk->type == TOK_ID)
-        printf("Token=> Catergory:%s, value=%d, lexeme=\"%s\", pos=%zu\n",
-               token_type_name(tk->type),tk->value, tk->lexeme, tk->pos);
+        printf(" <%s,%zu> ",
+               token_type_name(tk->type), tk->pos);
+    else if (tk->type == TOK_EOF)
+        printf("\n %s at pos=%zu, lexeme=\"%s\"\n ",
+               token_type_name(tk->type), tk->pos, tk->lexeme);
     else
-        printf("Token=> Category:%s, lexeme=\"%s\", pos=%zu\n",
-               token_type_name(tk->type), tk->lexeme, tk->pos);
-}
+        printf("<%s> ",
+               token_type_name(tk->type));
+        }
 void dump_tokens(const char *examples) {
     Lexer lx; lexer_init(&lx, examples);
     for (;;) {
@@ -39,7 +56,9 @@ void dump_tokens(const char *examples) {
 }
 int main(void) {
     const char *examples[] = {
-        "x = 2 + 3",
+        "X = 3",
+        //"X = Y + Z*3 + K/2 ",
+        //"X + 2 ",
         "(1 + 2) * 3 - 4 / 2",
         "-5 + (10 - 3) * 2",
         NULL
@@ -48,11 +67,12 @@ int main(void) {
     for (int i = 0; examples[i]; ++i) {
         Lexer lx;
         lexer_init(&lx, examples[i]);
-      dump_tokens(examples[i]);
+        dump_tokens(examples[i]);
         Parser ps;
         parser_init(&ps, &lx);
 
-        AST *tree = parse_expr(&ps);
+        AST *tree = parse_statement(&ps);
+        if (ps.current.type != TOK_EOF) fprintf(stderr,"Trailing input at %zu\n", ps.current.pos);
         if (ps.current.type != TOK_EOF) {
             fprintf(stderr, "Trailing input at position %zu\n", ps.current.pos);
             free_ast(tree);
@@ -78,7 +98,7 @@ int main(void) {
         Parser ps;
         parser_init(&ps, &lx);
 
-        AST *tree = parse_expr(&ps);
+        AST *tree = parse_statement(&ps);
         if (ps.current.type != TOK_EOF) {
             fprintf(stderr, "Trailing input at position %zu\n", ps.current.pos);
             free_ast(tree);

@@ -13,11 +13,13 @@ static void syntax_error(const char *msg, Token got) {
 
 static void eat(Parser *ps, TokenType expect) {
     if (ps->current.type == expect) {
-        ps->current = lexer_next_token(ps->lexer);
+        ps->current =  ps->next;
+        ps->next = lexer_next_token(ps->lexer);
     } else {
         syntax_error("unexpected token", ps->current);
     }
 }
+
 
 // Forward decls
 static AST* parse_factor(Parser *ps);
@@ -43,6 +45,27 @@ AST* parse_expr(Parser *ps) {
     }
     return node;
 }
+AST* parse_statement(Parser *ps) {
+    if (ps->current.type == TOK_ID && ps->next.type == TOK_ASSIGN) {
+        char name[64]; strncpy(name, ps->current.lexeme, sizeof(name)-1);
+        eat(ps, TOK_ID);
+        eat(ps, TOK_ASSIGN);
+        AST *rhs = parse_expr(ps); // or parse_equality()
+        AST *n = calloc(1,sizeof(*n)); n->type = AST_ASSIGN;
+        strncpy(n->name, name, sizeof(n->name)-1);
+        n->right = rhs;
+        return n;
+    }
+    return parse_expr(ps);
+}
+
+static AST* make_id(const char* s) {
+    AST* n = calloc(1, sizeof(AST));   // allocate memory for the AST node
+    n->type = AST_ID;                  // mark this node as an identifier
+    strncpy(n->name, s, sizeof(n->name) - 1); // store the variable name
+    n->name[sizeof(n->name) - 1] = '\0';      // make sure it's null-terminated
+    return n;
+}
 
 static AST* parse_factor(Parser *ps) {
     Token tok = ps->current;
@@ -53,6 +76,11 @@ static AST* parse_factor(Parser *ps) {
         num->type = AST_NUM;
         num->value = tok.value;
         return num;
+    }
+     if (tok.type ==TOK_ID)
+    {
+         eat(ps, TOK_ID);
+         return make_id(tok.lexeme);
     }
     if (tok.type == TOK_LPAREN) {
         eat(ps, TOK_LPAREN);
@@ -78,6 +106,7 @@ static AST* parse_factor(Parser *ps) {
         bin->right = rhs;
         return bin;
     }
+   
 
     syntax_error("expected number, '(', or '-'", tok);
     return NULL; // unreachable
@@ -103,6 +132,7 @@ static AST* parse_term(Parser *ps) {
 void parser_init(Parser *ps, Lexer *lx) {
     ps->lexer = lx;
     ps->current = lexer_next_token(lx);
+    ps->next    = lexer_next_token(lx);
 }
 
  int eval_ast( TokenType op, int left, int right) {
