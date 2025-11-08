@@ -77,13 +77,19 @@ AST* parse_return(Parser* ps){
     return parse_expr(ps);
 }
 
+int is_binOp(int curr){
+    if (curr == TOK_PLUS || curr == TOK_MINUS
+        ||curr == TOK_BITWISE_AND|| curr == TOK_BITWISE_OR||curr == TOK_LESS || curr == TOK_GREATER
+        ||curr == TOK_OR||curr == TOK_AND||curr == TOK_LESS_EQ || curr == TOK_GREATER_EQ 
+        ||curr == TOK_SHIFT_LEFT || curr == TOK_SHIFT_RIGHT|| curr == TOK_EQ || curr == TOK_NOT_EQ){
+        return 1;
+    }
+    else return 0;
+}
 //-------------------expression 
 AST* parse_expr(Parser *ps) {
     AST *node = parse_term(ps);
-    while (ps->current.type == TOK_PLUS || ps->current.type == TOK_MINUS
-        ||ps->current.type == TOK_BITWISE_AND|| ps->current.type == TOK_BITWISE_OR||ps->current.type == TOK_LESS || ps->current.type == TOK_GREATER
-        ||ps->current.type == TOK_OR||ps->current.type == TOK_AND||ps->current.type == TOK_LESS_EQ || ps->current.type == TOK_GREATER_EQ 
-        ||ps->current.type == TOK_SHIFT_LEFT || ps->current.type == TOK_SHIFT_RIGHT|| ps->current.type == TOK_EQ || ps->current.type == TOK_NOT_EQ) {
+    while (is_binOp(ps->current.type)) {
         Token op = ps->current;
         eat(ps, op.type);
         AST *rhs = parse_term(ps);
