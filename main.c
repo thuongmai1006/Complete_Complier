@@ -26,10 +26,10 @@ static const char* token_type_name(TokenType t) {
         case TOK_SHIFT_LEFT:    return "<<";// <<
         case TOK_SHIFT_RIGHT:   return ">>"; // >>
         case TOK_IF:            return "if";
-        case TOK_ELSE:         return "ESLE";
-        case TOK_BREAK:           return "BREAK";
+        case TOK_ELSE:         return "else";
+        case TOK_BREAK:           return "break";
         case TOK_WHILE:          return "while";
-        case TOK_DO:            return "DO";
+        case TOK_DO:            return "do";
         case TOK_RETURN:          return "return";
         default:          return "?";
     }

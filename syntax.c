@@ -55,18 +55,28 @@ AST* parse_statement(Parser *ps) {
     }
     return parse_expr(ps);
 }
-AST* parse_if (Parser *ps)
-{
-     if (ps->current.type == TOK_IF)
-     {
-        eat (ps, TOK_IF);
-        eat (ps, TOK_LPAREN); // not sure here -Thuong 
-        AST *if_cond = parse_expr(ps); // parse the if condition inside the ()
-        if (ps->current.type != TOK_RPAREN) { syntax_error("expected ')'", ps->current); }
-        eat(ps, TOK_RPAREN);
-        return if_cond;
-     }
+AST* parse_if (Parser *ps){
+    eat (ps, TOK_IF);
+    eat (ps, TOK_LPAREN); // not sure here -Thuong 
+    AST *if_cond = parse_expr(ps); // parse the if condition inside the ()
+    if (ps->current.type != TOK_RPAREN) { syntax_error("expected ')'", ps->current); }
+    eat(ps, TOK_RPAREN);
+    return if_cond;
 }
+
+AST* parse_while(Parser* ps){
+    eat(ps, TOK_WHILE);
+    eat(ps, TOK_LPAREN);
+    AST *cond = parse_expr(ps);
+    eat(ps, TOK_RPAREN);
+    return cond;
+}
+
+AST* parse_return(Parser* ps){
+    eat(ps, TOK_RETURN);
+    return parse_expr(ps);
+}
+
 //-------------------expression 
 AST* parse_expr(Parser *ps) {
     AST *node = parse_term(ps);
@@ -105,10 +115,16 @@ static AST* parse_factor(Parser *ps) {
             num->value = tok.value;
             return num;
         }
-        // if the token is an identifier, create an AST node with type AST_ID 
         if (tok.type == TOK_IF){
             return parse_if(ps);
         }
+        if (tok.type == TOK_WHILE){
+            return parse_while(ps);
+        }
+        if (tok.type == TOK_RETURN){
+            return parse_return(ps);
+        }
+        // if the token is an identifier, create an AST node with type AST_ID 
         if (tok.type == TOK_ID)
         {
             eat(ps, TOK_ID);
