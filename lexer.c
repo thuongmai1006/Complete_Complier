@@ -91,7 +91,7 @@ static Token identifier(Lexer *lex) {
     } else {
         tok_type = TOK_ID;
     }
-    Token tok = { tok_type, 0, "", start };
+    Token tok = { tok_type, 0, "", start, lex->id_cnt++ };
     strncpy(tok.lexeme, buf, sizeof(tok.lexeme));
     return tok;
 }
@@ -99,6 +99,7 @@ void lexer_init(Lexer *lex, char *input) {
     lex->input = input;
     lex->pos = 0;
     lex->current = input && input[0] ? input[0] : '\0';
+    lex->id_cnt = 0;
 }
 // consider next token in the input stream 
 Token lexer_next_token(Lexer *lex) {
@@ -134,6 +135,8 @@ Token lexer_next_token(Lexer *lex) {
                       return token_gen(TOK_DIV, 0, "/",p);
             case '(': return token_gen(TOK_LPAREN, 0,"(", p);
             case ')': return token_gen(TOK_RPAREN, 0, ")",p);
+            case '{': return token_gen(TOK_LCURLY, 0,"{", p);
+            case '}': return token_gen(TOK_RCURLY, 0, "}",p);
             case '=': if (lex->current == '=') { advance(lex); return token_gen(TOK_EQ, 0,"==" ,p); }
                       else {return token_gen(TOK_ASSIGN, 0,"=" ,p);}
             case '>': if (lex->current == '>') { advance(lex); return token_gen(TOK_SHIFT_RIGHT, 0,">>" ,p); }
