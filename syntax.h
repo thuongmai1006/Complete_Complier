@@ -33,6 +33,7 @@ void parser_init(Parser *ps, Lexer *lx);
 AST* parse_expr(Parser *ps);
 AST* parse_statement(Parser *ps);
 AST* parse_if(Parser *ps);
+
 // Evaluate AST to an int (uses integer division for '/')
 int eval_ast_assignment(const AST *node);
 void print_tree_ascii(const AST* n, const char* indent, int last);

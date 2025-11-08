@@ -172,6 +172,7 @@ static AST* parse_term(Parser *ps) {
         Token op = ps->current;
         eat(ps, op.type);
         AST *rhs = parse_factor(ps);
+
         AST *bin = (AST*)calloc(1, sizeof(AST));
         bin->type = AST_BINOP;
         bin->op = op;

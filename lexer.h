@@ -54,14 +54,12 @@ typedef struct {
     int value;      // only valid when type == TOK_INTEGER
     char lexeme[128];
     size_t pos;     // index in source
-    size_t id_no;
 } Token;
 
 typedef struct {
     const char *input;
     size_t pos;
     char current;
-    size_t id_cnt;
 } Lexer;
 
 void lexer_init(Lexer *lex, char *input);
