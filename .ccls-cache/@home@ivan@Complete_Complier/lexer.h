@@ -33,7 +33,14 @@ typedef enum {
     TOK_OR, // LOGICAL OR ||
     TOK_NOT, // LOGICAL NOT !
     TOK_NOT_EQ, // NOT EQ !=
-    TOK_BITWISE_NOT //~ 1'S COMPLEMENT
+    TOK_BITWISE_NOT, //~ 1'S COMPLEMENT
+    TOK_IF, // "if"
+    TOK_WHILE, // "while"
+    TOK_RETURN, // "return"
+    TOK_INT_VAR, // "int"
+    TOK_LCURLY, // "{"
+    TOK_RCURLY, // "}"
+    TOK_SEMI, // ";"
     //TOK_QUESTION, //?
     //TOK_COLON //  :
 } TokenType;

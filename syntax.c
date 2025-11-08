@@ -85,7 +85,7 @@ static AST* make_id(const char* s) {
 //-------------------factor
 static AST* parse_factor(Parser *ps) {
     Token tok = ps->current;
-
+        // if integer literal, create an AST node with type AST_NUM and value of the int
         if (tok.type == TOK_INT) {
             eat(ps, TOK_INT);
             AST *num = (AST*)calloc(1, sizeof(AST));
@@ -93,7 +93,8 @@ static AST* parse_factor(Parser *ps) {
             num->value = tok.value;
             return num;
         }
-        if (tok.type ==TOK_ID)
+        // if the token is an identifier, create an AST node with type AST_ID 
+        if (tok.type == TOK_ID)
         {
             eat(ps, TOK_ID);
             AST*var = make_id(tok.lexeme);
@@ -109,6 +110,7 @@ static AST* parse_factor(Parser *ps) {
             }
             return var; // return make_id(tok.lexeme)
         }
+        // parse the inner expression of a left, right parenthesis pair
         if (tok.type == TOK_LPAREN) {
             eat(ps, TOK_LPAREN);
             AST *inner = parse_expr(ps);
@@ -116,6 +118,15 @@ static AST* parse_factor(Parser *ps) {
                 syntax_error("expected ')'", ps->current);
             }
             eat(ps, TOK_RPAREN);
+            return inner;
+        }
+        if (tok.type == TOK_LCURLY){
+            eat(ps, TOK_LCURLY);
+            AST* inner = parse_statement(ps);
+            if (ps->current.type != TOK_RCURLY){
+                syntax_error("expected \"}\"", ps->current);
+            }
+            eat(ps, TOK_RCURLY);
             return inner;
         }
     // prefix increment/decrement 
@@ -310,11 +321,8 @@ void print_tree_ascii(const AST* n, const char* indent, int last){
   }*/
 }
 // prototypes
-static int get_height(const AST* n);
 void print_tree(const AST*);
 void print_tree_better(const AST*);
-static void print_ASTNode(const AST* n);
-static void print_spacing(int);
 
 // Better tree printing with profile-based layout
 #define MAX_HEIGHT 1000
@@ -334,31 +342,6 @@ typedef struct ASTWrapper {
     char label[64];
 } ASTWrapper;
 
-static int get_height(const AST* n){
-    if (!n) return 0;
-    int l = get_height(n->left);
-    int r = get_height(n->right);
-    return 1 + (l > r ? l : r);
-}
-
-static void print_spacing(int reps){
-    for (int i = 0; i < reps; ++i){
-        putchar(' ');
-    }
-}
-
-
-static void print_ASTNode(const AST* n){
-  switch(n->type){
-    case AST_NUM: printf("NUM(%d)", n->value); break;
-    case AST_ID:  printf("ID(%s)", n->name); break;
-    case AST_ASSIGN:printf("ASSIGN(%s)", n->op.lexeme);  break;
-    case AST_UNARY:  printf("UNARY(%s)", n->op.lexeme); break;
-    case AST_BINOP: printf("BIN('%s')", n->op.lexeme); break;
-    default:        printf("?"); break;
-  }
-}
-    
 void free_ast(AST *node) {
     if (!node) return;
     free_ast(node->left);

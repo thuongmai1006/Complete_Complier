@@ -9,8 +9,7 @@ typedef enum {
     AST_ASSIGN, 
     AST_BINOP,  // BINARY OPERATION
     AST_UNARY, 
-    } 
-    ASTType;
+} ASTType; 
 
 typedef struct AST {
     ASTType type;

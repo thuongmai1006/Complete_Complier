@@ -79,8 +79,19 @@ static Token identifier(Lexer *lex) {
         advance(lex);
     }
     buf[i] = '\0';
-
-    Token tok = { TOK_ID, 0, "", start };
+    TokenType tok_type;
+    if (strcmp(buf, "while") == 0){
+        tok_type = TOK_WHILE;
+    } else if (strcmp(buf, "return") == 0){
+        tok_type = TOK_RETURN;
+    } else if (strcmp(buf, "int") == 0){
+        tok_type = TOK_INT_VAR;
+    } else if (strcmp(buf, "if") == 0){
+        tok_type = TOK_IF;
+    } else {
+        tok_type = TOK_ID;
+    }
+    Token tok = { tok_type, 0, "", start };
     strncpy(tok.lexeme, buf, sizeof(tok.lexeme));
     return tok;
 }
