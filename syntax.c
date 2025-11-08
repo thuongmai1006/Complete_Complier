@@ -55,7 +55,7 @@ AST* parse_statement(Parser *ps) {
     }
     return parse_expr(ps);
 }
-AST * parse_if (Parser *ps)
+AST* parse_if (Parser *ps)
 {
      if (ps->current.type == TOK_IF)
      {
@@ -106,6 +106,9 @@ static AST* parse_factor(Parser *ps) {
             return num;
         }
         // if the token is an identifier, create an AST node with type AST_ID 
+        if (tok.type == TOK_IF){
+            return parse_if(ps);
+        }
         if (tok.type == TOK_ID)
         {
             eat(ps, TOK_ID);
