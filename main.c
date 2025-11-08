@@ -14,6 +14,8 @@ static const char* token_type_name(TokenType t) {
         case TOK_DIV:     return "/";
         case TOK_LPAREN:  return "(";
         case TOK_RPAREN:  return ")";
+        case TOK_LCURLY:  return "{";
+        case TOK_RCURLY:  return "}";
         case TOK_EOF:     return "End of File";
         case TOK_OR:           return "||";
         case TOK_BITWISE_XOR:           return "^";
