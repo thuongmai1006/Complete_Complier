@@ -12,8 +12,8 @@ static void syntax_error(const char *msg, Token got) {
     exit(EXIT_FAILURE);
 }
 
-static void eat(Parser *ps, TokenType expect) {
-    if (ps->current.type == expect) {
+static void eat(Parser *ps, TokenType expect) { // eat is expecting the token 
+    if (ps->current.type == expect) {  
         ps->current =  ps->next;
         ps->next = lexer_next_token(ps->lexer);
     } else {
@@ -54,6 +54,18 @@ AST* parse_statement(Parser *ps) {
         return node;
     }
     return parse_expr(ps);
+}
+AST * parse_if (Parser *ps)
+{
+     if (ps->current.type == TOK_IF)
+     {
+        eat (ps, TOK_IF);
+        eat (ps, TOK_LPAREN); // not sure here -Thuong 
+        AST *if_cond = parse_expr(ps); // parse the if condition inside the ()
+        if (ps->current.type != TOK_RPAREN) { syntax_error("expected ')'", ps->current); }
+        eat(ps, TOK_RPAREN);
+        return if_cond;
+     }
 }
 //-------------------expression 
 AST* parse_expr(Parser *ps) {
@@ -113,21 +125,22 @@ static AST* parse_factor(Parser *ps) {
         // parse the inner expression of a left, right parenthesis pair
         if (tok.type == TOK_LPAREN) {
             eat(ps, TOK_LPAREN);
-            AST *inner = parse_expr(ps);
+            AST *inner_primary = parse_expr(ps);
             if (ps->current.type != TOK_RPAREN) {
                 syntax_error("expected ')'", ps->current);
             }
             eat(ps, TOK_RPAREN);
-            return inner;
+            return inner_primary;
         }
+        // Ivan applied {}
         if (tok.type == TOK_LCURLY){
             eat(ps, TOK_LCURLY);
-            AST* inner = parse_statement(ps);
+            AST* inner_block = parse_expr(ps);
             if (ps->current.type != TOK_RCURLY){
                 syntax_error("expected \"}\"", ps->current);
             }
             eat(ps, TOK_RCURLY);
-            return inner;
+            return inner_block;
         }
     // prefix increment/decrement 
         if (tok.type == TOK_INCREMENT || tok.type == TOK_DECREMENT) {

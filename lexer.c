@@ -67,18 +67,38 @@ static Token number(Lexer *lex) {
     }
     return token_gen(TOK_INT, (int)val, buf ,start);
 }
+// this function is to put together all the keyword so if later i want to add more keyword, make them auto.
+int is_key (char *str) 
+{
+    const char* keyword[] = {"if", "else", "while","do", "break","return", "for"};
+     for (int i = 0; i < sizeof(keyword) / sizeof(keyword[0]); i++) {
+        if (strcmp(str, keyword[i]) == 0) {
+            return 1;  // return true if the keywords are int, return, if 
+        }
+    }
+    return 0;
+}
 // this function to find identifier and return it as token. 
 static Token identifier(Lexer *lex) {
-    size_t start = lex->pos;
+    size_t start= lex->pos;
     size_t i = 0;
     char buf[64];
 
-    while (lex->current && (isalpha((unsigned char)lex->current) || isdigit((unsigned char)lex->current) || lex->current == '_')) {
+    while (lex->current && (isalpha((unsigned char)lex->current) || lex->current == '_' )) {
+        
         if (i < sizeof(buf) - 1)
             buf[i++] = lex->current;
-        advance(lex);
-    }
+            advance(lex);
+        }
     buf[i] = '\0';
+    if (strcmp(buf, "while") == 0){ return token_gen(TOK_WHILE, 0, buf, start);} 
+    else if (strcmp(buf, "return") == 0){ return token_gen(TOK_RETURN, 0, buf, start);} 
+    else if (strcmp(buf, "int") == 0){ return token_gen(TOK_INT_VAR, 0, buf , start);}
+    else if (strcmp(buf, "if") == 0){ return token_gen(TOK_IF, 0, buf , start);}
+    return token_gen(TOK_ID, 0, buf , start);
+    printf("buf %s\n",buf);
+    
+    /*
     TokenType tok_type;
     if (strcmp(buf, "while") == 0){
         tok_type = TOK_WHILE;
@@ -91,9 +111,16 @@ static Token identifier(Lexer *lex) {
     } else {
         tok_type = TOK_ID;
     }
+    printf("buf %s\n",buf);
     Token tok = { tok_type, 0, "", start };
     strncpy(tok.lexeme, buf, sizeof(tok.lexeme));
-    return tok;
+    printf("tok %s\n", tok);
+    return tok;*/
+  
+
+  
+  
+   
 }
 void lexer_init(Lexer *lex, char *input) {
     lex->input = input;
@@ -134,6 +161,8 @@ Token lexer_next_token(Lexer *lex) {
                       return token_gen(TOK_DIV, 0, "/",p);
             case '(': return token_gen(TOK_LPAREN, 0,"(", p);
             case ')': return token_gen(TOK_RPAREN, 0, ")",p);
+            case '{': return token_gen(TOK_LCURLY, 0,"(", p);
+            case '}': return token_gen(TOK_RCURLY, 0, ")",p);
             case '=': if (lex->current == '=') { advance(lex); return token_gen(TOK_EQ, 0,"==" ,p); }
                       else {return token_gen(TOK_ASSIGN, 0,"=" ,p);}
             case '>': if (lex->current == '>') { advance(lex); return token_gen(TOK_SHIFT_RIGHT, 0,">>" ,p); }
@@ -153,6 +182,7 @@ Token lexer_next_token(Lexer *lex) {
             case '|': if (lex->current == '|') { advance(lex); return token_gen(TOK_OR, 0,"||" ,p); }
                       else {return token_gen(TOK_BITWISE_OR, 0,"|" ,p);}    
             default:  // unknown char: consume until end; caller can treat as END
+             
                 return token_gen(TOK_EOF, 0, "EOF",p);
         }
     }

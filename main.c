@@ -23,6 +23,12 @@ static const char* token_type_name(TokenType t) {
         case TOK_NOT_EQ:          return "!=";
         case TOK_SHIFT_LEFT:    return "<<";// <<
         case TOK_SHIFT_RIGHT:   return ">>"; // >>
+        case TOK_IF:            return "if";
+        case TOK_ELSE:         return "ESLE";
+        case TOK_BREAK:           return "BREAK";
+        case TOK_WHILE:          return "while";
+        case TOK_DO:            return "DO";
+        case TOK_RETURN:          return "return";
         default:          return "?";
     }
 }
