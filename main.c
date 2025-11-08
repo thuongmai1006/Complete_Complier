@@ -52,7 +52,7 @@ static void print_token(const Token *tk) {
                token_type_name(tk->type), tk->value);
     else if (tk->type == TOK_ID)
         printf(" <%s,%zu> ",
-               token_type_name(tk->type), tk->pos);
+               token_type_name(tk->type), tk->id_no);
     else if (tk->type == TOK_EOF)
         printf("\n %s at pos=%zu, lexeme=\"%s\"\n ",
                token_type_name(tk->type), tk->pos, tk->lexeme);

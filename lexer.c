@@ -55,6 +55,13 @@ static Token token_gen(TokenType t, int v, const char *lex, size_t p) {
     }
     return tok;
 }
+static Token token_gen2(TokenType t, int v, const char *lex, size_t p, size_t id_no) {
+    Token tok = {.type = t, .value = v,.lexeme = {0}, .pos = p, .id_no = id_no}; // generate token type, value and position
+    if (lex && *lex) {
+        strncpy(tok.lexeme, lex, sizeof(tok.lexeme) - 1);
+    }
+    return tok;
+}
 // this function to read number from the input string then return it as a token
 static Token number(Lexer *lex) {
     size_t start = lex->pos;
@@ -95,7 +102,7 @@ static Token identifier(Lexer *lex) {
     else if (strcmp(buf, "return") == 0){ return token_gen(TOK_RETURN, 0, buf, start);} 
     else if (strcmp(buf, "int") == 0){ return token_gen(TOK_INT_VAR, 0, buf , start);}
     else if (strcmp(buf, "if") == 0){ return token_gen(TOK_IF, 0, buf , start);}
-    return token_gen(TOK_ID, 0, buf , start);
+    return token_gen2(TOK_ID, 0, buf , start, lex->id_cnt++);
     printf("buf %s\n",buf);
     
     /*
@@ -126,6 +133,7 @@ void lexer_init(Lexer *lex, char *input) {
     lex->input = input;
     lex->pos = 0;
     lex->current = input && input[0] ? input[0] : '\0';
+    lex->id_cnt = 0;
 }
 // consider next token in the input stream 
 Token lexer_next_token(Lexer *lex) {

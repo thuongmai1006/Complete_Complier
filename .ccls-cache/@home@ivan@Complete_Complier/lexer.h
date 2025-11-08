@@ -4,7 +4,7 @@
 //-----------------Token Generation/ Definition------------------
 typedef enum {
     TOK_INT,     // integer literal
-    TOK_ID,      // identifier
+    TOK_ID,      // identifier for single character
     TOK_ASSIGN, // assignment =
     TOK_EQ , // equal ==
     TOK_PLUS,    // '+'
@@ -34,13 +34,17 @@ typedef enum {
     TOK_NOT, // LOGICAL NOT !
     TOK_NOT_EQ, // NOT EQ !=
     TOK_BITWISE_NOT, //~ 1'S COMPLEMENT
-    TOK_IF, // "if"
+    TOK_IF, // "if" // newly add here
+    TOK_ELSE, // else
+    TOK_BREAK, //break
+    TOK_DO, // do
     TOK_WHILE, // "while"
     TOK_RETURN, // "return"
-    TOK_INT_VAR, // "int"
+    TOK_INT_VAR, // "int" => redundant - Thuong ahhh to define the unknown variables??
     TOK_LCURLY, // "{"
     TOK_RCURLY, // "}"
     TOK_SEMI, // ";"
+    TOK_COMMA, //,
     //TOK_QUESTION, //?
     //TOK_COLON //  :
 } TokenType;
@@ -48,7 +52,7 @@ typedef enum {
 typedef struct {
     TokenType type;
     int value;      // only valid when type == TOK_INTEGER
-    char lexeme[64];
+    char lexeme[128];
     size_t pos;     // index in source
     size_t id_no;
 } Token;
