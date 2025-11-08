@@ -161,14 +161,6 @@ static AST* parse_factor(Parser *ps) {
             node->right = rhs;
             return node;
         }
-        if (tok.type == TOK_IF || tok.type == TOK_WHILE || tok.type == TOK_RETURN){
-            eat(ps, tok.type);
-            eat(ps, TOK_LPAREN); // EXPECT A LEFT PARENTHESIS OR SYNTAXERROR
-            AST* inner = parse_expr(ps);
-            eat(ps, TOK_RPAREN);
-            return inner;
-        }
-
 
     syntax_error("expected number, '(', or '-'", tok);
     return NULL; // unreachable
@@ -180,7 +172,6 @@ static AST* parse_term(Parser *ps) {
         Token op = ps->current;
         eat(ps, op.type);
         AST *rhs = parse_factor(ps);
-
         AST *bin = (AST*)calloc(1, sizeof(AST));
         bin->type = AST_BINOP;
         bin->op = op;
