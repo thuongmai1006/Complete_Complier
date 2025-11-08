@@ -5,10 +5,15 @@
 
 typedef enum { 
     AST_NUM, 
+    AST_KEY, 
     AST_ID,   //define AST ID
     AST_ASSIGN, 
     AST_BINOP,  // BINARY OPERATION
     AST_UNARY, 
+    AST_FUNC,
+    AST_PROG,
+    AST_BLOCK,
+    AST_RET,
 } ASTType; 
 
 typedef struct AST {
@@ -18,7 +23,10 @@ typedef struct AST {
     char name[128]; // for AST_ID
     struct AST *left;  // for AST_BINOP
     struct AST *right; // for AST_BINOP
-    struct AST *cond; //condition for ternary op, ehhhh tired, if u read to this point please do it for me, I dont want to do ternary. 
+    struct AST* expr;
+    struct AST* body;
+    struct AST* children[16];
+    int child_cnt;
 } AST;
 
 typedef struct {
@@ -30,12 +38,13 @@ typedef struct {
 void parser_init(Parser *ps, Lexer *lx);
 
 // Entry point: parse a full expression
-AST* parse_expr(Parser *ps);
+AST* parse();
+/*AST* parse_expr(Parser *ps, AST* root);
 AST* parse_statement(Parser *ps);
+*/
 // Evaluate AST to an int (uses integer division for '/')
 int eval_ast_assignment(const AST *node);
 void print_tree_ascii(const AST* n, const char* indent, int last);
-void print_tree(const AST* n);
 void print_tree_better(const AST* n);  // Profile-based tree printing with proper spacing
 // Free AST
 void free_ast(AST *node);

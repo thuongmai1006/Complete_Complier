@@ -88,6 +88,8 @@ static Token identifier(Lexer *lex) {
         tok_type = TOK_INT_VAR;
     } else if (strcmp(buf, "if") == 0){
         tok_type = TOK_IF;
+    } else if (strcmp(buf, "void") == 0){
+        tok_type = TOK_VOID;
     } else {
         tok_type = TOK_ID;
     }
@@ -152,6 +154,9 @@ Token lexer_next_token(Lexer *lex) {
                       else {return token_gen(TOK_NOT, 0,"!" ,p);}      
             case '|': if (lex->current == '|') { advance(lex); return token_gen(TOK_OR, 0,"||" ,p); }
                       else {return token_gen(TOK_BITWISE_OR, 0,"|" ,p);}    
+            case '{': return token_gen(TOK_LCURLY, 0,"{", p);
+            case '}': return token_gen(TOK_RCURLY, 0, "}",p);
+            case ';': return token_gen(TOK_SEMI, 0, ";",p);
             default:  // unknown char: consume until end; caller can treat as END
                 return token_gen(TOK_EOF, 0, "EOF",p);
         }
