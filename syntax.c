@@ -117,13 +117,21 @@ static AST* parse_if (Parser *ps){
     }
     return make_if(if_cond, then_branch, else_branch); // validate the if 
 }
-
+static AST* make_while(AST *cond, AST* block ) { // same like if 
+    AST *node = malloc(sizeof *node); // or your allocator
+    node->type= AST_IF;
+    node->cond = cond;  
+    node->left = block; //left is then 
+    node->right = NULL; // right is else
+    return node;
+}
 static AST* parse_while(Parser* ps){
     eat(ps, TOK_WHILE);
     eat(ps, TOK_LPAREN);
     AST *cond = parse_expr(ps);
     eat(ps, TOK_RPAREN);
-    return cond;
+    AST *block = parse_statement(ps);
+    return make_while(cond, block);
 }
 
 static AST* parse_return(Parser* ps){
@@ -376,9 +384,10 @@ void print_tree_ascii(const AST* n, const char* indent, int last){
   switch(n->type){
     case AST_NUM: printf("NUM(%d)\n", n->value); break;
     case AST_ID:  printf("ID(%s)\n",  n->name); break;
-    case AST_IF:  printf("IF(%s)\n", n->cond);
-                  printf("THEN(%s)\n", n->left->op.value);
-                  printf("ELSE(%s)\n", n->right->op.value);break;
+    case AST_IF:  printf("IF\n"); {print_tree_ascii(n->cond, indent,0);}
+                if (n->left ) {printf("THEN\n");print_tree_ascii(n->left, indent+1,0);}
+                if (n->right ) printf("ELSE\n");print_tree_ascii(n->right, indent+1,0);
+                break;
     case AST_ASSIGN:printf("ASSIGN(%s)\n", n->op.lexeme);  break;
     case AST_UNARY:  printf("UNARY(%s)\n", n->op.lexeme); break;
     case AST_BINOP: printf("BIN('%s')\n", n->op.lexeme); break;
@@ -386,7 +395,7 @@ void print_tree_ascii(const AST* n, const char* indent, int last){
   }
    int child_count = 0;
     const AST *kids[2];
-    if (n->type == AST_BINOP || n->type == AST_ASSIGN||n->type == AST_UNARY) {
+    if (n->type == AST_BINOP || n->type == AST_ASSIGN||n->type == AST_UNARY /*n->type == AST_IF */) {
         if (n->left)  kids[child_count++]  = n->left;
         if (n->right) kids[child_count++]  = n->right;
     }
@@ -449,6 +458,9 @@ static ASTWrapper *build_wrapper_tree(const AST *node) {
     switch(node->type) {
         case AST_NUM: sprintf(wrapper->label, "NUM(%d)", node->value); break;
         case AST_ID:  sprintf(wrapper->label, "ID(%s)", node->name); break;
+        case AST_IF:  printf("IF\n"); print_tree_better(node->cond);
+                  printf("THEN\n");print_tree_better(node->left);
+                  printf("ELSE\n");print_tree_better(node->right); break;
         case AST_ASSIGN: sprintf(wrapper->label, "ASSIGN(%s)", node->op.lexeme); break;
         case AST_UNARY:  sprintf(wrapper->label, "UNARY(%s)", node->op.lexeme); break;
         case AST_BINOP: sprintf(wrapper->label, "BIN('%s')", node->op.lexeme); break;
