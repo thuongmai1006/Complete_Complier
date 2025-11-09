@@ -21,10 +21,21 @@ static void eat(Parser *ps, TokenType expect) { // eat is expecting the token
     }
 }
 
+static int is_assignment(Parser* ps){
+    if (ps->current.type == TOK_ID && (ps->next.type == TOK_ASSIGN  || ps->next.type == TOK_COMPOUND_MINUS 
+        || ps->next.type == TOK_COMPOUND_PLUS || ps->next.type == TOK_COMPOUND_MUL || ps->next.type == TOK_COMPOUND_DIV)){
+        return 1;
+    } else return 0;
+}
 
 // Forward decls
 static AST* parse_factor(Parser *ps);
 static AST* parse_term(Parser *ps);
+static AST* parse_assignment(Parser*);
+static AST* parse_block(Parser*);
+static AST* parse_if(Parser*);
+static AST* parse_while(Parser*);
+static AST* parse_return(Parser*);
 
 // Grammar:
 // expr   : term ((PLUS|MINUS) term)*
@@ -33,29 +44,53 @@ static AST* parse_term(Parser *ps);
 
 //-------------------statement
 AST* parse_statement(Parser *ps) {
-    //AST *lhs = parse_expr(ps); 
-    if (ps->current.type == TOK_ID && (ps->next.type == TOK_ASSIGN  || ps->next.type == TOK_COMPOUND_MINUS 
-        || ps->next.type == TOK_COMPOUND_PLUS || ps->next.type == TOK_COMPOUND_MUL || ps->next.type == TOK_COMPOUND_DIV )) {
-       
-        char name[64]; 
-        strncpy(name, ps->current.lexeme, sizeof(name)-1);
-        
-        eat(ps, TOK_ID);
-        Token op = ps->current; 
-        eat(ps, ps->current.type); 
-        
-        AST *rhs = parse_expr(ps); // or parse_equality()
-        AST *node = calloc(1,sizeof(*node)); 
-        node->type = AST_ASSIGN;
-        strncpy(node->name, name, sizeof(node->name)-1);
-        node->op = op; 
-        //n->left= node;
-        node->right = rhs;
-        return node;
+    if (is_assignment(ps)) {
+        return parse_assignment(ps);   
     }
+
+    if (ps->current.type == TOK_IF){
+        return parse_if(ps);
+    }
+
+    if (ps->current.type == TOK_WHILE){
+        return parse_while(ps);
+    }
+
+    if (ps->current.type == TOK_RETURN){
+        return parse_return(ps);
+    }
+    
+    if (ps->current.type == TOK_LCURLY){
+        return parse_block(ps);
+    }
+
     return parse_expr(ps);
 }
-AST* parse_if (Parser *ps){
+
+static AST* parse_block(Parser* ps){
+    eat(ps, TOK_LCURLY);
+    AST* inner_block = parse_statement(ps);
+    eat(ps, TOK_RCURLY);
+    return inner_block;
+}
+static AST* parse_assignment(Parser* ps){
+    char name[64]; 
+    strncpy(name, ps->current.lexeme, sizeof(name)-1);
+    
+    eat(ps, TOK_ID);
+    Token op = ps->current; 
+    eat(ps, ps->current.type); 
+    
+    AST *rhs = parse_expr(ps); // or parse_equality()
+    AST *node = calloc(1,sizeof(*node)); 
+    node->type = AST_ASSIGN;
+    strncpy(node->name, name, sizeof(node->name)-1);
+    node->op = op; 
+    node->right = rhs;
+    return node;
+
+}
+static AST* parse_if (Parser *ps){
     eat (ps, TOK_IF);
     eat (ps, TOK_LPAREN); // not sure here -Thuong 
     AST *if_cond = parse_expr(ps); // parse the if condition inside the ()
@@ -64,7 +99,7 @@ AST* parse_if (Parser *ps){
     return if_cond;
 }
 
-AST* parse_while(Parser* ps){
+static AST* parse_while(Parser* ps){
     eat(ps, TOK_WHILE);
     eat(ps, TOK_LPAREN);
     AST *cond = parse_expr(ps);
@@ -72,7 +107,7 @@ AST* parse_while(Parser* ps){
     return cond;
 }
 
-AST* parse_return(Parser* ps){
+static AST* parse_return(Parser* ps){
     eat(ps, TOK_RETURN);
     return parse_expr(ps);
 }
@@ -121,15 +156,6 @@ static AST* parse_factor(Parser *ps) {
             num->value = tok.value;
             return num;
         }
-        if (tok.type == TOK_IF){
-            return parse_if(ps);
-        }
-        if (tok.type == TOK_WHILE){
-            return parse_while(ps);
-        }
-        if (tok.type == TOK_RETURN){
-            return parse_return(ps);
-        }
         // if the token is an identifier, create an AST node with type AST_ID 
         if (tok.type == TOK_ID)
         {
@@ -158,16 +184,7 @@ static AST* parse_factor(Parser *ps) {
             return inner_primary;
         }
         // Ivan applied {}
-        if (tok.type == TOK_LCURLY){
-            eat(ps, TOK_LCURLY);
-            AST* inner_block = parse_expr(ps);
-            if (ps->current.type != TOK_RCURLY){
-                syntax_error("expected \"}\"", ps->current);
-            }
-            eat(ps, TOK_RCURLY);
-            return inner_block;
-        }
-    // prefix increment/decrement 
+            // prefix increment/decrement 
         if (tok.type == TOK_INCREMENT || tok.type == TOK_DECREMENT) {
             eat(ps, tok.type);
             AST *var = parse_factor(ps);   // must be an identifier
