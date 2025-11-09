@@ -21,6 +21,12 @@ static void eat(Parser *ps, TokenType expect) { // eat is expecting the token
     }
 }
 
+static int is_returnType(Parser* ps){
+    if (ps->current.type == TOK_INT_VAR || ps->current.type == TOK_VOID
+            || ps->current.type == TOK_FLOAT || ps->current.type == TOK_DBL){
+        return 1;
+    } else return 0;
+}
 static int is_assignment(Parser* ps){
     if (ps->current.type == TOK_ID && (ps->next.type == TOK_ASSIGN  || ps->next.type == TOK_COMPOUND_MINUS 
         || ps->next.type == TOK_COMPOUND_PLUS || ps->next.type == TOK_COMPOUND_MUL || ps->next.type == TOK_COMPOUND_DIV)){
@@ -36,13 +42,67 @@ static AST* parse_block(Parser*);
 static AST* parse_if(Parser*);
 static AST* parse_while(Parser*);
 static AST* parse_return(Parser*);
-
+static AST* parse_id(Parser*);
+static AST* make_id(const char*);
 // Grammar:
 // expr   : term ((PLUS|MINUS) term)*
 // term   : factor ((MUL|DIV) factor)*
 // factor : INTEGER | LPAREN expr RPAREN | MINUS factor
 
 //-------------------statement
+static AST* parse_id(Parser* ps){
+    eat(ps, TOK_ID);
+    AST *var = make_id(ps->current.lexeme);
+    if (ps->current.type == TOK_INCREMENT || ps->current.type == TOK_DECREMENT) 
+    { 
+        Token post = ps->current;
+        eat(ps, ps->current.type);
+        AST *node = calloc(1, sizeof(AST));
+        node->type = AST_UNARY;        // new node type
+        node->op = post;
+        node->left = var;             // store operand on the left
+        return node;
+    }
+    return var; // return make_id(tok.lexeme)
+}
+
+static void eat_returnType(Parser* ps){
+    switch(ps->current.type){
+        case TOK_INT_VAR:
+            eat(ps, TOK_INT_VAR);
+            break;
+        case TOK_DBL:
+            eat(ps, TOK_DBL);
+            break;
+        case TOK_FLOAT:
+            eat(ps, TOK_FLOAT);
+            break;
+        case TOK_VOID:
+            eat(ps, TOK_VOID);
+            break;
+        default:
+            eat(ps, TOK_EOF); // throw an error
+    }
+}
+/* Examples:
+ * int main() {}
+ * int sum(int a, int b){return a + b;}
+ */
+AST* parse_fn(Parser *ps){
+    eat_returnType(ps);
+    eat(ps, TOK_ID);
+    eat(ps, TOK_LPAREN);
+    while (ps->current.type != TOK_RPAREN){
+        eat_returnType(ps);
+        eat(ps, TOK_ID);
+        if (ps->current.type == TOK_COMMA){
+            eat(ps, TOK_COMMA);
+        }
+    }
+    eat(ps, TOK_RPAREN);
+    return parse_block(ps);
+}
+
 AST* parse_statement(Parser *ps) {
     if (is_assignment(ps)) {
         return parse_assignment(ps);   
@@ -68,8 +128,11 @@ AST* parse_statement(Parser *ps) {
 }
 
 static AST* parse_block(Parser* ps){
+    AST* inner_block = NULL;
     eat(ps, TOK_LCURLY);
-    AST* inner_block = parse_statement(ps);
+    while (ps->current.type != TOK_RCURLY){
+        inner_block = parse_statement(ps);
+    }
     eat(ps, TOK_RCURLY);
     return inner_block;
 }
@@ -202,6 +265,9 @@ static AST* parse_factor(Parser *ps) {
             node->op = tok; // minus
             node->right = rhs;
             return node;
+        }
+        if (tok.type == TOK_SEMI){
+            return NULL;
         }
 
     syntax_error("expected number, '(', or '-'", tok);

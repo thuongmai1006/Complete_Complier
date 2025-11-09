@@ -45,6 +45,9 @@ typedef enum {
     TOK_RCURLY, // "}"
     TOK_SEMI, // ";"
     TOK_COMMA, //,
+    TOK_VOID, // "void"
+    TOK_FLOAT,
+    TOK_DBL,
     //TOK_QUESTION, //?
     //TOK_COLON //  :
 } TokenType;
