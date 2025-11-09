@@ -55,25 +55,41 @@ AST* parse_statement(Parser *ps) {
     }
     return parse_expr(ps);
 }
-AST* parse_if (Parser *ps)
-{
-     if (ps->current.type == TOK_IF)
-     {
-        eat (ps, TOK_IF);
-        eat (ps, TOK_LPAREN); // not sure here -Thuong 
-        AST *if_cond = parse_expr(ps); // parse the if condition inside the ()
-        if (ps->current.type != TOK_RPAREN) { syntax_error("expected ')'", ps->current); }
-        eat(ps, TOK_RPAREN);
-        return if_cond;
-     }
+AST* parse_if (Parser *ps){
+    eat (ps, TOK_IF);
+    eat (ps, TOK_LPAREN); // not sure here -Thuong 
+    AST *if_cond = parse_expr(ps); // parse the if condition inside the ()
+    if (ps->current.type != TOK_RPAREN) { syntax_error("expected ')'", ps->current); }
+    eat(ps, TOK_RPAREN);
+    return if_cond;
+}
+
+AST* parse_while(Parser* ps){
+    eat(ps, TOK_WHILE);
+    eat(ps, TOK_LPAREN);
+    AST *cond = parse_expr(ps);
+    eat(ps, TOK_RPAREN);
+    return cond;
+}
+
+AST* parse_return(Parser* ps){
+    eat(ps, TOK_RETURN);
+    return parse_expr(ps);
+}
+
+int is_binOp(int curr){
+    if (curr == TOK_PLUS || curr == TOK_MINUS
+        ||curr == TOK_BITWISE_AND|| curr == TOK_BITWISE_OR||curr == TOK_LESS || curr == TOK_GREATER
+        ||curr == TOK_OR||curr == TOK_AND||curr == TOK_LESS_EQ || curr == TOK_GREATER_EQ 
+        ||curr == TOK_SHIFT_LEFT || curr == TOK_SHIFT_RIGHT|| curr == TOK_EQ || curr == TOK_NOT_EQ){
+        return 1;
+    }
+    else return 0;
 }
 //-------------------expression 
 AST* parse_expr(Parser *ps) {
     AST *node = parse_term(ps);
-    while (ps->current.type == TOK_PLUS || ps->current.type == TOK_MINUS
-        ||ps->current.type == TOK_BITWISE_AND|| ps->current.type == TOK_BITWISE_OR||ps->current.type == TOK_LESS || ps->current.type == TOK_GREATER
-        ||ps->current.type == TOK_OR||ps->current.type == TOK_AND||ps->current.type == TOK_LESS_EQ || ps->current.type == TOK_GREATER_EQ 
-        ||ps->current.type == TOK_SHIFT_LEFT || ps->current.type == TOK_SHIFT_RIGHT|| ps->current.type == TOK_EQ || ps->current.type == TOK_NOT_EQ) {
+    while (is_binOp(ps->current.type)) {
         Token op = ps->current;
         eat(ps, op.type);
         AST *rhs = parse_term(ps);
@@ -105,10 +121,16 @@ static AST* parse_factor(Parser *ps) {
             num->value = tok.value;
             return num;
         }
-        // if the token is an identifier, create an AST node with type AST_ID 
         if (tok.type == TOK_IF){
             return parse_if(ps);
         }
+        if (tok.type == TOK_WHILE){
+            return parse_while(ps);
+        }
+        if (tok.type == TOK_RETURN){
+            return parse_return(ps);
+        }
+        // if the token is an identifier, create an AST node with type AST_ID 
         if (tok.type == TOK_ID)
         {
             eat(ps, TOK_ID);
