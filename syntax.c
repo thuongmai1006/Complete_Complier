@@ -82,7 +82,7 @@ static void eat_returnType(Parser* ps){
             eat(ps, TOK_VOID);
             break;
         default:
-            eat(ps, TOK_EOF); // throw an error
+            eat(ps, TOK_EOF); // throw an error ???
     }
 }
 /* Examples:
