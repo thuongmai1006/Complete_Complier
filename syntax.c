@@ -19,6 +19,7 @@ static void eat(Parser *ps, TokenType expect) { // eat is expecting the token
     } else {
         syntax_error("unexpected token", ps->current);
     }
+
 }
 
 static int is_assignment(Parser* ps){
@@ -27,7 +28,7 @@ static int is_assignment(Parser* ps){
         return 1;
     } else return 0;
 }
-
+// Ivan 
 // Forward decls
 static AST* parse_factor(Parser *ps);
 static AST* parse_term(Parser *ps);
@@ -43,6 +44,7 @@ static AST* parse_return(Parser*);
 // factor : INTEGER | LPAREN expr RPAREN | MINUS factor
 
 //-------------------statement
+//Ivan, this is statement dispatcher
 AST* parse_statement(Parser *ps) {
     if (is_assignment(ps)) {
         return parse_assignment(ps);   
@@ -67,12 +69,14 @@ AST* parse_statement(Parser *ps) {
     return parse_expr(ps);
 }
 
+// ivan move {} to become parse block 
 static AST* parse_block(Parser* ps){
     eat(ps, TOK_LCURLY);
-    AST* inner_block = parse_statement(ps);
+    AST* inner_block = parse_statement(ps);  // then parse block will parse statement, expression should be fine tho
     eat(ps, TOK_RCURLY);
     return inner_block;
 }
+// ivan changed parse_statement into parse assignment
 static AST* parse_assignment(Parser* ps){
     char name[64]; 
     strncpy(name, ps->current.lexeme, sizeof(name)-1);
@@ -88,7 +92,14 @@ static AST* parse_assignment(Parser* ps){
     node->op = op; 
     node->right = rhs;
     return node;
-
+}
+static AST* make_if(AST *if_cond, AST* then_branch, AST* else_branch ) {
+    AST *node = malloc(sizeof *node); // or your allocator
+    node->type= AST_IF;
+    node->cond = if_cond;  
+    node->left = then_branch; //left is then 
+    node->right = else_branch; // right is else
+    return node;
 }
 static AST* parse_if (Parser *ps){
     eat (ps, TOK_IF);
@@ -96,7 +107,15 @@ static AST* parse_if (Parser *ps){
     AST *if_cond = parse_expr(ps); // parse the if condition inside the ()
     if (ps->current.type != TOK_RPAREN) { syntax_error("expected ')'", ps->current); }
     eat(ps, TOK_RPAREN);
-    return if_cond;
+    AST *then_branch = parse_statement(ps);
+    AST *else_branch = NULL;
+    //if (if_cond)  { return parse_block(ps); } // if condition is true then parse_block
+    //return if_cond;
+    if (ps->current.type == TOK_ELSE) {
+        eat(ps, TOK_ELSE); 
+        else_branch = parse_statement(ps);   // if else then keep parse 
+    }
+    return make_if(if_cond, then_branch, else_branch); // validate the if 
 }
 
 static AST* parse_while(Parser* ps){
@@ -183,7 +202,6 @@ static AST* parse_factor(Parser *ps) {
             eat(ps, TOK_RPAREN);
             return inner_primary;
         }
-        // Ivan applied {}
             // prefix increment/decrement 
         if (tok.type == TOK_INCREMENT || tok.type == TOK_DECREMENT) {
             eat(ps, tok.type);
@@ -284,6 +302,14 @@ int eval_ast_assignment(const AST *node) {
     switch (node->type) {
         case AST_NUM:  return node->value;
         case AST_ID:   return get_var(node->name);
+        case AST_IF: int cond_value = eval_ast_assignment(node->cond);
+                    if (cond_value) {
+                        return eval_ast_assignment(node->left);
+                    } else if (node->right) { // ERROR??  
+                        return eval_ast_assignment(node->right);
+                    } else { return 0; }
+                    
+
 
         case AST_BINOP: {
             int left = eval_ast_assignment(node->left);
@@ -350,6 +376,9 @@ void print_tree_ascii(const AST* n, const char* indent, int last){
   switch(n->type){
     case AST_NUM: printf("NUM(%d)\n", n->value); break;
     case AST_ID:  printf("ID(%s)\n",  n->name); break;
+    case AST_IF:  printf("IF(%s)\n", n->cond);
+                  printf("THEN(%s)\n", n->left->op.value);
+                  printf("ELSE(%s)\n", n->right->op.value);break;
     case AST_ASSIGN:printf("ASSIGN(%s)\n", n->op.lexeme);  break;
     case AST_UNARY:  printf("UNARY(%s)\n", n->op.lexeme); break;
     case AST_BINOP: printf("BIN('%s')\n", n->op.lexeme); break;

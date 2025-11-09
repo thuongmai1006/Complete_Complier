@@ -23,6 +23,10 @@ static const char* token_type_name(TokenType t) {
         case TOK_AND:          return "&&";
         case TOK_BITWISE_AND:  return "&";
         case TOK_NOT_EQ:          return "!=";
+        case TOK_GREATER:    return ">";// <<
+        case TOK_LESS:   return "<"; // >>
+        case TOK_GREATER_EQ:    return ">=";// <<
+        case TOK_LESS_EQ:   return "<="; // >>
         case TOK_SHIFT_LEFT:    return "<<";// <<
         case TOK_SHIFT_RIGHT:   return ">>"; // >>
         case TOK_IF:            return "if";
