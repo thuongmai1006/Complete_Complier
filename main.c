@@ -35,6 +35,7 @@ static const char* token_type_name(TokenType t) {
         case TOK_WHILE:          return "while";
         case TOK_DO:            return "do";
         case TOK_RETURN:          return "return";
+        case TOK_SEMI:  return ";";
         default:          return "?";
     }
 }
@@ -110,7 +111,7 @@ static void print_sep(){
 int main(void) {
      char *examples[] = {
         "(1 + 2) * 3 - 4 / 2;",
-        "X=1;",
+        "int X=1;",
         "!X;",
         "X = 3;",
         "X++;",
