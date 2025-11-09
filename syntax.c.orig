@@ -51,6 +51,7 @@ static AST* make_id(const char*);
 // factor : INTEGER | LPAREN expr RPAREN | MINUS factor
 
 //-------------------statement
+<<<<<<< HEAD
 static AST* parse_id(Parser* ps){
     eat(ps, TOK_ID);
     AST *var = make_id(ps->current.lexeme);
@@ -104,6 +105,9 @@ AST* parse_fn(Parser *ps){
     return parse_block(ps);
 }
 
+=======
+//Ivan, this is statement dispatcher
+>>>>>>> 3d4513d24b880dde8afc76e3b1a57abf4f9f37b9
 AST* parse_statement(Parser *ps) {
     if (is_assignment(ps)) {
         return parse_assignment(ps);   
@@ -132,9 +136,13 @@ AST* parse_statement(Parser *ps) {
 static AST* parse_block(Parser* ps){
     AST* inner_block = NULL;
     eat(ps, TOK_LCURLY);
+<<<<<<< HEAD
     while (ps->current.type != TOK_RCURLY){
         inner_block = parse_statement(ps);
     }
+=======
+    AST* inner_block = parse_statement(ps);  // then parse block will parse statement, expression should be fine tho
+>>>>>>> 3d4513d24b880dde8afc76e3b1a57abf4f9f37b9
     eat(ps, TOK_RCURLY);
     return inner_block;
 }

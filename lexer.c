@@ -102,6 +102,7 @@ static Token identifier(Lexer *lex) {
     else if (strcmp(buf, "return") == 0){ return token_gen(TOK_RETURN, 0, buf, start);} 
     else if (strcmp(buf, "int") == 0){ return token_gen(TOK_INT_VAR, 0, buf , start);}
     else if (strcmp(buf, "if") == 0){ return token_gen(TOK_IF, 0, buf , start);}
+    else if (strcmp(buf, "else") == 0){ return token_gen(TOK_ELSE, 0, buf , start);}
     return token_gen2(TOK_ID, 0, buf , start, lex->id_cnt++);
     printf("buf %s\n",buf);
     
