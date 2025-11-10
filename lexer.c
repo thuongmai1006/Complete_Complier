@@ -14,6 +14,7 @@ typedef struct {
     size_t pos;
     char current;
 } Lexer; */
+
 // this function moves the lexer one character forward in the input string
 static void advance(Lexer *lex) {
     if (lex->input[lex->pos] == '\0') { // keep track of the current index
@@ -29,24 +30,6 @@ static void skip_whitespace(Lexer *lex) {
         advance(lex);
     }
 }
-/*typedef enum {
-    TOK_INT,     // integer literal
-    TOK_ID,      // identifier
-    TOK_PLUS,    // '+'
-    TOK_MINUS,   // '-'
-    TOK_TIMES,   // '*'
-    TOK_DIVIDE,  // '/'
-    TOK_LPAREN,  // '('
-    TOK_RPAREN,  // ')'
-    TOK_EOF      // end of file
-} TokenType;
- typedef struct {
-    TokenType type;
-    int value;      // only valid when type == TOK_INTEGER
-    size_t pos;     // index in source
-} Token;
-
-*/
 // this function to generate token or tokenize
 static Token token_gen(TokenType t, int v, const char *lex, size_t p) {
     Token tok = {.type = t, .value = v,.lexeme = {0}, .pos = p}; // generate token type, value and position
@@ -85,50 +68,50 @@ int is_key (char *str)
     }
     return 0;
 }
+
+int is_elif(char* buf, size_t* buf_idx, Lexer* lex){
+    size_t buf_idx_start = *buf_idx;
+    size_t lex_idx_start = lex->pos;
+    if (isspace((unsigned char) lex->current)){
+        buf[(*buf_idx)++] = ' ';  
+        advance(lex);
+    } else return 0;
+    while(isalpha((unsigned char) lex->current) && *buf_idx < (size_t) (sizeof(buf) - 1)){
+        buf[(*buf_idx)++] = lex->current;
+        advance(lex);
+    }
+    buf[*buf_idx] = '\0';
+    if (strcmp(buf, "else if") == 0){
+        return 1;
+    } else{
+        buf[buf_idx_start] = '\0';
+        *buf_idx = buf_idx_start;
+        lex->pos = lex_idx_start;
+        lex->current = lex->input[lex->pos];
+        return 0;
+    }
+}
 // this function to find identifier and return it as token. 
 static Token identifier(Lexer *lex) {
     size_t start= lex->pos;
     size_t i = 0;
     char buf[64];
-
     while (lex->current && (isalpha((unsigned char)lex->current) || lex->current == '_' )) {
-        
         if (i < sizeof(buf) - 1)
             buf[i++] = lex->current;
             advance(lex);
-        }
+    }
     buf[i] = '\0';
     if (strcmp(buf, "while") == 0){ return token_gen(TOK_WHILE, 0, buf, start);} 
     else if (strcmp(buf, "return") == 0){ return token_gen(TOK_RETURN, 0, buf, start);} 
     else if (strcmp(buf, "int") == 0){ return token_gen(TOK_INT_VAR, 0, buf , start);}
-    else if (strcmp(buf, "if") == 0){ return token_gen(TOK_IF, 0, buf , start);}
-    else if (strcmp(buf, "else") == 0){ return token_gen(TOK_ELSE, 0, buf , start);}
-    return token_gen2(TOK_ID, 0, buf , start, lex->id_cnt++);
-    printf("buf %s\n",buf);
-    
-    /*
-    TokenType tok_type;
-    if (strcmp(buf, "while") == 0){
-        tok_type = TOK_WHILE;
-    } else if (strcmp(buf, "return") == 0){
-        tok_type = TOK_RETURN;
-    } else if (strcmp(buf, "int") == 0){
-        tok_type = TOK_INT_VAR;
-    } else if (strcmp(buf, "if") == 0){
-        tok_type = TOK_IF;
-    } else {
-        tok_type = TOK_ID;
-    }
-    printf("buf %s\n",buf);
-    Token tok = { tok_type, 0, "", start };
-    strncpy(tok.lexeme, buf, sizeof(tok.lexeme));
-    printf("tok %s\n", tok);
-    return tok;*/
-  
-
-  
-  
-   
+    else if (strcmp(buf, "if") == 0){ return token_gen(TOK_IF, 0, buf, start);}
+    else if (strcmp(buf, "else") == 0){
+        if (is_elif(buf, &i, lex)){
+            return token_gen(TOK_ELIF, 0, buf, start);
+        }
+        return token_gen(TOK_ELSE, 0, buf, start);}
+    return token_gen2(TOK_ID, 0, buf, start, lex->id_cnt++);
 }
 void lexer_init(Lexer *lex, char *input) {
     lex->input = input;
