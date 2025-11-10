@@ -36,6 +36,7 @@ static const char* token_type_name(TokenType t) {
         case TOK_DO:            return "do";
         case TOK_RETURN:          return "return";
         case TOK_SEMI:  return ";";
+        case TOK_ELIF:  return "else if";
         default:          return "?";
     }
 }

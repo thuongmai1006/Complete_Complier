@@ -68,35 +68,25 @@ int is_key (char *str)
     }
     return 0;
 }
-int is_elseif(Lexer *lex, char* buf, size_t* buf_idx){
-    int start_idx = lex->pos;
-    /*
-        Check for a ' ' after 'else'
-        Replace '\0' with ' ' if true and advance the lexer pos
-        otherwise early exit, lexer->pos is untouched
-    */
-    if (isspace((unsigned char)lex->current)){
-        buf[*buf_idx] = ' ';
+
+int is_elif(char* buf, size_t* buf_idx, Lexer* lex){
+    size_t buf_idx_start = *buf_idx;
+    size_t lex_idx_start = lex->pos;
+    if (isspace((unsigned char) lex->current)){
+        buf[(*buf_idx)++] = ' ';  
         advance(lex);
     } else return 0;
-    /*
-        Check the next lexeme unit
-    */
-    int buf_idx_start = *buf_idx;
-    while(lex->current && (isalpha((unsigned char)lex->current))){
-        if (*buf_idx  < sizeof(buf)-1){
-            buf[*buf_idx++] = lex->current;
-            advance(lex);
-        }
+    while(isalpha((unsigned char) lex->current) && *buf_idx < (size_t) (sizeof(buf) - 1)){
+        buf[(*buf_idx)++] = lex->current;
+        advance(lex);
     }
     buf[*buf_idx] = '\0';
-    // Reset the lexer pos
     if (strcmp(buf, "else if") == 0){
         return 1;
     } else{
-        lex->pos = start_idx;
         buf[buf_idx_start] = '\0';
         *buf_idx = buf_idx_start;
+        lex->pos = lex_idx_start;
         return 0;
     }
 }
@@ -116,7 +106,7 @@ static Token identifier(Lexer *lex) {
     else if (strcmp(buf, "int") == 0){ return token_gen(TOK_INT_VAR, 0, buf , start);}
     else if (strcmp(buf, "if") == 0){ return token_gen(TOK_IF, 0, buf, start);}
     else if (strcmp(buf, "else") == 0){
-        if (is_elseif(lex, buf, &i)) {
+        if (is_elif(buf, &i, lex)){
             return token_gen(TOK_ELIF, 0, buf, start);
         }
         return token_gen(TOK_ELSE, 0, buf, start);}
