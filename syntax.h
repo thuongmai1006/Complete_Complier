@@ -13,6 +13,7 @@ typedef enum {
     AST_RETURN,
     AST_WHILE,
     AST_FUNC,
+    AST_BLOCK,
 } ASTType; 
 
 typedef struct AST {
