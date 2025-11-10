@@ -37,8 +37,8 @@ rebuild: clean all
 run: $(TARGET)
 	./$(TARGET)
 
-# Debug build
-debug: CFLAGS += -g -DDEBUG
+# Debug build (no optimization, with debug symbols)
+debug: CFLAGS = -Wall -Wextra -std=c11 -g -DDEBUG -O0
 debug: clean $(TARGET)
 
 # Phony targets

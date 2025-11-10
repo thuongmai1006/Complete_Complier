@@ -10,6 +10,9 @@ typedef enum {
     AST_BINOP,  // BINARY OPERATION
     AST_UNARY, 
     AST_IF,// for if
+    AST_RETURN,
+    AST_WHILE,
+    AST_FUNC,
 } ASTType; 
 
 typedef struct AST {
@@ -20,6 +23,8 @@ typedef struct AST {
     struct AST *left;  // for AST_BINOP
     struct AST *right; // for AST_BINOP
     struct AST *cond; //condition for ternary op, ehhhh tired, if u read to this point please do it for me, I dont want to do ternary. 
+    struct AST *stmnts[128]; // Store an array for AST_FUNC
+    int stmnt_cnt;
 } AST;
 
 typedef struct {

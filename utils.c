@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utils.h"
 
 #define MAX_HEIGHT 1000
 int lprofile[MAX_HEIGHT];
