@@ -87,6 +87,7 @@ int is_elif(char* buf, size_t* buf_idx, Lexer* lex){
         buf[buf_idx_start] = '\0';
         *buf_idx = buf_idx_start;
         lex->pos = lex_idx_start;
+        lex->current = lex->input[lex->pos];
         return 0;
     }
 }
