@@ -10,8 +10,6 @@ typedef enum {
     AST_BINOP,  // BINARY OPERATION
     AST_UNARY, 
     AST_IF,// for if
-    AST_ELIF,
-    AST_ELSE,
     AST_RETURN,
     AST_WHILE,
     AST_FUNC,
