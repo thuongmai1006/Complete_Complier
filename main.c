@@ -121,7 +121,9 @@ int main(void) {
         "K=5;",
         "X = Y + Z*3 + K/2; ",
         "(1 + 2) * 3 - 4 / 2;",
-        "-5 + (10 - 3) * 2;",
+        "if (X>23) { I=0;} else {I=1;}",
+        "if (X>2) {U=9;} else {U=0;} ",
+        "if (X>23) { I=0;} else {I=1;}",
         NULL
     };
 
@@ -179,12 +181,9 @@ int main(void) {
             int result = eval_ast_assignment(tree);
             printf("%d\n", result);
             puts("== Parse tree ==");
-<<<<<<< HEAD
-            //print_tree_ascii(tree, "", 1);
-=======
           //  print_tree_ascii(tree, "", 1);
->>>>>>> fce3b968b15b001ffb34d550fbf702c02d6a961c
             print_tree_better(tree);
+          
             free_ast(tree);
         
     }
