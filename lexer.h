@@ -71,5 +71,5 @@ typedef struct {
 
 void lexer_init(Lexer *lex, char *input);
 Token lexer_next_token(Lexer *lex);
-
+//static const char* token_type_name(TokenType t);
 #endif // LEXER_H
