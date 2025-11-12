@@ -169,6 +169,9 @@ AST* parse_statement(Parser *ps) {
     if (ps->current.type == TOK_IF){
         return parse_term(ps);
     }
+    if (ps->current.type == TOK_FOR){
+        return parse_term(ps);
+    }
     // Loop Statement
     if (ps->current.type == TOK_WHILE){
         return parse_while(ps);
@@ -306,6 +309,22 @@ AST* parse_expr(Parser *ps) {
 //-------------------term---------------------- 
 static AST* parse_term(Parser* ps){
     Token tok = ps->current;
+    if(tok.type == TOK_FOR){
+        eat(ps, TOK_FOR);
+        eat(ps, TOK_LPAREN);
+        AST* for_AST = (AST*)calloc(1, sizeof(AST));
+        for_AST->init_clause = parse_definition(ps);
+        eat_SEMI(ps);      
+        for_AST->cond = parse_expr(ps);
+        eat_SEMI(ps);
+        for_AST->left = parse_expr(ps);
+        eat_SEMI(ps);
+        eat(ps, TOK_RPAREN);
+        eat(ps, TOK_LCURLY);
+        for_AST->right = parse_statement(ps);
+        eat(ps, TOK_RCURLY);
+        return for_AST;
+    } 
     if(tok.type == TOK_IF){
         AST* if_AST = (AST*)calloc(1, sizeof(AST));
         if_AST->type = AST_IF;
@@ -513,6 +532,7 @@ void parser_init(Parser *ps, Lexer *lx) {
             exit(EXIT_FAILURE);
     }
 }
+
 static int* slot_for(const char* name) {
     for (int i=0;i<128;i++) 
     {if (vars[i].used && strcmp(vars[i].name,name)==0) return &vars[i].value;}
@@ -520,6 +540,7 @@ static int* slot_for(const char* name) {
     {if (!vars[i].used) { vars[i].used=1; strncpy(vars[i].name,name,63); vars[i].name[63]=0; return &vars[i].value; } }
     fprintf(stderr,"Symbol table full\n"); exit(EXIT_FAILURE);
 }
+
 static int get_var(const char* name) {
     for (int i=0;i<128;i++) {
     if (vars[i].used && strcmp(vars[i].name,name)==0) 
@@ -533,6 +554,10 @@ int eval_ast_assignment(const AST *node) {
     switch (node->type) {
         case AST_NUM:  return node->value;
         case AST_ID:   return get_var(node->name);
+        cast AST_FOR: {
+            int init = eval_ast_assignment(node->init_clause); 
+            int cond = eval_ast_assignment(node->cond);
+            int true_eval = eval_assignment(node->left);
         case AST_IF: {
             int cond = eval_ast_assignment(node->cond);
             int true_eval = eval_ast_assignment(node->left);

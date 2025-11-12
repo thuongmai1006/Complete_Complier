@@ -16,6 +16,7 @@ typedef enum {
     AST_WHILE,
     AST_FUNC,
     AST_BLOCK,
+    AST_FOR,
 } ASTType; 
 
 typedef struct AST {
@@ -26,6 +27,7 @@ typedef struct AST {
     struct AST *left;  // for AST_BINOP
     struct AST *right; // for AST_BINOP
     struct AST *cond; //condition for ternary op, ehhhh tired, if u read to this point please do it for me, I dont want to do ternary. 
+    struct AST *init_clause; // condition for FOR loop
     struct AST *stmnts[128]; // Store an array for AST_FUNC
     int stmnt_cnt;
 } AST;

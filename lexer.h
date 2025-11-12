@@ -49,6 +49,7 @@ typedef enum {
     TOK_FLOAT,
     TOK_DBL,
     TOK_ELIF, // "else if"
+    TOK_FOR, // "for"
     //TOK_QUESTION, //?
     //TOK_COLON //  :
 } TokenType;

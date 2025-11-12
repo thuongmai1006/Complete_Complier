@@ -179,11 +179,8 @@ int main(void) {
             int result = eval_ast_assignment(tree);
             printf("%d\n", result);
             puts("== Parse tree ==");
-<<<<<<< HEAD
             //print_tree_ascii(tree, "", 1);
-=======
           //  print_tree_ascii(tree, "", 1);
->>>>>>> fce3b968b15b001ffb34d550fbf702c02d6a961c
             print_tree_better(tree);
             free_ast(tree);
         
