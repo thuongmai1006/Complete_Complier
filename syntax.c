@@ -453,9 +453,8 @@ int eval_ast_assignment(const AST *node) {
         case AST_WHILE: {
             const int MAX_ITERS = 1<<20;
             int iters = 0;
-            int cond_val = eval_ast_assignment(node->cond);
             // Execute while the condition stays true
-            while (cond_val != 0) {
+            while (eval_ast_assignment(node->cond) != 0) {
                 if (++iters > MAX_ITERS) {
                     fprintf(stderr, "WHILE: iteration limit reached\n");
                     break;

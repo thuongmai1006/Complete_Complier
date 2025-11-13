@@ -124,6 +124,7 @@ int main(void) {
         "if (X>23) { I=0;} else {I=1;}",
         "if (X>2) {U=9;} else {U=0;} ",
         "if (X>23) { I=0;} else {I=1;}",
+        "if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
         NULL
     };
 
@@ -134,12 +135,18 @@ int main(void) {
         printf("%s\n", examples[i]);
         lexer_init(&lx, examples[i]);
         puts("\n== Tokenize  ==");
-//      dump_tokens(examples[i]);
         print_tokens(&lx);
         Parser ps;
         parser_init(&ps, &lx);
-
-        AST *tree = parse_statement(&ps);
+        while (ps.current.type != TOK_EOF){
+            AST *tree = parse_statement(&ps);
+            int result = eval_ast_assignment(tree);
+            printf("%s = %d\n", ps.lexer->input, result);
+            puts("\n== Parse tree ==");
+            print_tree_better(tree);
+        }
+/*
+        free_ast(tree);
         if (ps.current.type != TOK_EOF) fprintf(stderr,"Trailing input at %zu\n", ps.current.pos);
         if (ps.current.type != TOK_EOF) {
             fprintf(stderr, "Trailing input at position %zu\n", ps.current.pos);
@@ -150,11 +157,11 @@ int main(void) {
         int result = eval_ast_assignment(tree);
         printf("%s = %d\n", examples[i], result);
         puts("\n== Parse tree ==");
-//        print_tree_ascii(tree, "", 1);
         print_tree_better(tree);
         print_sep();
 
         free_ast(tree);
+        */
     }
 
     // REPL (optional)
@@ -181,9 +188,7 @@ int main(void) {
             int result = eval_ast_assignment(tree);
             printf("%d\n", result);
             puts("== Parse tree ==");
-          //  print_tree_ascii(tree, "", 1);
             print_tree_better(tree);
-          
             free_ast(tree);
         
     }

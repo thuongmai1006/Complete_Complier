@@ -1,1 +1,7 @@
 *.o
+syntax_*
+test_*
+Doxyfile
+html
+latex
+utils*
