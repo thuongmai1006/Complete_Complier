@@ -1,4 +1,5 @@
 *.o
+.ccls*
 syntax_*
 test_*
 Doxyfile
