@@ -1,19 +1,20 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11 -O2
-LDFLAGS =
+LLVM_CONFIG = llvm-config-14
+CFLAGS = -Wall -Wextra -std=c11 -O2 $(shell $(LLVM_CONFIG) --cflags)
+LDFLAGS = $(shell $(LLVM_CONFIG) --ldflags --libs core --system-libs)
 
 # Target executable
 TARGET = parser
 
 # Source files
-SRCS = main.c lexer.c syntax.c
+SRCS = main.c lexer.c syntax.c codegen.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
 
 # Header files
-HEADERS = lexer.h syntax.h
+HEADERS = lexer.h syntax.h codegen.h
 
 # Default target
 all: $(TARGET)
@@ -38,7 +39,7 @@ run: $(TARGET)
 	./$(TARGET)
 
 # Debug build (no optimization, with debug symbols)
-debug: CFLAGS = -Wall -Wextra -std=c11 -g -DDEBUG -O0
+debug: CFLAGS = -Wall -Wextra -std=c11 -g -DDEBUG -O0 $(shell $(LLVM_CONFIG) --cflags)
 debug: clean $(TARGET)
 
 # Phony targets

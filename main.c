@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "codegen.h"
 #include "lexer.h"
 #include "syntax.h"
 #include <stdbool.h>
@@ -232,6 +233,7 @@ int main(void) {
         //"float a=18.5;",
         //"void add (int a, int b) \n{ \nint sum=0;\nfor (int i=0; i<10; i++)\n{\nsum=sum+i;\n};\n return 0;\n}",
         //" int main () { int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}; \n return sum; }",
+        "3+3;",
         "int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
         //"if (X>23) { I=0;} else {I=1;}",
         //"if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
@@ -263,6 +265,9 @@ int main(void) {
                 printf("\n=============Executing function==============================\n");
                 double result = eval_function_call(tree, NULL, 0);
                 printf("Function returned: %.2f\n", result);
+
+                print_sep();
+                codegen(tree);
                 }
                 } else {
                 tree = parse_statement(&ps);   
@@ -273,6 +278,7 @@ int main(void) {
                 print_tree_better(tree);}
                 }
                 print_sep();
+                codegen(tree);
                 if (tree) free_ast(tree);
             }
     }
@@ -328,6 +334,7 @@ int main(void) {
                 puts("== Parse tree down eher ==");
                 print_tree_better(tree);
             }
+                codegen(tree);
                 free_ast(tree);
             }
     return 0;
