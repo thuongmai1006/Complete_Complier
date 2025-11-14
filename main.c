@@ -230,11 +230,11 @@ int main(void) {
         "int x = 5;\nif (x > 23) {int y = 1;}\n else if(x>2) {int z = 2;} \n else {z=1;}\n",*/
         //"int sum=0;\nfor (int i=0; i<10; i++)\n{sum=sum+i;};\n ",
         //"float a=18.5;",
-        "void add (int a, int b) \n{ \nint sum=0;\nfor (int i=0; i<10; i++)\n{\nsum=sum+i;\n};\n return 0;\n}",
-        " int main () { int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}; \n return sum; }",
-        //"int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}; ",
-        "if (X>23) { I=0;} else {I=1;}",
-        "if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
+        //"void add (int a, int b) \n{ \nint sum=0;\nfor (int i=0; i<10; i++)\n{\nsum=sum+i;\n};\n return 0;\n}",
+        //" int main () { int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}; \n return sum; }",
+        "int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
+        //"if (X>23) { I=0;} else {I=1;}",
+        //"if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
         NULL
     };
 

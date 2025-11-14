@@ -214,6 +214,9 @@
         if (ps->current.type == TOK_WHILE){
             return parse_term(ps); // you parse_while here when u already move the parse_while logic into the parse term
         }
+        if (ps->current.type == TOK_FOR){
+            return parse_term(ps); // you parse_while here when u already move the parse_while logic into the parse term
+        }
         // Return Statement
         if (ps->current.type == TOK_RETURN){
             AST* ret = parse_return(ps);
@@ -405,7 +408,7 @@
             for_AST->left = parse_expr(ps); 
             eat(ps, TOK_RPAREN);
             eat(ps, TOK_LCURLY);
-            for_AST->right=parse_statement(ps);
+            for_AST->right=parse_statement(ps); //bodu
             eat(ps, TOK_RCURLY);
             return for_AST;
         }
@@ -574,7 +577,7 @@
             if (!truthy(c)) break;
             // body
             if (n->right) {
-                if (n->right->type== AST_BLOCK) (void)eval_block(n->right);
+                if (n->right->type== AST_FOR) (void)eval_block(n->right);
                 else (void)eval_ast_assignment(n->right);
             }
             // step
