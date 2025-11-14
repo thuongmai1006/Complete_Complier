@@ -522,7 +522,6 @@
                 vars[i].num_val.i = 0;     // zero-init
                 return &vars[i];
             }
-<<<<<<< HEAD
         }
         fprintf(stderr, "Symbol table full\n");
         exit(EXIT_FAILURE);
@@ -602,27 +601,6 @@
                     v->num_val.f = (float)init_val;
                 } else {
                     v->num_val.i = (int)init_val;
-=======
-            return true_eval;
-         }*/
-        case AST_IF: int cond_value = eval_ast_assignment(node->cond);
-                    if (cond_value) {
-                        return eval_ast_assignment(node->left);
-                    } else if (node->right) { // ERROR??  
-                        return eval_ast_assignment(node->right);
-                    } else { return 0; }
-        case AST_WHILE: {
-            const int MAX_ITERS = 1<<20;
-            int iters = 0;
-            // Execute while the condition stays true
-            while (eval_ast_assignment(node->cond) != 0) {
-                if (++iters > MAX_ITERS) {
-                    fprintf(stderr, "WHILE: iteration limit reached\n");
-                    break;
-                }
-                if (node->left) {
-                    eval_ast_assignment(node->left);   // run body
->>>>>>> a98c7ff81be01c9512b1788079d0833a7b73f5d5
                 }
             } else {
                 // No initializer, default to 0
