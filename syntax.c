@@ -99,6 +99,7 @@
         AST* fn = make_id(name);
         fn->type = AST_FUNC; 
         fn->stmnt_cnt = 0;
+        fn->param_count = 0;
         return fn;
     }
 // AST for return 
@@ -144,6 +145,7 @@
                 printf(">> Echo (parse_fn): Created parameter node\n");
                 if (fn->stmnt_cnt < FN_STMTS_CAP) { //max 128 stmts
                     fn->stmnts[fn->stmnt_cnt++] = param;
+                    fn->param_count++;
                 }
             }
             if (ps->current.type == TOK_COMMA) {
@@ -185,6 +187,7 @@
                 break;
             }
             fn->stmnts[fn->stmnt_cnt++] = stmt;
+            fn->stmnt_cnt++;
         }
         
         // DEBUG: Final count
