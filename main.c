@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "codegen.h"
+#include "symbol_table.h"
 #include "lexer.h"
 #include "syntax.h"
 #include <stdbool.h>
@@ -60,26 +60,25 @@
         }
 
         printf("Starting function execution, stmnt_cnt=%d, param_count=%d\n", 
-            fn->stmnt_cnt, fn->param_count);
+            fn->stmnt_cnt, fn->param_cnt);
         
-        int param_count = fn->param_count;
+        int param_count = fn->param_cnt;
         
         printf("Registering %d parameters\n", param_count);
         
         // Register parameters
         for (int i = 0; i < param_count; i++) {
             printf("Registering parameter %d\n", i);
-            eval_ast_decl(fn->stmnts[i]);
+            eval_ast_decl(fn->params[i]);
         }
         
         // Execute body statements
         double return_val = 0.0;
         int has_returned = 0;
         
-        printf("Executing %d body statements (starting from index %d)\n", 
-            fn->stmnt_cnt - param_count, param_count);
+        printf("Executing %d body statements", fn->stmnt_cnt);
         
-        for (int i = param_count; i < fn->stmnt_cnt && !has_returned; i++) {
+        for (int i = 0; i < fn->stmnt_cnt && !has_returned; i++) {
             if (!fn->stmnts[i]) {
                 printf("Statement %d is NULL, skipping\n", i);
                 continue;
@@ -235,6 +234,7 @@ int main(void) {
         //" int main () { int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}; \n return sum; }",
         "3+3;",
         "int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
+        "int sum(int a, int b, int c, float d){\n\t3+3;\nreturn a + b;\n};",
         //"if (X>23) { I=0;} else {I=1;}",
         //"if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
         NULL

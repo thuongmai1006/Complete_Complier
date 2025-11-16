@@ -23,4 +23,5 @@ unsigned int hash(const char* key);
 HashMap* create_map();
 void map_put(HashMap *map, const char *key, LLVMValueRef value);
 LLVMValueRef map_get(HashMap *map, const char *key);
+void map_clear(HashMap *map);
 #endif

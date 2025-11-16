@@ -1,4 +1,5 @@
 *.o
+*.swp
 .ccls*
 syntax_*
 test_*

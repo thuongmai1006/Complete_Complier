@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #define FN_STMTS_CAP 128
+#define FN_PARAM_CAP 16
 // Grammar:
 // expr   : term ((PLUS|MINUS) term)*
 // term   : factor ((MUL|DIV) factor)*
@@ -99,7 +100,7 @@
         AST* fn = make_id(name);
         fn->type = AST_FUNC; 
         fn->stmnt_cnt = 0;
-        fn->param_count = 0;
+        fn->param_cnt = 0;
         return fn;
     }
 // AST for return 
@@ -123,6 +124,7 @@
     }
 //parse function (first parser ever )#########################################################################################################
     AST* parse_fn(Parser *ps) {
+        Token returnType = ps->current;
         eat_returnType(ps);  // consumes 'void', Parse return type
         if (ps->current.type != TOK_ID)  {  // Parse function name
             syntax_error("expected function name", ps->current);
@@ -131,6 +133,7 @@
         char *fn_name_lex = strdup(ps->current.lexeme);  // "add"
         eat(ps, TOK_ID);
         AST *fn = make_fn(fn_name_lex); // // Create function AST node for new make_fn
+        fn->op = returnType;
         // Parse parameter list
         if (ps->current.type != TOK_LPAREN) {
             syntax_error("expected '(' after function name", ps->current);
@@ -143,9 +146,8 @@
             AST *param = parse_definition(ps);  // Should handle "int a" or "int b"
             if (param) {
                 printf(">> Echo (parse_fn): Created parameter node\n");
-                if (fn->stmnt_cnt < FN_STMTS_CAP) { //max 128 stmts
-                    fn->stmnts[fn->stmnt_cnt++] = param;
-                    fn->param_count++;
+                if (fn->param_cnt < FN_PARAM_CAP) { //max 16 params
+                    fn->params[fn->param_cnt++] = param;
                 }
             }
             if (ps->current.type == TOK_COMMA) {
@@ -164,7 +166,6 @@
         }
         eat(ps, TOK_LCURLY);  // consume '{'
         
-        int body_start = fn->stmnt_cnt; // save where body statements start after parameters
         while (ps->current.type != TOK_RCURLY && ps->current.type != TOK_EOF) { 
             printf(">> Echo (parse_fn): Parsing statement, current token: %s\n", ps->current.lexeme);  // print  statement parsing
             AST *stmt = parse_statement(ps);
@@ -187,7 +188,6 @@
                 break;
             }
             fn->stmnts[fn->stmnt_cnt++] = stmt;
-            fn->stmnt_cnt++;
         }
         
         // DEBUG: Final count

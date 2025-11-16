@@ -47,3 +47,16 @@ LLVMValueRef map_get(HashMap *map, const char *key){
     }
     return NULL;
 }
+
+void map_clear(HashMap *map) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        Value *entry = map->buckets[i];
+        while (entry != NULL) {
+            Value *temp = entry;
+            entry = entry->next;
+            free(temp->key);  // Free the strdup'd key
+            free(temp);
+        }
+        map->buckets[i] = NULL;  // Set bucket to NULL
+    }
+}

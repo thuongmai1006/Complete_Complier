@@ -8,13 +8,13 @@ LDFLAGS = $(shell $(LLVM_CONFIG) --ldflags --libs core --system-libs)
 TARGET = parser
 
 # Source files
-SRCS = main.c lexer.c syntax.c codegen.c
+SRCS = main.c lexer.c syntax.c codegen.c symbol_table.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
 
 # Header files
-HEADERS = lexer.h syntax.h codegen.h
+HEADERS = lexer.h syntax.h symbol_table.h
 
 # Default target
 all: $(TARGET)
