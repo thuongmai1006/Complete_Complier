@@ -16,7 +16,7 @@
 // Forward decls
     static AST* parse_definition(Parser*);
     static AST* parse_term(Parser *ps);
-    static AST* parse_assignment(Parser*);
+    //static AST* parse_assignment(Parser*);
     static AST* parse_block(Parser*);
     static AST* parse_return(Parser*);
     static AST* parse_id(Parser*);
@@ -381,37 +381,37 @@
             return else_AST;
         } 
         // Handle WHILE LOOP
-        if (tok.type == TOK_WHILE){
-            AST* while_AST = (AST*)calloc(1, sizeof(AST));
-            while_AST->type = AST_WHILE;
-            eat(ps, TOK_WHILE);
-            eat(ps, TOK_LPAREN);
-            while_AST->cond = parse_expr(ps);
-            eat(ps, TOK_RPAREN);
-            eat(ps, TOK_LCURLY);
-            while_AST->left = parse_statement(ps); // just like if just dont use the right, if while condition is not true, it just exit and return null 
-            while_AST->right = NULL;
-            eat(ps, TOK_RCURLY);
-            
-            return while_AST;
+if (tok.type == TOK_WHILE){
+AST* while_AST = (AST*)calloc(1, sizeof(AST));
+while_AST->type = AST_WHILE;
+eat(ps, TOK_WHILE);
+eat(ps, TOK_LPAREN);
+while_AST->cond = parse_expr(ps);
+eat(ps, TOK_RPAREN);
+eat(ps, TOK_LCURLY);
+while_AST->left = parse_statement(ps); // just like if just dont use the right, if while condition is not true, it just exit and return null 
+while_AST->right = NULL;
+eat(ps, TOK_RCURLY);
+
+return while_AST;
         }
         // Handle FOR LOOPS
-        if (tok.type == TOK_FOR){
-            AST* for_AST = (AST*)calloc(1, sizeof(AST));
-            for_AST->type = AST_FOR;
-            eat(ps, TOK_FOR);
-            eat(ps, TOK_LPAREN);
-            for_AST->init = parse_definition(ps);
-            eat_SEMI (ps);
-            for_AST->cond = parse_expr(ps); // greater or condition 
-            eat_SEMI (ps);
-            for_AST->left = parse_expr(ps); 
-            eat(ps, TOK_RPAREN);
-            eat(ps, TOK_LCURLY);
-            for_AST->right=parse_statement(ps); //bodu
-            eat(ps, TOK_RCURLY);
-            return for_AST;
-        }
+if (tok.type == TOK_FOR){
+AST* for_AST = (AST*)calloc(1, sizeof(AST));
+for_AST->type = AST_FOR;
+eat(ps, TOK_FOR);
+eat(ps, TOK_LPAREN);
+for_AST->init = parse_definition(ps);
+eat_SEMI (ps);
+for_AST->cond = parse_expr(ps); // greater or condition 
+eat_SEMI (ps);
+for_AST->left = parse_expr(ps); 
+eat(ps, TOK_RPAREN);
+eat(ps, TOK_LCURLY);
+for_AST->right=parse_statement(ps); //bodu
+eat(ps, TOK_RCURLY);
+return for_AST;
+}
         // Handle UNARY literals 
         if (is_unOp(tok.type)){
             eat(ps, tok.type);
