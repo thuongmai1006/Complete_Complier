@@ -111,7 +111,12 @@
         size_t start= lex->pos;
         size_t i = 0;
         char buf[64];
-        while (lex->current && (isalpha((unsigned char)lex->current) || lex->current == '_' )) {
+        if (lex->current && (isalpha((unsigned char)lex->current) || lex->current == '_' )) {
+            if (i < sizeof(buf) - 1)
+                buf[i++] = lex->current;
+                advance(lex);
+        }
+        while (lex->current && (isalnum((unsigned char)lex->current) || lex->current == '_' )) {
             if (i < sizeof(buf) - 1)
                 buf[i++] = lex->current;
                 advance(lex);

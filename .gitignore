@@ -1,4 +1,6 @@
 *.o
+*.swp
+.ccls*
 syntax_*
 test_*
 Doxyfile

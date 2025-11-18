@@ -29,11 +29,12 @@
         struct AST *right; // for AST_BINOP
         struct AST *cond; //condition for ternary op, ehhhh tired, if u read to this point please do it for me, I dont want to do ternary. 
         struct AST *stmnts[128]; // Store an array for AST_FUNC
+        struct AST* params[16];
         struct AST *init; //init variable declaration for loop for 
     
         int used;
         int stmnt_cnt; // what is this doing?
-        int param_count; // what is this doing?
+        int param_cnt; // what is this doing?
     } AST;
 
     typedef struct {
