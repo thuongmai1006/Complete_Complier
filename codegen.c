@@ -1,4 +1,6 @@
 #include "symbol_table.h"
+#include <llvm-c/Target.h>
+#include <llvm-c/TargetMachine.h>
 static LLVMContextRef TheContext;
 static LLVMModuleRef TheModule;
 static LLVMBuilderRef TheBuilder;
@@ -22,35 +24,75 @@ LLVMValueRef codegen_var(AST* node){
 	}
 	return V;
 }
+LLVMValueRef codegen_for(const AST* node){
+	LLVMValueRef StartVal = codegen(node->init->right);
+	if (!StartVal) return NULL;
+	char* VarName = node->init->left->name;
+	LLVMValueRef f = LLVMGetBasicBlockParent(LLVMGetInsertBlock(TheBuilder));
+	LLVMBasicBlockRef PreheaderBB = LLVMGetInsertBlock(TheBuilder);
+	LLVMBasicBlockRef LoopBB = LLVMAppendBasicBlockInContext(TheContext, f, "loop");
+	LLVMBuildBr(TheBuilder, LoopBB);
+	LLVMPositionBuilderAtEnd(TheBuilder, LoopBB);
+	LLVMValueRef Variable = LLVMBuildPhi(TheBuilder, LLVMInt32Type(), VarName);
+	LLVMValueRef incomingValues[] = {StartVal};
+	LLVMBasicBlockRef incomingBlocks[] = {PreheaderBB};
+	LLVMAddIncoming(Variable, incomingValues, incomingBlocks, 1);
+	LLVMValueRef OldValue = map_get(NamedValues, VarName);
+	map_put(NamedValues, VarName, Variable);
+	for (size_t i = 0; i < node->stmnt_cnt; ++i) {
+		int AST_TYPE = node->stmnts[i]->type;
+		fprintf(stderr, "Node Type: %d\n", AST_TYPE);
+		LLVMValueRef last_value = codegen(node->stmnts[i]);
+		if (last_value)
+			LLVMDumpValue(last_value);
+		fprintf(stderr, "\n");
+	}
+	LLVMValueRef StepVal = LLVMConstInt(LLVMInt32Type(), 1, 0);
+	LLVMValueRef NextVar = LLVMBuildAdd(TheBuilder, Variable, StepVal, "nextvar");
+	LLVMValueRef EndCond = codegen(node->cond);
+
+	LLVMBasicBlockRef LoopEndBB = LLVMGetInsertBlock(TheBuilder);
+	LLVMBasicBlockRef AfterBB = LLVMAppendBasicBlockInContext(TheContext, f, "afterloop");
+	LLVMBuildCondBr(TheBuilder, EndCond, LoopBB, AfterBB);
+	LLVMPositionBuilderAtEnd(TheBuilder, AfterBB);
+	incomingValues[0] = NextVar;
+	incomingBlocks[0] = LoopEndBB;
+	LLVMAddIncoming(Variable, incomingValues, incomingBlocks, 1);
+	if (OldValue) {
+		map_put(NamedValues,VarName, OldValue);
+	}
+	return LLVMConstInt(LLVMInt32Type(), 1, 0);
+}
+
 LLVMValueRef codegen_if(AST* node){
 	LLVMValueRef cond = codegen(node->cond);
-    cond = LLVMBuildICmp(TheBuilder, LLVMIntSGT, cond, LLVMConstInt(LLVMInt32Type(), 0, 0), "ifcond");
-    LLVMValueRef f = LLVMGetBasicBlockParent(LLVMGetInsertBlock(TheBuilder));
+	cond = LLVMBuildICmp(TheBuilder, LLVMIntNE, cond, LLVMConstInt(LLVMInt32Type(), 0, 0), "ifcond");
+	LLVMValueRef f = LLVMGetBasicBlockParent(LLVMGetInsertBlock(TheBuilder));
 	if (!cond) return NULL;
-    if (!f) return NULL;
+	if (!f) return NULL;
 	LLVMBasicBlockRef thenBB = LLVMAppendBasicBlockInContext(TheContext, f, "then");
 	LLVMBasicBlockRef elseBB = LLVMCreateBasicBlockInContext(TheContext, "else");
 	LLVMBasicBlockRef mergeBB = LLVMCreateBasicBlockInContext(TheContext, "ifcont");
-	LLVMValueRef condbr = LLVMBuildCondBr(TheBuilder, cond, thenBB, elseBB);
+	LLVMBuildCondBr(TheBuilder, cond, thenBB, elseBB);
 
-    LLVMPositionBuilderAtEnd(TheBuilder, thenBB);
-    LLVMValueRef thenV = codegen(node->left); // then statements stored in AST_IF's left node 
-    LLVMValueRef then_br = LLVMBuildBr(TheBuilder, mergeBB);
-    thenBB = LLVMGetInsertBlock(TheBuilder);
+	LLVMPositionBuilderAtEnd(TheBuilder, thenBB);
+	LLVMValueRef thenV = codegen(node->left); // then statements stored in AST_IF's left node
+	LLVMBuildBr(TheBuilder, mergeBB);
+	thenBB = LLVMGetInsertBlock(TheBuilder);
 
-    LLVMAppendExistingBasicBlock(f, elseBB);
-    LLVMPositionBuilderAtEnd(TheBuilder, elseBB);
-    LLVMValueRef elseV = codegen(node->right->left);
-    LLVMValueRef else_br = LLVMBuildBr(TheBuilder, mergeBB);
-    elseBB = LLVMGetInsertBlock(TheBuilder);
+	LLVMAppendExistingBasicBlock(f, elseBB);
+	LLVMPositionBuilderAtEnd(TheBuilder, elseBB);
+	LLVMValueRef elseV = codegen(node->right->left);
+	LLVMBuildBr(TheBuilder, mergeBB);
+	elseBB = LLVMGetInsertBlock(TheBuilder);
 
-    LLVMAppendExistingBasicBlock(f, mergeBB);
-    LLVMPositionBuilderAtEnd(TheBuilder, mergeBB);
-    LLVMValueRef PN = LLVMBuildPhi(TheBuilder, LLVMInt32Type(),"iftmp");
-    LLVMValueRef incomingValues[] = {thenV, elseV};
-    LLVMBasicBlockRef incomingBlocks[] = {thenBB, elseBB};
-    LLVMAddIncoming(PN,incomingValues, incomingBlocks, 2); 
-    return PN;
+	LLVMAppendExistingBasicBlock(f, mergeBB);
+	LLVMPositionBuilderAtEnd(TheBuilder, mergeBB);
+	LLVMValueRef PN = LLVMBuildPhi(TheBuilder, LLVMInt32Type(),"iftmp");
+	LLVMValueRef incomingValues[] = {thenV, elseV};
+	LLVMBasicBlockRef incomingBlocks[] = {thenBB, elseBB};
+	LLVMAddIncoming(PN,incomingValues, incomingBlocks, 2);
+	return PN;
 }
 
 LLVMValueRef codegen_binary_expr(AST* node){
@@ -77,6 +119,18 @@ LLVMValueRef codegen_binary_expr(AST* node){
 			return LLVMBuildMul(TheBuilder, lhs, rhs, "multmp");
 		case TOK_DIV:
 			return LLVMBuildFDiv(TheBuilder, lhs, rhs, "divtmp");
+		case TOK_GREATER:
+			return LLVMBuildICmp(TheBuilder, LLVMIntSGT, lhs, rhs, "gttmp");
+		case TOK_GREATER_EQ:
+			return LLVMBuildICmp(TheBuilder, LLVMIntSGE, lhs, rhs, "gtetmp");
+		case TOK_LESS:
+			return LLVMBuildICmp(TheBuilder, LLVMIntSLT, lhs, rhs, "lttmp");
+		case TOK_LESS_EQ:
+			return LLVMBuildICmp(TheBuilder, LLVMIntSLE, lhs, rhs, "ltetmp");
+		case TOK_EQ:
+			return LLVMBuildICmp(TheBuilder, LLVMIntEQ, lhs, rhs, "eqtmp");
+		case TOK_NOT_EQ:
+			return LLVMBuildICmp(TheBuilder, LLVMIntNE, lhs, rhs, "neqtmp");
 		default:
 			return NULL;
 		}
@@ -171,6 +225,9 @@ LLVMValueRef codegen_function(AST *node){
 		int AST_TYPE = node->stmnts[i]->type;
 		fprintf(stderr, "Node Type: %d\n", AST_TYPE);
 		last_value = codegen(node->stmnts[i]);
+		if (last_value)
+			LLVMDumpValue(last_value);
+		fprintf(stderr, "\n");
 	}
 	LLVMBuildRet(TheBuilder, last_value);
 	return f;
@@ -199,7 +256,8 @@ LLVMValueRef codegen(AST* node){
 	case AST_ID: return codegen_var(node);
 	case AST_BINOP: return codegen_binary_expr(node);
 	case AST_RETURN: return codegen(node->right);
-    case AST_IF: return codegen_if(node);
+	case AST_IF: return codegen_if(node);
+	case AST_FOR: return codegen_for(node);
 	default: {
 		fprintf(stderr, "We defaulting here\n");
 		return NULL;
@@ -217,7 +275,7 @@ void codegen_run(AST* node){
 	InitializeModule();
 	LLVMValueRef function;
 	if (node->type == AST_FUNC) {
-		function = codegen_function(node);
+		codegen_function(node);
 	} else{
 		// Create a function with 2 parameters
 		LLVMTypeRef param_types[] = {LLVMInt32Type(), LLVMInt32Type()};
@@ -239,11 +297,57 @@ void codegen_run(AST* node){
 		LLVMBuildRet(TheBuilder, result);
 	}
 	fprintf(stderr, "\n=== Generated IR ===\n");
-    char *error = NULL;
-    if (LLVMPrintModuleToFile(TheModule, "output.ll", &error)){
-        fprintf(stderr, "Error writing IR: %s\n", error);
-        LLVMDisposeMessage(error);
-    }
+	char *error = NULL;
+	if (LLVMPrintModuleToFile(TheModule, "output.ll", &error)) {
+		fprintf(stderr, "Error writing IR: %s\n", error);
+		LLVMDisposeMessage(error);
+	}
+	LLVMInitializeAllTargets();
+	LLVMInitializeAllAsmPrinters();
+	LLVMInitializeAllTargetMCs();
+	LLVMInitializeAllTargetInfos();
+
+	error = NULL;
+
+// Native x86-64 output
+	char *native_triple = LLVMGetDefaultTargetTriple();
+	LLVMTargetRef native_target;
+	LLVMGetTargetFromTriple(native_triple, &native_target, &error);
+
+	LLVMTargetMachineRef native_machine = LLVMCreateTargetMachine(
+		native_target, native_triple, "generic", "",
+		LLVMCodeGenLevelDefault, LLVMRelocDefault, LLVMCodeModelDefault
+		);
+
+	LLVMTargetMachineEmitToFile(
+		native_machine,
+		TheModule,
+		"native_out.s",
+		LLVMAssemblyFile,
+		&error
+		);
+
+// MIPS output
+	char *mips_triple = "mips-unknown-linux-gnu";
+	LLVMTargetRef mips_target;
+	LLVMGetTargetFromTriple(mips_triple, &mips_target, &error);
+
+	LLVMTargetMachineRef mips_machine = LLVMCreateTargetMachine(
+		mips_target, mips_triple, "generic", "",
+		LLVMCodeGenLevelDefault, LLVMRelocDefault, LLVMCodeModelDefault
+		);
+
+	LLVMTargetMachineEmitToFile(
+		mips_machine,
+		TheModule,
+		"mips_out.s",
+		LLVMAssemblyFile,
+		&error
+		);
+
+// Cleanup
+	LLVMDisposeTargetMachine(native_machine);
+	LLVMDisposeTargetMachine(mips_machine);
 	LLVMDumpModule(TheModule);
 	fprintf(stderr, "========== CODEGEN END ==========\n\n");
 }

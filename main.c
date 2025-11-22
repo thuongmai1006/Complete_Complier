@@ -235,8 +235,9 @@ int main(void) {
 		//"int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
 		"3+3;",
 		"int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
-		"int sum(int a, int b, int c, float d){\n\t3+3;\nreturn a + b;\n}",
-        "int choice(int a, int b, int choice) { if (a + b) { return a;} else {return b;}}",
+		"int sum(int a, int b, int c, float d){\n\ta + b + c;\n\t3+3;\n\treturn a + b;\n}",
+        "int choice(int a, int b, int choice) { for (int i = 0; i < 10; i++) { a + b; }\n if (a + b) { return a;} else {return b;}}",
+        //"int fib(int x){if (x < 3) {return 1;} else {return fib(x-1) + fib(x-2)};}",
 		//"if (X>23) { I=0;} else {I=1;}",
 		//"if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
 		NULL

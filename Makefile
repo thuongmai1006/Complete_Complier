@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = gcc
-LLVM_CONFIG = llvm-config-18
+LLVM_CONFIG = llvm-config-14
 CFLAGS = -Wall -Wextra -std=c11 -O2 $(shell $(LLVM_CONFIG) --cflags)
 LDFLAGS = $(shell $(LLVM_CONFIG) --ldflags --libs core --system-libs)
 
