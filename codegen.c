@@ -30,7 +30,7 @@ LLVMValueRef codegen_if(AST* node){
 	LLVMBasicBlockRef thenBB = LLVMAppendBasicBlockInContext(TheContext, f, "then");
 	LLVMBasicBlockRef elseBB = LLVMCreateBasicBlockInContext(TheContext, "else");
 	LLVMBasicBlockRef mergeBB = LLVMCreateBasicBlockInContext(TheContext, "ifcont");
-	LLVMValueRef condbr = LLVMBuildCondBr(TheBuilder, ifBB, cond, thenBB, elseBB);
+	LLVMValueRef condbr = LLVMBuildCondBr(TheBuilder, cond, thenBB, elseBB);
 
     LLVMPositionBuilderAtEnd(TheBuilder, thenBB);
     LLVMValueRef thenV = codegen(node->left); // then statements stored in AST_IF's left node 
@@ -45,7 +45,7 @@ LLVMValueRef codegen_if(AST* node){
 
     LLVMAppendExistingBasicBlock(f, mergeBB);
     LLVMPositionBuilderAtEnd(TheBuilder, mergeBB);
-    LLVMValueRef PN = LLVMBuildPhi(TheBuilder, LLVMIntType(),"iftmp");
+    LLVMValueRef PN = LLVMBuildPhi(TheBuilder, LLVMInt32Type(),"iftmp");
     LLVMValueRef incomingValues[] = {thenV, elseV};
     LLVMBasicBlockRef incomingBlocks[] = {thenBB, elseBB};
     LLVMAddIncoming(PN,incomingValues, incomingBlocks, 2); 
@@ -198,6 +198,7 @@ LLVMValueRef codegen(AST* node){
 	case AST_ID: return codegen_var(node);
 	case AST_BINOP: return codegen_binary_expr(node);
 	case AST_RETURN: return codegen(node->right);
+    case AST_IF: return codegen_if(node);
 	default: {
 		fprintf(stderr, "We defaulting here\n");
 		return NULL;
