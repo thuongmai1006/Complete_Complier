@@ -24,6 +24,7 @@ LLVMValueRef codegen_var(AST* node){
 }
 LLVMValueRef codegen_if(AST* node){
 	LLVMValueRef cond = codegen(node->cond);
+    cond = LLVMBuildICmp(TheBuilder, LLVMIntSGT, cond, LLVMConstInt(LLVMInt32Type(), 0, 0), "ifcond");
     LLVMValueRef f = LLVMGetBasicBlockParent(LLVMGetInsertBlock(TheBuilder));
 	if (!cond) return NULL;
     if (!f) return NULL;
@@ -238,6 +239,11 @@ void codegen_run(AST* node){
 		LLVMBuildRet(TheBuilder, result);
 	}
 	fprintf(stderr, "\n=== Generated IR ===\n");
+    char *error = NULL;
+    if (LLVMPrintModuleToFile(TheModule, "output.ll", &error)){
+        fprintf(stderr, "Error writing IR: %s\n", error);
+        LLVMDisposeMessage(error);
+    }
 	LLVMDumpModule(TheModule);
 	fprintf(stderr, "========== CODEGEN END ==========\n\n");
 }
