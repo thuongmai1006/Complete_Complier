@@ -33,6 +33,7 @@ void map_put(HashMap *map, const char *key, LLVMValueRef value) {
     new_entry->value = value;
     new_entry->next = map->buckets[index];
     map->buckets[index] = new_entry;
+    LLVMDumpValue(value);
 }
 
 LLVMValueRef map_get(HashMap *map, const char *key){
