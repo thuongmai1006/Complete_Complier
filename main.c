@@ -282,7 +282,10 @@ static void print_sep()
     putchar('\n');
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 545457495f8fb462de3ab19bc4bfa78e901ae540
 int main(void) {
 	char *examples[] = {
 		/*"(1 + 2) * 3 - 4 / 2;",
