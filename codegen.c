@@ -3,6 +3,8 @@ static LLVMContextRef TheContext;
 static LLVMModuleRef TheModule;
 static LLVMBuilderRef TheBuilder;
 static HashMap* NamedValues;
+LLVMValueRef codegen(AST* node);
+void codegen_run();
 LLVMValueRef codegen_number(AST* node);
 
 static void InitializeModule(){
@@ -15,27 +17,48 @@ static void InitializeModule(){
 LLVMValueRef codegen_var(AST* node){
 	LLVMValueRef V = map_get(NamedValues, node->name);
 	if (!V) {
-		fprintf(stderr, "Unknown variable name");
+		fprintf(stderr, "Unknown variable name: %s\n", node->name);
 		return NULL;
 	}
 	return V;
+}
+LLVMValueRef codegen_if(AST* node){
+	LLVMValueRef cond = codegen(node->cond);
+    cond = LLVMBuildICmp(TheBuilder, LLVMIntSGT, cond, LLVMConstInt(LLVMInt32Type(), 0, 0), "ifcond");
+    LLVMValueRef f = LLVMGetBasicBlockParent(LLVMGetInsertBlock(TheBuilder));
+	if (!cond) return NULL;
+    if (!f) return NULL;
+	LLVMBasicBlockRef thenBB = LLVMAppendBasicBlockInContext(TheContext, f, "then");
+	LLVMBasicBlockRef elseBB = LLVMCreateBasicBlockInContext(TheContext, "else");
+	LLVMBasicBlockRef mergeBB = LLVMCreateBasicBlockInContext(TheContext, "ifcont");
+	LLVMValueRef condbr = LLVMBuildCondBr(TheBuilder, cond, thenBB, elseBB);
+
+    LLVMPositionBuilderAtEnd(TheBuilder, thenBB);
+    LLVMValueRef thenV = codegen(node->left); // then statements stored in AST_IF's left node 
+    LLVMValueRef then_br = LLVMBuildBr(TheBuilder, mergeBB);
+    thenBB = LLVMGetInsertBlock(TheBuilder);
+
+    LLVMAppendExistingBasicBlock(f, elseBB);
+    LLVMPositionBuilderAtEnd(TheBuilder, elseBB);
+    LLVMValueRef elseV = codegen(node->right->left);
+    LLVMValueRef else_br = LLVMBuildBr(TheBuilder, mergeBB);
+    elseBB = LLVMGetInsertBlock(TheBuilder);
+
+    LLVMAppendExistingBasicBlock(f, mergeBB);
+    LLVMPositionBuilderAtEnd(TheBuilder, mergeBB);
+    LLVMValueRef PN = LLVMBuildPhi(TheBuilder, LLVMInt32Type(),"iftmp");
+    LLVMValueRef incomingValues[] = {thenV, elseV};
+    LLVMBasicBlockRef incomingBlocks[] = {thenBB, elseBB};
+    LLVMAddIncoming(PN,incomingValues, incomingBlocks, 2); 
+    return PN;
 }
 
 LLVMValueRef codegen_binary_expr(AST* node){
 	if (node == NULL) {
 		return NULL;
 	}
-	if (node->left && node->right) {
-		fprintf(stderr, "Left: %d Right: %d\n", node->left->type, node->right->type);
-	}
-    else if(node->left) {
-		fprintf(stderr, "Left: %d\n", node->left->type);
-	}
-    else if(node->right) {
-		fprintf(stderr, "Right: %d\n", node->right->type);
-	} else fprintf(stderr, "No children :(\n");
-	LLVMValueRef lhs = codegen_number(node->left);
-	LLVMValueRef rhs = codegen_number(node->right);
+	LLVMValueRef lhs = codegen(node->left);
+	LLVMValueRef rhs = codegen(node->right);
 	if (lhs == NULL || rhs == NULL) {
 		return NULL;
 	}
@@ -90,11 +113,7 @@ LLVMValueRef codegen_call(AST* node){
 
 	LLVMValueRef args[node->param_cnt];
 	for (int i = 0; i < node->param_cnt; ++i) {
-		if (node->params[i]->type == AST_NUM) {
-			args[i] = codegen_number(node->params[i]);
-		}
-		else args[i] = codegen_var(node->params[i]);
-		if (!args[i]) return NULL;
+		args[i] = codegen(node->params[i]);
 	}
 	return LLVMBuildCall2(TheBuilder, LLVMGetElementType(LLVMTypeOf(callee)),
 	                      callee, args, node->param_cnt, "calltmp");
@@ -119,11 +138,14 @@ LLVMValueRef codegen_prototype(AST* node) {
 	}
 
 	LLVMTypeRef function_type = LLVMFunctionType(return_type, param_types, arg_count, 0);
+	fprintf(stderr, "Function name: %s\n", node->name);
 	LLVMValueRef function = LLVMAddFunction(TheModule, node->name, function_type);
 
 	for (int i = 0; i < arg_count; i++) {
 		LLVMValueRef param = LLVMGetParam(function, i);
-		LLVMSetValueName(param, node->params[i]->name);
+		const char* param_name = node->params[i]->left->name;
+		fprintf(stderr, "params[%d] = %s\n", i, param_name);
+		LLVMSetValueName(param,param_name);
 	}
 
 	free(param_types);
@@ -140,15 +162,15 @@ LLVMValueRef codegen_function(AST *node){
 	size_t arg_count = LLVMCountParams(f);
 	for (size_t i = 0; i < arg_count; ++i) {
 		LLVMValueRef param = LLVMGetParam(f, i);
-		map_put(NamedValues, LLVMGetValueName(param), param);
+		const char* name = LLVMGetValueName(param);
+		map_put(NamedValues,name, param);
+		fprintf(stderr, "Placing %s into the hashmap\n", name);
 	}
 	LLVMValueRef last_value = NULL;
 	for (size_t i = 0; i < node->stmnt_cnt; ++i) {
-        int AST_TYPE = node->stmnts[i]->type;
-        fprintf(stderr, "Node Type: %d\n", AST_TYPE);
-        if (AST_TYPE == AST_BINOP) last_value = codegen_binary_expr(node->stmnts[i]);
-        if (AST_TYPE == AST_RETURN) last_value = codegen_binary_expr(node->stmnts[i]->right);
-		if (last_value == NULL) return NULL;
+		int AST_TYPE = node->stmnts[i]->type;
+		fprintf(stderr, "Node Type: %d\n", AST_TYPE);
+		last_value = codegen(node->stmnts[i]);
 	}
 	LLVMBuildRet(TheBuilder, last_value);
 	return f;
@@ -158,7 +180,6 @@ LLVMValueRef codegen_number(AST* node){
 	if (node == NULL) {
 		return NULL;
 	}
-
 	switch (node->op.type) {
 	case TOK_INT:
 		return LLVMConstInt(LLVMInt32Type(),(unsigned long long)node->value, 0);
@@ -172,7 +193,20 @@ LLVMValueRef codegen_number(AST* node){
 	}
 }
 
-void codegen(AST* node){
+LLVMValueRef codegen(AST* node){
+	switch(node->type) {
+	case AST_NUM: return codegen_number(node);
+	case AST_ID: return codegen_var(node);
+	case AST_BINOP: return codegen_binary_expr(node);
+	case AST_RETURN: return codegen(node->right);
+    case AST_IF: return codegen_if(node);
+	default: {
+		fprintf(stderr, "We defaulting here\n");
+		return NULL;
+	}
+	}
+}
+void codegen_run(AST* node){
 	fprintf(stderr, "\n========== CODEGEN START ==========\n");
 
 	if (node == NULL) {
@@ -205,7 +239,11 @@ void codegen(AST* node){
 		LLVMBuildRet(TheBuilder, result);
 	}
 	fprintf(stderr, "\n=== Generated IR ===\n");
+    char *error = NULL;
+    if (LLVMPrintModuleToFile(TheModule, "output.ll", &error)){
+        fprintf(stderr, "Error writing IR: %s\n", error);
+        LLVMDisposeMessage(error);
+    }
 	LLVMDumpModule(TheModule);
 	fprintf(stderr, "========== CODEGEN END ==========\n\n");
-	LLVMDeleteFunction(function);
 }

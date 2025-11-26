@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 #define TABLE_SIZE 100
-void codegen(AST*);
+void codegen_run(AST*);
 
 typedef struct Value {
     char *key;

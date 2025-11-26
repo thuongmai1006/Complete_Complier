@@ -286,26 +286,27 @@ int main(void)
 {
     char *examples[] = {
         /*"(1 + 2) * 3 - 4 / 2;",
-        "int x=1;",
-        "!x;",
-        "int X=20;",
-        "X++;",
-        "int Y=0;",
-        "int Z=4;",
-        "int K=5;",
-        "X = Y + Z*3 + K/2; ",
-        "(1 + 2) * 3 - 4 / 2;",
-        "int X =20; if (X>23) { I=0;} else {I=1;}",
-        "if (X>2) {U=9;} else {U=0;} ",
-        "int x = 5;\nif (x > 23) {int y = 1;}\n else if(x>2) {int z = 2;} \n else {z=1;}\n",*/
+           "int x=1;",
+           "!x;",
+           "int X=20;",
+           "X++;",
+           "int Y=0;",
+           "int Z=4;",
+           "int K=5;",
+           "X = Y + Z*3 + K/2; ",
+           "(1 + 2) * 3 - 4 / 2;",
+           "int X =20; if (X>23) { I=0;} else {I=1;}",
+           "if (X>2) {U=9;} else {U=0;} ",
+           "int x = 5;\nif (x > 23) {int y = 1;}\n else if(x>2) {int z = 2;} \n else {z=1;}\n",*/
         //"int sum=0;\nfor (int i=0; i<10; i++)\n{sum=sum+i;};\n ",
         //"float a=18.5;",
-        "void add (int a, int b) \n{ \nint sum=0;\nfor (int i=0; i<10; i++)\n{\nsum=sum+i;\n};\n return 0;\n}",
+        "int add (int a, int b){\n\tint sum=0;\n\tfor (int i=0; i<10; i++){\n\t\tsum=sum+i;\n\t}\n return sum;\n}",
         //" int main () { int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}; \n return sum; }",
         //"int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
         "3+3;",
         "int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
-        "int sum(int a, int b, int c, float d){\n\t3+3;\nreturn a + b;\n};",
+        "int sum(int a, int b, int c, float d){\n\t3+3;\nreturn a + b;\n}",
+        "int choice(int a, int b, int choice) { if (a + b) { return a;} else {return b;}}",
         //"if (X>23) { I=0;} else {I=1;}",
         //"if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
         NULL};
@@ -339,9 +340,8 @@ int main(void)
                     printf("\n=============Executing function==============================\n");
                     double result = eval_function_call(tree, NULL, 0);
                     printf("Function returned: %.2f\n", result);
-
+                    codegen_run(tree);
                     print_sep();
-                    codegen(tree);
                 }
             }
             else
@@ -356,7 +356,6 @@ int main(void)
                 }
             }
             print_sep();
-            codegen(tree);
             if (tree)
                 free_ast(tree);
         }
@@ -423,7 +422,7 @@ int main(void)
             puts("== Parse tree down eher ==");
             print_tree_better(tree);
         }
-        codegen(tree);
+        codegen_run(tree);
         free_ast(tree);
     }
     return 0;
