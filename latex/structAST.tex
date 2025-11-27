@@ -10,7 +10,7 @@ Collaboration diagram for AST\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=165pt]{structAST__coll__graph}
+\includegraphics[width=175pt]{structAST__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Attributes}
@@ -18,7 +18,7 @@ Collaboration diagram for AST\+:\nopagebreak
 \item 
 \mbox{\hyperlink{syntax_8h_a79651fcda7a7a8e0caf509aefc4016f1}{ASTType}} \mbox{\hyperlink{structAST_a1abaaee257886a32443bacd5503cbe10}{type}}
 \item 
-int \mbox{\hyperlink{structAST_a1213f6973a84cd9156e8631b9425feae}{value}}
+double \mbox{\hyperlink{structAST_a1b66391497bdbe5b4fb7bac39453de31}{value}}
 \item 
 \mbox{\hyperlink{structToken}{Token}} \mbox{\hyperlink{structAST_af64d798e5df27a11a5b97a7b746caf4e}{op}}
 \item 
@@ -29,6 +29,18 @@ struct \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{structAST_a5fba
 struct \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{structAST_a0402e9d0a74c85b072fa76c1a4cb7fd1}{right}}
 \item 
 struct \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{structAST_a25538bde9618e77198af04f4bd6e522c}{cond}}
+\item 
+struct \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{structAST_aed0da9967c175e7b2be3bef795fe8573}{stmnts}} \mbox{[}128\mbox{]}
+\item 
+struct \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{structAST_a1533cd4660a9cef64c7b46d878bc2bac}{params}} \mbox{[}16\mbox{]}
+\item 
+struct \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{structAST_a6b808f5c8f1d2ce23f17ca9e135e1ad7}{init}}
+\item 
+int \mbox{\hyperlink{structAST_ade494ff348a9e454feb13b24de6d1e71}{used}}
+\item 
+int \mbox{\hyperlink{structAST_a112a86ca84285d3c9ae2ea96426fabc9}{stmnt\+\_\+cnt}}
+\item 
+int \mbox{\hyperlink{structAST_a8fea7ee722ecdfe9376e4d89b541020f}{param\+\_\+cnt}}
 \end{DoxyCompactItemize}
 
 
@@ -38,6 +50,12 @@ struct \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{structAST_a2553
 \index{cond@{cond}!AST@{AST}}
 \doxysubsubsection{\texorpdfstring{cond}{cond}}
 {\footnotesize\ttfamily struct \mbox{\hyperlink{structAST}{AST}}$\ast$ AST\+::cond}
+
+\mbox{\Hypertarget{structAST_a6b808f5c8f1d2ce23f17ca9e135e1ad7}\label{structAST_a6b808f5c8f1d2ce23f17ca9e135e1ad7}} 
+\index{AST@{AST}!init@{init}}
+\index{init@{init}!AST@{AST}}
+\doxysubsubsection{\texorpdfstring{init}{init}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structAST}{AST}}$\ast$ AST\+::init}
 
 \mbox{\Hypertarget{structAST_a5fbaf27eb059a24a3bd046387b883dd6}\label{structAST_a5fbaf27eb059a24a3bd046387b883dd6}} 
 \index{AST@{AST}!left@{left}}
@@ -57,11 +75,35 @@ struct \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{structAST_a2553
 \doxysubsubsection{\texorpdfstring{op}{op}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structToken}{Token}} AST\+::op}
 
+\mbox{\Hypertarget{structAST_a8fea7ee722ecdfe9376e4d89b541020f}\label{structAST_a8fea7ee722ecdfe9376e4d89b541020f}} 
+\index{AST@{AST}!param\_cnt@{param\_cnt}}
+\index{param\_cnt@{param\_cnt}!AST@{AST}}
+\doxysubsubsection{\texorpdfstring{param\_cnt}{param\_cnt}}
+{\footnotesize\ttfamily int AST\+::param\+\_\+cnt}
+
+\mbox{\Hypertarget{structAST_a1533cd4660a9cef64c7b46d878bc2bac}\label{structAST_a1533cd4660a9cef64c7b46d878bc2bac}} 
+\index{AST@{AST}!params@{params}}
+\index{params@{params}!AST@{AST}}
+\doxysubsubsection{\texorpdfstring{params}{params}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structAST}{AST}}$\ast$ AST\+::params\mbox{[}16\mbox{]}}
+
 \mbox{\Hypertarget{structAST_a0402e9d0a74c85b072fa76c1a4cb7fd1}\label{structAST_a0402e9d0a74c85b072fa76c1a4cb7fd1}} 
 \index{AST@{AST}!right@{right}}
 \index{right@{right}!AST@{AST}}
 \doxysubsubsection{\texorpdfstring{right}{right}}
 {\footnotesize\ttfamily struct \mbox{\hyperlink{structAST}{AST}}$\ast$ AST\+::right}
+
+\mbox{\Hypertarget{structAST_a112a86ca84285d3c9ae2ea96426fabc9}\label{structAST_a112a86ca84285d3c9ae2ea96426fabc9}} 
+\index{AST@{AST}!stmnt\_cnt@{stmnt\_cnt}}
+\index{stmnt\_cnt@{stmnt\_cnt}!AST@{AST}}
+\doxysubsubsection{\texorpdfstring{stmnt\_cnt}{stmnt\_cnt}}
+{\footnotesize\ttfamily int AST\+::stmnt\+\_\+cnt}
+
+\mbox{\Hypertarget{structAST_aed0da9967c175e7b2be3bef795fe8573}\label{structAST_aed0da9967c175e7b2be3bef795fe8573}} 
+\index{AST@{AST}!stmnts@{stmnts}}
+\index{stmnts@{stmnts}!AST@{AST}}
+\doxysubsubsection{\texorpdfstring{stmnts}{stmnts}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structAST}{AST}}$\ast$ AST\+::stmnts\mbox{[}128\mbox{]}}
 
 \mbox{\Hypertarget{structAST_a1abaaee257886a32443bacd5503cbe10}\label{structAST_a1abaaee257886a32443bacd5503cbe10}} 
 \index{AST@{AST}!type@{type}}
@@ -69,11 +111,17 @@ struct \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{structAST_a2553
 \doxysubsubsection{\texorpdfstring{type}{type}}
 {\footnotesize\ttfamily \mbox{\hyperlink{syntax_8h_a79651fcda7a7a8e0caf509aefc4016f1}{ASTType}} AST\+::type}
 
-\mbox{\Hypertarget{structAST_a1213f6973a84cd9156e8631b9425feae}\label{structAST_a1213f6973a84cd9156e8631b9425feae}} 
+\mbox{\Hypertarget{structAST_ade494ff348a9e454feb13b24de6d1e71}\label{structAST_ade494ff348a9e454feb13b24de6d1e71}} 
+\index{AST@{AST}!used@{used}}
+\index{used@{used}!AST@{AST}}
+\doxysubsubsection{\texorpdfstring{used}{used}}
+{\footnotesize\ttfamily int AST\+::used}
+
+\mbox{\Hypertarget{structAST_a1b66391497bdbe5b4fb7bac39453de31}\label{structAST_a1b66391497bdbe5b4fb7bac39453de31}} 
 \index{AST@{AST}!value@{value}}
 \index{value@{value}!AST@{AST}}
 \doxysubsubsection{\texorpdfstring{value}{value}}
-{\footnotesize\ttfamily int AST\+::value}
+{\footnotesize\ttfamily double AST\+::value}
 
 
 

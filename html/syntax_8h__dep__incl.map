@@ -1,5 +1,8 @@
 <map id="syntax.h" name="syntax.h">
-<area shape="rect" id="node1" title=" " alt="" coords="47,5,126,32"/>
-<area shape="rect" id="node2" href="$main_8c.html" title=" " alt="" coords="5,80,72,107"/>
-<area shape="rect" id="node3" href="$syntax_8c.html" title=" " alt="" coords="96,80,173,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="99,5,178,32"/>
+<area shape="rect" id="node2" href="$main_8c.html" title=" " alt="" coords="5,155,72,181"/>
+<area shape="rect" id="node3" href="$symbol__table_8h.html" title=" " alt="" coords="77,80,200,107"/>
+<area shape="rect" id="node6" href="$syntax_8c.html" title=" " alt="" coords="224,80,301,107"/>
+<area shape="rect" id="node4" href="$codegen_8c.html" title=" " alt="" coords="96,155,184,181"/>
+<area shape="rect" id="node5" href="$symbol__table_8c.html" title=" " alt="" coords="209,155,330,181"/>
 </map>

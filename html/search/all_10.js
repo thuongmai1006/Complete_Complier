@@ -1,6 +1,24 @@
 var searchData=
 [
-  ['value_87',['value',['../structToken.html#a041346a45c6c5571a78a6af3394a2756',1,'Token::value()'],['../structVar.html#a0906c25074fa4aff129a3f5fa43c17d2',1,'Var::value()'],['../structAST.html#a1213f6973a84cd9156e8631b9425feae',1,'AST::value()']]],
-  ['var_88',['Var',['../structVar.html',1,'']]],
-  ['vars_89',['vars',['../syntax_8c.html#a40bf4e58419ab301530df2b580076f83',1,'syntax.c']]]
+  ['scope_162',['Scope',['../structScope.html',1,'Scope'],['../semantic_8c.html#a6587a2b63e3476d724278a233eb03ab9',1,'Scope():&#160;semantic.c']]],
+  ['scope_5finsert_163',['scope_insert',['../semantic_8c.html#aedc2a9ba2921515d2286646e51ec0383',1,'semantic.c']]],
+  ['scope_5flookup_164',['scope_lookup',['../semantic_8c.html#a363de791233868c07f2aaef00548cc5f',1,'semantic.c']]],
+  ['scope_5fpop_165',['scope_pop',['../semantic_8c.html#a07014d9d69573cacff85239d9b90530a',1,'semantic.c']]],
+  ['scope_5fpush_166',['scope_push',['../semantic_8c.html#a0d736e11a2fcbf543a93e27b6cfccac7',1,'semantic.c']]],
+  ['semantic_2ec_167',['semantic.c',['../semantic_8c.html',1,'']]],
+  ['skip_5fwhitespace_168',['skip_whitespace',['../lexer_8c.html#ac7c736774dd80d977ad9ec9298b5f654',1,'lexer.c']]],
+  ['slot_5ffor_169',['slot_for',['../syntax_8c.html#a530ff51898885cdd819dc718628d19d3',1,'syntax.c']]],
+  ['slot_5ffor_5fentry_170',['slot_for_entry',['../syntax_8c.html#a961ac0976c1dbbb7ed0f89b33c3b6591',1,'syntax.c']]],
+  ['slots_171',['slots',['../structScope.html#ada9370d521eacf5022d9715bb7eea343',1,'Scope']]],
+  ['stmnt_5fcnt_172',['stmnt_cnt',['../structAST.html#a112a86ca84285d3c9ae2ea96426fabc9',1,'AST']]],
+  ['stmnts_173',['stmnts',['../structAST.html#aed0da9967c175e7b2be3bef795fe8573',1,'AST']]],
+  ['sym_5ffunc_174',['SYM_FUNC',['../semantic_8c.html#a2749637539e7da17962743f94c9c2864a9f25a8fc3891950523fd8b502e87bcb7',1,'semantic.c']]],
+  ['sym_5fvar_175',['SYM_VAR',['../semantic_8c.html#a2749637539e7da17962743f94c9c2864a4aeab8753276f7c7a40125cbb216ec57',1,'semantic.c']]],
+  ['symbol_176',['Symbol',['../semantic_8c.html#ac1b95cde05bdecd202e6f33298f78a17',1,'Symbol():&#160;semantic.c'],['../structSymbol.html',1,'Symbol']]],
+  ['symbol_5ftable_2ec_177',['symbol_table.c',['../symbol__table_8c.html',1,'']]],
+  ['symbol_5ftable_2eh_178',['symbol_table.h',['../symbol__table_8h.html',1,'']]],
+  ['symkind_179',['SymKind',['../semantic_8c.html#a2749637539e7da17962743f94c9c2864',1,'semantic.c']]],
+  ['syntax_2ec_180',['syntax.c',['../syntax_8c.html',1,'']]],
+  ['syntax_2eh_181',['syntax.h',['../syntax_8h.html',1,'']]],
+  ['syntax_5ferror_182',['syntax_error',['../syntax_8c.html#afac37876ab64c6f5abe2eb0d55ea4901',1,'syntax.c']]]
 ];

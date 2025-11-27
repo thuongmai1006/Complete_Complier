@@ -1,12 +1,14 @@
 var searchData=
 [
-  ['parse_5fexpr_35',['parse_expr',['../syntax_8c.html#afdac96ad21e61e16ca5d8294a71058fc',1,'parse_expr(Parser *ps):&#160;syntax.c'],['../syntax_8h.html#afdac96ad21e61e16ca5d8294a71058fc',1,'parse_expr(Parser *ps):&#160;syntax.c']]],
-  ['parse_5ffactor_36',['parse_factor',['../syntax_8c.html#a1240c2de3940ec77596ce0c06ee05ac2',1,'syntax.c']]],
-  ['parse_5fstatement_37',['parse_statement',['../syntax_8c.html#af6d178933d495975376145c152e4f160',1,'parse_statement(Parser *ps):&#160;syntax.c'],['../syntax_8h.html#af6d178933d495975376145c152e4f160',1,'parse_statement(Parser *ps):&#160;syntax.c']]],
-  ['parse_5fterm_38',['parse_term',['../syntax_8c.html#a42ae2e195424b1fe93b8c940d37ac99b',1,'syntax.c']]],
-  ['parser_39',['Parser',['../structParser.html',1,'']]],
-  ['parser_5finit_40',['parser_init',['../syntax_8c.html#ac325349195d5a1ce46f3248839759701',1,'parser_init(Parser *ps, Lexer *lx):&#160;syntax.c'],['../syntax_8h.html#ac325349195d5a1ce46f3248839759701',1,'parser_init(Parser *ps, Lexer *lx):&#160;syntax.c']]],
-  ['pos_41',['pos',['../structToken.html#a60d6a598efe0b94fc0f42fa3d0bb8e28',1,'Token::pos()'],['../structLexer.html#a14d0bdae654a6c8754bb4195c973bfe1',1,'Lexer::pos()']]],
-  ['print_5ftoken_42',['print_token',['../main_8c.html#aa6f2c52521727c41d6c7a84f128e87e9',1,'main.c']]],
-  ['print_5ftree_5fascii_43',['print_tree_ascii',['../syntax_8c.html#af087226875bf9e27ce7a061529a31d8b',1,'print_tree_ascii(const AST *n, const char *indent, int last):&#160;syntax.c'],['../syntax_8h.html#af087226875bf9e27ce7a061529a31d8b',1,'print_tree_ascii(const AST *n, const char *indent, int last):&#160;syntax.c']]]
+  ['main_111',['main',['../hello_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;hello.c'],['../IRgen_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;IRgen.c'],['../main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;main.c'],['../utils_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;utils.c']]],
+  ['main_2ec_112',['main.c',['../main_8c.html',1,'']]],
+  ['make_5ffn_113',['make_fn',['../syntax_8c.html#ab742460f4f0233583f156ff26964b6de',1,'syntax.c']]],
+  ['make_5fid_114',['make_id',['../syntax_8c.html#aa04548508148a1bc6c70bc30e0818a8a',1,'syntax.c']]],
+  ['make_5freturn_115',['make_return',['../syntax_8c.html#a80c67e6a1ea2329bb9e13652cc321f88',1,'syntax.c']]],
+  ['map_5fclear_116',['map_clear',['../symbol__table_8c.html#ae651c417d5f16554f1e64343ea81e71d',1,'map_clear(HashMap *map):&#160;symbol_table.c'],['../symbol__table_8h.html#ae651c417d5f16554f1e64343ea81e71d',1,'map_clear(HashMap *map):&#160;symbol_table.c']]],
+  ['map_5fget_117',['map_get',['../symbol__table_8c.html#afb856e4bd54ab8ed65df7823ee9bf628',1,'map_get(HashMap *map, const char *key):&#160;symbol_table.c'],['../symbol__table_8h.html#afb856e4bd54ab8ed65df7823ee9bf628',1,'map_get(HashMap *map, const char *key):&#160;symbol_table.c']]],
+  ['map_5fput_118',['map_put',['../symbol__table_8c.html#ab0f33f99dcb0553189b2d02015b97c4c',1,'map_put(HashMap *map, const char *key, LLVMValueRef value):&#160;symbol_table.c'],['../symbol__table_8h.html#ab0f33f99dcb0553189b2d02015b97c4c',1,'map_put(HashMap *map, const char *key, LLVMValueRef value):&#160;symbol_table.c']]],
+  ['max_119',['MAX',['../syntax_8c.html#a2d8ad45531413d79f75465548d1acdc6',1,'MAX(int x, int y):&#160;syntax.c'],['../utils_8c.html#a2b053e2b161fbc4623b512b324a68542',1,'MAX(int X, int Y):&#160;utils.c']]],
+  ['max_5fheight_120',['MAX_HEIGHT',['../syntax_8c.html#a9059fa76eb5e8e86f870405d63e72c4c',1,'MAX_HEIGHT():&#160;syntax.c'],['../utils_8c.html#a9059fa76eb5e8e86f870405d63e72c4c',1,'MAX_HEIGHT():&#160;utils.c']]],
+  ['min_121',['MIN',['../syntax_8c.html#a02b13b0e36f2ad1e40012de587e218e2',1,'MIN(int x, int y):&#160;syntax.c'],['../utils_8c.html#a839a989703518646d7a3bf386472c79e',1,'MIN(int X, int Y):&#160;utils.c']]]
 ];

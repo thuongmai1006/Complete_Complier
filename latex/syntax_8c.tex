@@ -9,55 +9,273 @@ Include dependency graph for syntax.\+c\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{syntax_8c__incl}
+\includegraphics[width=327pt]{syntax_8c__incl}
 \end{center}
 \end{figure}
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-struct \mbox{\hyperlink{structVar}{Var}}
+struct \mbox{\hyperlink{structASTWrapper}{ASTWrapper}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{syntax_8c_add9fa38ea5fcc2907162b416026f3e8c}{FN\+\_\+\+STMTS\+\_\+\+CAP}}~128
+\item 
+\#define \mbox{\hyperlink{syntax_8c_a81cbc009dda8f3e84ebe450719178ca5}{FN\+\_\+\+PARAM\+\_\+\+CAP}}~16
+\item 
+\#define \mbox{\hyperlink{syntax_8c_a9059fa76eb5e8e86f870405d63e72c4c}{MAX\+\_\+\+HEIGHT}}~1000
+\item 
+\#define \mbox{\hyperlink{syntax_8c_a956e2723d559858d08644ac99146e910}{INFINITY}}~(1$<$$<$20)
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structASTWrapper}{ASTWrapper}} \mbox{\hyperlink{syntax_8c_ab9ed8eb86c392ee67820e5f74bfed656}{ASTWrapper}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_acc7b25ec3a10a980be8812d30a3d893c}{parse\+\_\+definition}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$)
+\item 
+static \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_a42ae2e195424b1fe93b8c940d37ac99b}{parse\+\_\+term}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+\item 
+static \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_a87ce81a9c47f7e6859ea5c0af8635206}{parse\+\_\+block}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$)
+\item 
+static \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_a172a463d83c400196f992d32478b6d20}{parse\+\_\+return}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$)
+\item 
+static \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_a0391eb28243b58881ee13b5b122be87b}{parse\+\_\+id}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$)
 \item 
 static void \mbox{\hyperlink{syntax_8c_afac37876ab64c6f5abe2eb0d55ea4901}{syntax\+\_\+error}} (const char $\ast$msg, \mbox{\hyperlink{structToken}{Token}} got)
 \item 
 static void \mbox{\hyperlink{syntax_8c_ab2d45999f573d0f1410d37f06a285f77}{eat}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps, \mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}} expect)
 \item 
-static \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_a1240c2de3940ec77596ce0c06ee05ac2}{parse\+\_\+factor}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+static void \mbox{\hyperlink{syntax_8c_af635618378201a9d81bc688021b25090}{eat\+\_\+return\+Type}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
 \item 
-static \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_a42ae2e195424b1fe93b8c940d37ac99b}{parse\+\_\+term}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+static int \mbox{\hyperlink{syntax_8c_a93018a37a7c10a47059eee236421c5e1}{is\+\_\+return\+Type}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
 \item 
-\mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_af6d178933d495975376145c152e4f160}{parse\+\_\+statement}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+static int \mbox{\hyperlink{syntax_8c_a3656332e57776d007c01c6ece44a1323}{is\+\_\+assignment}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
 \item 
-\mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_afdac96ad21e61e16ca5d8294a71058fc}{parse\+\_\+expr}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+int \mbox{\hyperlink{syntax_8c_a9c9a49905d9b9bce40d13254bbad9d72}{is\+\_\+bin\+Op}} (int curr)
+\item 
+int \mbox{\hyperlink{syntax_8c_a712517b5318fe6cffdf3878c3b22a737}{is\+\_\+un\+Op}} (int curr)
 \item 
 static \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_aa04548508148a1bc6c70bc30e0818a8a}{make\+\_\+id}} (const char $\ast$s)
 \item 
+\mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_ab742460f4f0233583f156ff26964b6de}{make\+\_\+fn}} (const char $\ast$name)
+\item 
+static \mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_a80c67e6a1ea2329bb9e13652cc321f88}{make\+\_\+return}} (char $\ast$name, \mbox{\hyperlink{structAST}{AST}} $\ast$expr)
+\item 
+void \mbox{\hyperlink{syntax_8c_aea3f432134ef93af13ef70c2dcdd9c1a}{advance}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+\item 
+void \mbox{\hyperlink{syntax_8c_a15e8927dcea41d84e553e549dfd33ef8}{eat\+\_\+\+SEMI}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+\item 
+\mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_a694a6778e828a109ce9450e05f5cf98f}{parse\+\_\+fn}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+\item 
+\mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_af6d178933d495975376145c152e4f160}{parse\+\_\+statement}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+\item 
+void \mbox{\hyperlink{syntax_8c_a1c961989706a5b67c20014cac3d1001f}{error\+\_\+at}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps, \mbox{\hyperlink{structToken}{Token}} $\ast$tok, const char $\ast$msg)
+\item 
+\mbox{\hyperlink{structAST}{AST}} $\ast$ \mbox{\hyperlink{syntax_8c_afdac96ad21e61e16ca5d8294a71058fc}{parse\+\_\+expr}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps)
+\item 
 void \mbox{\hyperlink{syntax_8c_ac325349195d5a1ce46f3248839759701}{parser\+\_\+init}} (\mbox{\hyperlink{structParser}{Parser}} $\ast$ps, \mbox{\hyperlink{structLexer}{Lexer}} $\ast$lx)
 \item 
-int \mbox{\hyperlink{syntax_8c_a4f338ec4884d672a0c241b8d74f63758}{eval\+\_\+binary}} (\mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}} op, int left, int right)
+double \mbox{\hyperlink{syntax_8c_a7452bc24840fd0921bef20386c305ff2}{eval\+\_\+binary}} (\mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}} op, double left, double right)
 \item 
 static int $\ast$ \mbox{\hyperlink{syntax_8c_a530ff51898885cdd819dc718628d19d3}{slot\+\_\+for}} (const char $\ast$name)
 \item 
-static int \mbox{\hyperlink{syntax_8c_a787a52b2f9781b94f8431c2505c34bd2}{get\+\_\+var}} (const char $\ast$name)
+static \mbox{\hyperlink{structVar}{Var}} $\ast$ \mbox{\hyperlink{syntax_8c_a961ac0976c1dbbb7ed0f89b33c3b6591}{slot\+\_\+for\+\_\+entry}} (const char $\ast$name)
 \item 
-int \mbox{\hyperlink{syntax_8c_af86fd9f9a32377d094c066058ba7a00c}{eval\+\_\+ast\+\_\+assignment}} (const \mbox{\hyperlink{structAST}{AST}} $\ast$node)
+static double \mbox{\hyperlink{syntax_8c_a2b24dce6d850fd4a388d0b9736368bdc}{get\+\_\+var}} (const char $\ast$name)
+\item 
+static int \mbox{\hyperlink{syntax_8c_a5ec483afeb6d052e44272e0e7dc4464a}{truthy}} (double v)
+\item 
+static void \mbox{\hyperlink{syntax_8c_abbd07ef268163bb850e61b0c75c1e9a2}{eval\+\_\+stmt\+\_\+list}} (\mbox{\hyperlink{structAST}{AST}} $\ast$first)
+\item 
+static double \mbox{\hyperlink{syntax_8c_a141df1077d6a4e2e06af121d2c66f371}{eval\+\_\+block}} (\mbox{\hyperlink{structAST}{AST}} $\ast$blk)
+\item 
+static double \mbox{\hyperlink{syntax_8c_a36f485cc9be0777eb17cf64c0b46e5be}{eval\+\_\+for}} (\mbox{\hyperlink{structAST}{AST}} $\ast$n)
+\item 
+double \mbox{\hyperlink{syntax_8c_ad4a98a5901cf9bf8f71572644985a6b4}{eval\+\_\+ast\+\_\+decl}} (\mbox{\hyperlink{structAST}{AST}} $\ast$n)
+\item 
+double \mbox{\hyperlink{syntax_8c_aa3a4b9355fd80470716f7659e131582d}{eval\+\_\+ast\+\_\+assignment}} (\mbox{\hyperlink{structAST}{AST}} $\ast$node)
 \item 
 static char $\ast$ \mbox{\hyperlink{syntax_8c_a0da887c72084e034d8aa49ab6b18d2eb}{indent\+\_\+next}} (const char $\ast$indent, int last)
 \item 
-void \mbox{\hyperlink{syntax_8c_af087226875bf9e27ce7a061529a31d8b}{print\+\_\+tree\+\_\+ascii}} (const \mbox{\hyperlink{structAST}{AST}} $\ast$n, const char $\ast$indent, int last)
+void \mbox{\hyperlink{syntax_8c_a28dc7892a960d2e57b5156353d6efbf2}{print\+\_\+tree}} (const \mbox{\hyperlink{structAST}{AST}} $\ast$)
+\item 
+void \mbox{\hyperlink{syntax_8c_a58573f08c83aaf3bdd14a46e4af19623}{print\+\_\+tree\+\_\+better}} (const \mbox{\hyperlink{structAST}{AST}} $\ast$)
 \item 
 void \mbox{\hyperlink{syntax_8c_a0b06649d2d1c27f919cc580d02b377a6}{free\+\_\+ast}} (\mbox{\hyperlink{structAST}{AST}} $\ast$node)
+\item 
+static \mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$ \mbox{\hyperlink{syntax_8c_ae7edfe0651a1ddf9980132d3cebeab87}{build\+\_\+wrapper\+\_\+tree}} (const \mbox{\hyperlink{structAST}{AST}} $\ast$node)
+\item 
+static void \mbox{\hyperlink{syntax_8c_addbed8fc97b16d2606b5e936aafa13b7}{free\+\_\+wrapper\+\_\+tree}} (\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$node)
+\item 
+static int \mbox{\hyperlink{syntax_8c_a02b13b0e36f2ad1e40012de587e218e2}{MIN}} (int \mbox{\hyperlink{test__if__else_8c_a6150e0515f7202e2fb518f7206ed97dc}{x}}, int y)
+\item 
+static int \mbox{\hyperlink{syntax_8c_a2d8ad45531413d79f75465548d1acdc6}{MAX}} (int \mbox{\hyperlink{test__if__else_8c_a6150e0515f7202e2fb518f7206ed97dc}{x}}, int y)
+\item 
+static void \mbox{\hyperlink{syntax_8c_acc50ff8a0f9a67dc04ac75bda49f27b6}{compute\+\_\+lprofile}} (\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$node, int \mbox{\hyperlink{test__if__else_8c_a6150e0515f7202e2fb518f7206ed97dc}{x}}, int y)
+\item 
+static void \mbox{\hyperlink{syntax_8c_a7ef6af5da6d5fb2d6b844fd8c45aa7a1}{compute\+\_\+rprofile}} (\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$node, int \mbox{\hyperlink{test__if__else_8c_a6150e0515f7202e2fb518f7206ed97dc}{x}}, int y)
+\item 
+static void \mbox{\hyperlink{syntax_8c_a3ff17fd87e6c779e8e6714a91321f6f5}{compute\+\_\+edge\+\_\+lengths}} (\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$node)
+\item 
+static void \mbox{\hyperlink{syntax_8c_a2f1feb864fcbf3143ad5ae34881bb6cd}{print\+\_\+level}} (\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$node, int \mbox{\hyperlink{test__if__else_8c_a6150e0515f7202e2fb518f7206ed97dc}{x}}, int level)
 \end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-static \mbox{\hyperlink{structVar}{Var}} \mbox{\hyperlink{syntax_8c_a40bf4e58419ab301530df2b580076f83}{vars}} \mbox{[}128\mbox{]}
+static int \mbox{\hyperlink{syntax_8c_a78c5b71ee27f7bc8a104b6d23f90a9ff}{lprofile}} \mbox{[}\mbox{\hyperlink{utils_8c_a9059fa76eb5e8e86f870405d63e72c4c}{MAX\+\_\+\+HEIGHT}}\mbox{]}
+\item 
+static int \mbox{\hyperlink{syntax_8c_aec056a5a0739a0bef539e2557678eb84}{rprofile}} \mbox{[}\mbox{\hyperlink{utils_8c_a9059fa76eb5e8e86f870405d63e72c4c}{MAX\+\_\+\+HEIGHT}}\mbox{]}
+\item 
+static int \mbox{\hyperlink{syntax_8c_a5832ef034bae1a81c3d4fab47e3c1f9c}{print\+\_\+next}}
+\item 
+static int \mbox{\hyperlink{syntax_8c_a29e473eb545feeae50bf3b3c5aafc7dc}{gap}} = 3
 \end{DoxyCompactItemize}
 
 
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{syntax_8c_a81cbc009dda8f3e84ebe450719178ca5}\label{syntax_8c_a81cbc009dda8f3e84ebe450719178ca5}} 
+\index{syntax.c@{syntax.c}!FN\_PARAM\_CAP@{FN\_PARAM\_CAP}}
+\index{FN\_PARAM\_CAP@{FN\_PARAM\_CAP}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{FN\_PARAM\_CAP}{FN\_PARAM\_CAP}}
+{\footnotesize\ttfamily \#define FN\+\_\+\+PARAM\+\_\+\+CAP~16}
+
+\mbox{\Hypertarget{syntax_8c_add9fa38ea5fcc2907162b416026f3e8c}\label{syntax_8c_add9fa38ea5fcc2907162b416026f3e8c}} 
+\index{syntax.c@{syntax.c}!FN\_STMTS\_CAP@{FN\_STMTS\_CAP}}
+\index{FN\_STMTS\_CAP@{FN\_STMTS\_CAP}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{FN\_STMTS\_CAP}{FN\_STMTS\_CAP}}
+{\footnotesize\ttfamily \#define FN\+\_\+\+STMTS\+\_\+\+CAP~128}
+
+\mbox{\Hypertarget{syntax_8c_a956e2723d559858d08644ac99146e910}\label{syntax_8c_a956e2723d559858d08644ac99146e910}} 
+\index{syntax.c@{syntax.c}!INFINITY@{INFINITY}}
+\index{INFINITY@{INFINITY}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{INFINITY}{INFINITY}}
+{\footnotesize\ttfamily \#define INFINITY~(1$<$$<$20)}
+
+\mbox{\Hypertarget{syntax_8c_a9059fa76eb5e8e86f870405d63e72c4c}\label{syntax_8c_a9059fa76eb5e8e86f870405d63e72c4c}} 
+\index{syntax.c@{syntax.c}!MAX\_HEIGHT@{MAX\_HEIGHT}}
+\index{MAX\_HEIGHT@{MAX\_HEIGHT}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_HEIGHT}{MAX\_HEIGHT}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+HEIGHT~1000}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{syntax_8c_ab9ed8eb86c392ee67820e5f74bfed656}\label{syntax_8c_ab9ed8eb86c392ee67820e5f74bfed656}} 
+\index{syntax.c@{syntax.c}!ASTWrapper@{ASTWrapper}}
+\index{ASTWrapper@{ASTWrapper}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{ASTWrapper}{ASTWrapper}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structASTWrapper}{ASTWrapper}} \mbox{\hyperlink{structASTWrapper}{ASTWrapper}}}
+
+
+
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{syntax_8c_aea3f432134ef93af13ef70c2dcdd9c1a}\label{syntax_8c_aea3f432134ef93af13ef70c2dcdd9c1a}} 
+\index{syntax.c@{syntax.c}!advance@{advance}}
+\index{advance@{advance}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{advance()}{advance()}}
+{\footnotesize\ttfamily void advance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_aea3f432134ef93af13ef70c2dcdd9c1a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_aea3f432134ef93af13ef70c2dcdd9c1a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_ae7edfe0651a1ddf9980132d3cebeab87}\label{syntax_8c_ae7edfe0651a1ddf9980132d3cebeab87}} 
+\index{syntax.c@{syntax.c}!build\_wrapper\_tree@{build\_wrapper\_tree}}
+\index{build\_wrapper\_tree@{build\_wrapper\_tree}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{build\_wrapper\_tree()}{build\_wrapper\_tree()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{structASTWrapper}{ASTWrapper}}$\ast$ build\+\_\+wrapper\+\_\+tree (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structAST}{AST}} $\ast$}]{node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_ae7edfe0651a1ddf9980132d3cebeab87_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a3ff17fd87e6c779e8e6714a91321f6f5}\label{syntax_8c_a3ff17fd87e6c779e8e6714a91321f6f5}} 
+\index{syntax.c@{syntax.c}!compute\_edge\_lengths@{compute\_edge\_lengths}}
+\index{compute\_edge\_lengths@{compute\_edge\_lengths}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{compute\_edge\_lengths()}{compute\_edge\_lengths()}}
+{\footnotesize\ttfamily static void compute\+\_\+edge\+\_\+lengths (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$}]{node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a3ff17fd87e6c779e8e6714a91321f6f5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a3ff17fd87e6c779e8e6714a91321f6f5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_acc50ff8a0f9a67dc04ac75bda49f27b6}\label{syntax_8c_acc50ff8a0f9a67dc04ac75bda49f27b6}} 
+\index{syntax.c@{syntax.c}!compute\_lprofile@{compute\_lprofile}}
+\index{compute\_lprofile@{compute\_lprofile}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{compute\_lprofile()}{compute\_lprofile()}}
+{\footnotesize\ttfamily static void compute\+\_\+lprofile (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$}]{node,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=250pt]{syntax_8c_acc50ff8a0f9a67dc04ac75bda49f27b6_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_acc50ff8a0f9a67dc04ac75bda49f27b6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a7ef6af5da6d5fb2d6b844fd8c45aa7a1}\label{syntax_8c_a7ef6af5da6d5fb2d6b844fd8c45aa7a1}} 
+\index{syntax.c@{syntax.c}!compute\_rprofile@{compute\_rprofile}}
+\index{compute\_rprofile@{compute\_rprofile}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{compute\_rprofile()}{compute\_rprofile()}}
+{\footnotesize\ttfamily static void compute\+\_\+rprofile (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$}]{node,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{syntax_8c_a7ef6af5da6d5fb2d6b844fd8c45aa7a1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a7ef6af5da6d5fb2d6b844fd8c45aa7a1_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{syntax_8c_ab2d45999f573d0f1410d37f06a285f77}\label{syntax_8c_ab2d45999f573d0f1410d37f06a285f77}} 
 \index{syntax.c@{syntax.c}!eat@{eat}}
 \index{eat@{eat}!syntax.c@{syntax.c}}
@@ -80,18 +298,18 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{syntax_8c_ab2d45999f573d0f1410d37f06a285f77_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{syntax_8c_af86fd9f9a32377d094c066058ba7a00c}\label{syntax_8c_af86fd9f9a32377d094c066058ba7a00c}} 
-\index{syntax.c@{syntax.c}!eval\_ast\_assignment@{eval\_ast\_assignment}}
-\index{eval\_ast\_assignment@{eval\_ast\_assignment}!syntax.c@{syntax.c}}
-\doxysubsubsection{\texorpdfstring{eval\_ast\_assignment()}{eval\_ast\_assignment()}}
-{\footnotesize\ttfamily int eval\+\_\+ast\+\_\+assignment (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structAST}{AST}} $\ast$}]{node }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{syntax_8c_af635618378201a9d81bc688021b25090}\label{syntax_8c_af635618378201a9d81bc688021b25090}} 
+\index{syntax.c@{syntax.c}!eat\_returnType@{eat\_returnType}}
+\index{eat\_returnType@{eat\_returnType}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{eat\_returnType()}{eat\_returnType()}}
+{\footnotesize\ttfamily static void eat\+\_\+return\+Type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 Here is the call graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=310pt]{syntax_8c_af86fd9f9a32377d094c066058ba7a00c_cgraph}
+\includegraphics[width=350pt]{syntax_8c_af635618378201a9d81bc688021b25090_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -99,21 +317,167 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=277pt]{syntax_8c_af86fd9f9a32377d094c066058ba7a00c_icgraph}
+\includegraphics[width=341pt]{syntax_8c_af635618378201a9d81bc688021b25090_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{syntax_8c_a4f338ec4884d672a0c241b8d74f63758}\label{syntax_8c_a4f338ec4884d672a0c241b8d74f63758}} 
-\index{syntax.c@{syntax.c}!eval\_binary@{eval\_binary}}
-\index{eval\_binary@{eval\_binary}!syntax.c@{syntax.c}}
-\doxysubsubsection{\texorpdfstring{eval\_binary()}{eval\_binary()}}
-{\footnotesize\ttfamily int eval\+\_\+binary (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}}}]{op,  }\item[{int}]{left,  }\item[{int}]{right }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{syntax_8c_a15e8927dcea41d84e553e549dfd33ef8}\label{syntax_8c_a15e8927dcea41d84e553e549dfd33ef8}} 
+\index{syntax.c@{syntax.c}!eat\_SEMI@{eat\_SEMI}}
+\index{eat\_SEMI@{eat\_SEMI}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{eat\_SEMI()}{eat\_SEMI()}}
+{\footnotesize\ttfamily void eat\+\_\+\+SEMI (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a15e8927dcea41d84e553e549dfd33ef8_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a15e8927dcea41d84e553e549dfd33ef8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a1c961989706a5b67c20014cac3d1001f}\label{syntax_8c_a1c961989706a5b67c20014cac3d1001f}} 
+\index{syntax.c@{syntax.c}!error\_at@{error\_at}}
+\index{error\_at@{error\_at}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{error\_at()}{error\_at()}}
+{\footnotesize\ttfamily void error\+\_\+at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps,  }\item[{\mbox{\hyperlink{structToken}{Token}} $\ast$}]{tok,  }\item[{const char $\ast$}]{msg }\end{DoxyParamCaption})}
 
 Here is the caller graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{syntax_8c_a4f338ec4884d672a0c241b8d74f63758_icgraph}
+\includegraphics[width=350pt]{syntax_8c_a1c961989706a5b67c20014cac3d1001f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_aa3a4b9355fd80470716f7659e131582d}\label{syntax_8c_aa3a4b9355fd80470716f7659e131582d}} 
+\index{syntax.c@{syntax.c}!eval\_ast\_assignment@{eval\_ast\_assignment}}
+\index{eval\_ast\_assignment@{eval\_ast\_assignment}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{eval\_ast\_assignment()}{eval\_ast\_assignment()}}
+{\footnotesize\ttfamily double eval\+\_\+ast\+\_\+assignment (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAST}{AST}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_aa3a4b9355fd80470716f7659e131582d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_aa3a4b9355fd80470716f7659e131582d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_ad4a98a5901cf9bf8f71572644985a6b4}\label{syntax_8c_ad4a98a5901cf9bf8f71572644985a6b4}} 
+\index{syntax.c@{syntax.c}!eval\_ast\_decl@{eval\_ast\_decl}}
+\index{eval\_ast\_decl@{eval\_ast\_decl}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{eval\_ast\_decl()}{eval\_ast\_decl()}}
+{\footnotesize\ttfamily double eval\+\_\+ast\+\_\+decl (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAST}{AST}} $\ast$}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_ad4a98a5901cf9bf8f71572644985a6b4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_ad4a98a5901cf9bf8f71572644985a6b4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a7452bc24840fd0921bef20386c305ff2}\label{syntax_8c_a7452bc24840fd0921bef20386c305ff2}} 
+\index{syntax.c@{syntax.c}!eval\_binary@{eval\_binary}}
+\index{eval\_binary@{eval\_binary}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{eval\_binary()}{eval\_binary()}}
+{\footnotesize\ttfamily double eval\+\_\+binary (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}}}]{op,  }\item[{double}]{left,  }\item[{double}]{right }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a7452bc24840fd0921bef20386c305ff2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a141df1077d6a4e2e06af121d2c66f371}\label{syntax_8c_a141df1077d6a4e2e06af121d2c66f371}} 
+\index{syntax.c@{syntax.c}!eval\_block@{eval\_block}}
+\index{eval\_block@{eval\_block}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{eval\_block()}{eval\_block()}}
+{\footnotesize\ttfamily static double eval\+\_\+block (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAST}{AST}} $\ast$}]{blk }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a141df1077d6a4e2e06af121d2c66f371_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a141df1077d6a4e2e06af121d2c66f371_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a36f485cc9be0777eb17cf64c0b46e5be}\label{syntax_8c_a36f485cc9be0777eb17cf64c0b46e5be}} 
+\index{syntax.c@{syntax.c}!eval\_for@{eval\_for}}
+\index{eval\_for@{eval\_for}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{eval\_for()}{eval\_for()}}
+{\footnotesize\ttfamily static double eval\+\_\+for (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAST}{AST}} $\ast$}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a36f485cc9be0777eb17cf64c0b46e5be_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a36f485cc9be0777eb17cf64c0b46e5be_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_abbd07ef268163bb850e61b0c75c1e9a2}\label{syntax_8c_abbd07ef268163bb850e61b0c75c1e9a2}} 
+\index{syntax.c@{syntax.c}!eval\_stmt\_list@{eval\_stmt\_list}}
+\index{eval\_stmt\_list@{eval\_stmt\_list}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{eval\_stmt\_list()}{eval\_stmt\_list()}}
+{\footnotesize\ttfamily static void eval\+\_\+stmt\+\_\+list (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAST}{AST}} $\ast$}]{first }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_abbd07ef268163bb850e61b0c75c1e9a2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_abbd07ef268163bb850e61b0c75c1e9a2_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{syntax_8c_a0b06649d2d1c27f919cc580d02b377a6}\label{syntax_8c_a0b06649d2d1c27f919cc580d02b377a6}} 
@@ -122,26 +486,39 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{free\_ast()}{free\_ast()}}
 {\footnotesize\ttfamily void free\+\_\+ast (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structAST}{AST}} $\ast$}]{node }\end{DoxyParamCaption})}
 
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=213pt]{syntax_8c_a0b06649d2d1c27f919cc580d02b377a6_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{syntax_8c_a787a52b2f9781b94f8431c2505c34bd2}\label{syntax_8c_a787a52b2f9781b94f8431c2505c34bd2}} 
-\index{syntax.c@{syntax.c}!get\_var@{get\_var}}
-\index{get\_var@{get\_var}!syntax.c@{syntax.c}}
-\doxysubsubsection{\texorpdfstring{get\_var()}{get\_var()}}
-{\footnotesize\ttfamily static int get\+\_\+var (\begin{DoxyParamCaption}\item[{const char $\ast$}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+\mbox{\Hypertarget{syntax_8c_addbed8fc97b16d2606b5e936aafa13b7}\label{syntax_8c_addbed8fc97b16d2606b5e936aafa13b7}} 
+\index{syntax.c@{syntax.c}!free\_wrapper\_tree@{free\_wrapper\_tree}}
+\index{free\_wrapper\_tree@{free\_wrapper\_tree}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{free\_wrapper\_tree()}{free\_wrapper\_tree()}}
+{\footnotesize\ttfamily static void free\+\_\+wrapper\+\_\+tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$}]{node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 Here is the caller graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{syntax_8c_a787a52b2f9781b94f8431c2505c34bd2_icgraph}
+\includegraphics[width=350pt]{syntax_8c_addbed8fc97b16d2606b5e936aafa13b7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a2b24dce6d850fd4a388d0b9736368bdc}\label{syntax_8c_a2b24dce6d850fd4a388d0b9736368bdc}} 
+\index{syntax.c@{syntax.c}!get\_var@{get\_var}}
+\index{get\_var@{get\_var}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{get\_var()}{get\_var()}}
+{\footnotesize\ttfamily static double get\+\_\+var (\begin{DoxyParamCaption}\item[{const char $\ast$}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a2b24dce6d850fd4a388d0b9736368bdc_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{syntax_8c_a0da887c72084e034d8aa49ab6b18d2eb}\label{syntax_8c_a0da887c72084e034d8aa49ab6b18d2eb}} 
@@ -150,12 +527,82 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{indent\_next()}{indent\_next()}}
 {\footnotesize\ttfamily static char$\ast$ indent\+\_\+next (\begin{DoxyParamCaption}\item[{const char $\ast$}]{indent,  }\item[{int}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+\mbox{\Hypertarget{syntax_8c_a3656332e57776d007c01c6ece44a1323}\label{syntax_8c_a3656332e57776d007c01c6ece44a1323}} 
+\index{syntax.c@{syntax.c}!is\_assignment@{is\_assignment}}
+\index{is\_assignment@{is\_assignment}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{is\_assignment()}{is\_assignment()}}
+{\footnotesize\ttfamily static int is\+\_\+assignment (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
 Here is the caller graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{syntax_8c_a0da887c72084e034d8aa49ab6b18d2eb_icgraph}
+\includegraphics[width=350pt]{syntax_8c_a3656332e57776d007c01c6ece44a1323_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a9c9a49905d9b9bce40d13254bbad9d72}\label{syntax_8c_a9c9a49905d9b9bce40d13254bbad9d72}} 
+\index{syntax.c@{syntax.c}!is\_binOp@{is\_binOp}}
+\index{is\_binOp@{is\_binOp}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{is\_binOp()}{is\_binOp()}}
+{\footnotesize\ttfamily int is\+\_\+bin\+Op (\begin{DoxyParamCaption}\item[{int}]{curr }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a9c9a49905d9b9bce40d13254bbad9d72_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a93018a37a7c10a47059eee236421c5e1}\label{syntax_8c_a93018a37a7c10a47059eee236421c5e1}} 
+\index{syntax.c@{syntax.c}!is\_returnType@{is\_returnType}}
+\index{is\_returnType@{is\_returnType}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{is\_returnType()}{is\_returnType()}}
+{\footnotesize\ttfamily static int is\+\_\+return\+Type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a93018a37a7c10a47059eee236421c5e1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a712517b5318fe6cffdf3878c3b22a737}\label{syntax_8c_a712517b5318fe6cffdf3878c3b22a737}} 
+\index{syntax.c@{syntax.c}!is\_unOp@{is\_unOp}}
+\index{is\_unOp@{is\_unOp}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{is\_unOp()}{is\_unOp()}}
+{\footnotesize\ttfamily int is\+\_\+un\+Op (\begin{DoxyParamCaption}\item[{int}]{curr }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a712517b5318fe6cffdf3878c3b22a737_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_ab742460f4f0233583f156ff26964b6de}\label{syntax_8c_ab742460f4f0233583f156ff26964b6de}} 
+\index{syntax.c@{syntax.c}!make\_fn@{make\_fn}}
+\index{make\_fn@{make\_fn}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{make\_fn()}{make\_fn()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAST}{AST}}$\ast$ make\+\_\+fn (\begin{DoxyParamCaption}\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=233pt]{syntax_8c_ab742460f4f0233583f156ff26964b6de_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{syntax_8c_ab742460f4f0233583f156ff26964b6de_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{syntax_8c_aa04548508148a1bc6c70bc30e0818a8a}\label{syntax_8c_aa04548508148a1bc6c70bc30e0818a8a}} 
@@ -170,6 +617,100 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{syntax_8c_aa04548508148a1bc6c70bc30e0818a8a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a80c67e6a1ea2329bb9e13652cc321f88}\label{syntax_8c_a80c67e6a1ea2329bb9e13652cc321f88}} 
+\index{syntax.c@{syntax.c}!make\_return@{make\_return}}
+\index{make\_return@{make\_return}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{make\_return()}{make\_return()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{structAST}{AST}}$\ast$ make\+\_\+return (\begin{DoxyParamCaption}\item[{char $\ast$}]{name,  }\item[{\mbox{\hyperlink{structAST}{AST}} $\ast$}]{expr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=252pt]{syntax_8c_a80c67e6a1ea2329bb9e13652cc321f88_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a80c67e6a1ea2329bb9e13652cc321f88_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a2d8ad45531413d79f75465548d1acdc6}\label{syntax_8c_a2d8ad45531413d79f75465548d1acdc6}} 
+\index{syntax.c@{syntax.c}!MAX@{MAX}}
+\index{MAX@{MAX}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{MAX()}{MAX()}}
+{\footnotesize\ttfamily static int MAX (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a2d8ad45531413d79f75465548d1acdc6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a02b13b0e36f2ad1e40012de587e218e2}\label{syntax_8c_a02b13b0e36f2ad1e40012de587e218e2}} 
+\index{syntax.c@{syntax.c}!MIN@{MIN}}
+\index{MIN@{MIN}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{MIN()}{MIN()}}
+{\footnotesize\ttfamily static int MIN (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a02b13b0e36f2ad1e40012de587e218e2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a87ce81a9c47f7e6859ea5c0af8635206}\label{syntax_8c_a87ce81a9c47f7e6859ea5c0af8635206}} 
+\index{syntax.c@{syntax.c}!parse\_block@{parse\_block}}
+\index{parse\_block@{parse\_block}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{parse\_block()}{parse\_block()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{structAST}{AST}} $\ast$ parse\+\_\+block (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a87ce81a9c47f7e6859ea5c0af8635206_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a87ce81a9c47f7e6859ea5c0af8635206_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_acc7b25ec3a10a980be8812d30a3d893c}\label{syntax_8c_acc7b25ec3a10a980be8812d30a3d893c}} 
+\index{syntax.c@{syntax.c}!parse\_definition@{parse\_definition}}
+\index{parse\_definition@{parse\_definition}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{parse\_definition()}{parse\_definition()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{structAST}{AST}} $\ast$ parse\+\_\+definition (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_acc7b25ec3a10a980be8812d30a3d893c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_acc7b25ec3a10a980be8812d30a3d893c_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{syntax_8c_afdac96ad21e61e16ca5d8294a71058fc}\label{syntax_8c_afdac96ad21e61e16ca5d8294a71058fc}} 
@@ -194,18 +735,18 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{syntax_8c_afdac96ad21e61e16ca5d8294a71058fc_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{syntax_8c_a1240c2de3940ec77596ce0c06ee05ac2}\label{syntax_8c_a1240c2de3940ec77596ce0c06ee05ac2}} 
-\index{syntax.c@{syntax.c}!parse\_factor@{parse\_factor}}
-\index{parse\_factor@{parse\_factor}!syntax.c@{syntax.c}}
-\doxysubsubsection{\texorpdfstring{parse\_factor()}{parse\_factor()}}
-{\footnotesize\ttfamily static \mbox{\hyperlink{structAST}{AST}} $\ast$ parse\+\_\+factor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+\mbox{\Hypertarget{syntax_8c_a694a6778e828a109ce9450e05f5cf98f}\label{syntax_8c_a694a6778e828a109ce9450e05f5cf98f}} 
+\index{syntax.c@{syntax.c}!parse\_fn@{parse\_fn}}
+\index{parse\_fn@{parse\_fn}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{parse\_fn()}{parse\_fn()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAST}{AST}}$\ast$ parse\+\_\+fn (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})}
 
 Here is the call graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{syntax_8c_a1240c2de3940ec77596ce0c06ee05ac2_cgraph}
+\includegraphics[width=350pt]{syntax_8c_a694a6778e828a109ce9450e05f5cf98f_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -213,7 +754,35 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{syntax_8c_a1240c2de3940ec77596ce0c06ee05ac2_icgraph}
+\includegraphics[width=216pt]{syntax_8c_a694a6778e828a109ce9450e05f5cf98f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a0391eb28243b58881ee13b5b122be87b}\label{syntax_8c_a0391eb28243b58881ee13b5b122be87b}} 
+\index{syntax.c@{syntax.c}!parse\_id@{parse\_id}}
+\index{parse\_id@{parse\_id}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{parse\_id()}{parse\_id()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{structAST}{AST}}$\ast$ parse\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{syntax_8c_a172a463d83c400196f992d32478b6d20}\label{syntax_8c_a172a463d83c400196f992d32478b6d20}} 
+\index{syntax.c@{syntax.c}!parse\_return@{parse\_return}}
+\index{parse\_return@{parse\_return}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{parse\_return()}{parse\_return()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{structAST}{AST}} $\ast$ parse\+\_\+return (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParser}{Parser}} $\ast$}]{ps }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a172a463d83c400196f992d32478b6d20_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a172a463d83c400196f992d32478b6d20_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{syntax_8c_af6d178933d495975376145c152e4f160}\label{syntax_8c_af6d178933d495975376145c152e4f160}} 
@@ -235,7 +804,7 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=256pt]{syntax_8c_af6d178933d495975376145c152e4f160_icgraph}
+\includegraphics[width=350pt]{syntax_8c_af6d178933d495975376145c152e4f160_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{syntax_8c_a42ae2e195424b1fe93b8c940d37ac99b}\label{syntax_8c_a42ae2e195424b1fe93b8c940d37ac99b}} 
@@ -274,26 +843,45 @@ Here is the call graph for this function\+:
 \includegraphics[width=350pt]{syntax_8c_ac325349195d5a1ce46f3248839759701_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=225pt]{syntax_8c_ac325349195d5a1ce46f3248839759701_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{syntax_8c_af087226875bf9e27ce7a061529a31d8b}\label{syntax_8c_af087226875bf9e27ce7a061529a31d8b}} 
-\index{syntax.c@{syntax.c}!print\_tree\_ascii@{print\_tree\_ascii}}
-\index{print\_tree\_ascii@{print\_tree\_ascii}!syntax.c@{syntax.c}}
-\doxysubsubsection{\texorpdfstring{print\_tree\_ascii()}{print\_tree\_ascii()}}
-{\footnotesize\ttfamily void print\+\_\+tree\+\_\+ascii (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structAST}{AST}} $\ast$}]{n,  }\item[{const char $\ast$}]{indent,  }\item[{int}]{last }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{syntax_8c_a2f1feb864fcbf3143ad5ae34881bb6cd}\label{syntax_8c_a2f1feb864fcbf3143ad5ae34881bb6cd}} 
+\index{syntax.c@{syntax.c}!print\_level@{print\_level}}
+\index{print\_level@{print\_level}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{print\_level()}{print\_level()}}
+{\footnotesize\ttfamily static void print\+\_\+level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structASTWrapper}{ASTWrapper}} $\ast$}]{node,  }\item[{int}]{x,  }\item[{int}]{level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a2f1feb864fcbf3143ad5ae34881bb6cd_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{syntax_8c_a28dc7892a960d2e57b5156353d6efbf2}\label{syntax_8c_a28dc7892a960d2e57b5156353d6efbf2}} 
+\index{syntax.c@{syntax.c}!print\_tree@{print\_tree}}
+\index{print\_tree@{print\_tree}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{print\_tree()}{print\_tree()}}
+{\footnotesize\ttfamily void print\+\_\+tree (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structAST}{AST}} $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{syntax_8c_a58573f08c83aaf3bdd14a46e4af19623}\label{syntax_8c_a58573f08c83aaf3bdd14a46e4af19623}} 
+\index{syntax.c@{syntax.c}!print\_tree\_better@{print\_tree\_better}}
+\index{print\_tree\_better@{print\_tree\_better}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{print\_tree\_better()}{print\_tree\_better()}}
+{\footnotesize\ttfamily void print\+\_\+tree\+\_\+better (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structAST}{AST}} $\ast$}]{root }\end{DoxyParamCaption})}
 
 Here is the call graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=282pt]{syntax_8c_af087226875bf9e27ce7a061529a31d8b_cgraph}
+\includegraphics[width=350pt]{syntax_8c_a58573f08c83aaf3bdd14a46e4af19623_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -301,7 +889,7 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=249pt]{syntax_8c_af087226875bf9e27ce7a061529a31d8b_icgraph}
+\includegraphics[width=255pt]{syntax_8c_a58573f08c83aaf3bdd14a46e4af19623_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{syntax_8c_a530ff51898885cdd819dc718628d19d3}\label{syntax_8c_a530ff51898885cdd819dc718628d19d3}} 
@@ -318,6 +906,20 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{syntax_8c_a530ff51898885cdd819dc718628d19d3_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{syntax_8c_a961ac0976c1dbbb7ed0f89b33c3b6591}\label{syntax_8c_a961ac0976c1dbbb7ed0f89b33c3b6591}} 
+\index{syntax.c@{syntax.c}!slot\_for\_entry@{slot\_for\_entry}}
+\index{slot\_for\_entry@{slot\_for\_entry}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{slot\_for\_entry()}{slot\_for\_entry()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{structVar}{Var}}$\ast$ slot\+\_\+for\+\_\+entry (\begin{DoxyParamCaption}\item[{const char $\ast$}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a961ac0976c1dbbb7ed0f89b33c3b6591_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{syntax_8c_afac37876ab64c6f5abe2eb0d55ea4901}\label{syntax_8c_afac37876ab64c6f5abe2eb0d55ea4901}} 
 \index{syntax.c@{syntax.c}!syntax\_error@{syntax\_error}}
 \index{syntax\_error@{syntax\_error}!syntax.c@{syntax.c}}
@@ -332,12 +934,44 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{syntax_8c_afac37876ab64c6f5abe2eb0d55ea4901_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{syntax_8c_a5ec483afeb6d052e44272e0e7dc4464a}\label{syntax_8c_a5ec483afeb6d052e44272e0e7dc4464a}} 
+\index{syntax.c@{syntax.c}!truthy@{truthy}}
+\index{truthy@{truthy}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{truthy()}{truthy()}}
+{\footnotesize\ttfamily static int truthy (\begin{DoxyParamCaption}\item[{double}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{syntax_8c_a5ec483afeb6d052e44272e0e7dc4464a_icgraph}
+\end{center}
+\end{figure}
 
 
 \doxysubsection{Variable Documentation}
-\mbox{\Hypertarget{syntax_8c_a40bf4e58419ab301530df2b580076f83}\label{syntax_8c_a40bf4e58419ab301530df2b580076f83}} 
-\index{syntax.c@{syntax.c}!vars@{vars}}
-\index{vars@{vars}!syntax.c@{syntax.c}}
-\doxysubsubsection{\texorpdfstring{vars}{vars}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structVar}{Var}} vars\mbox{[}128\mbox{]}\hspace{0.3cm}{\ttfamily [static]}}
+\mbox{\Hypertarget{syntax_8c_a29e473eb545feeae50bf3b3c5aafc7dc}\label{syntax_8c_a29e473eb545feeae50bf3b3c5aafc7dc}} 
+\index{syntax.c@{syntax.c}!gap@{gap}}
+\index{gap@{gap}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{gap}{gap}}
+{\footnotesize\ttfamily int gap = 3\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{syntax_8c_a78c5b71ee27f7bc8a104b6d23f90a9ff}\label{syntax_8c_a78c5b71ee27f7bc8a104b6d23f90a9ff}} 
+\index{syntax.c@{syntax.c}!lprofile@{lprofile}}
+\index{lprofile@{lprofile}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{lprofile}{lprofile}}
+{\footnotesize\ttfamily int lprofile\mbox{[}\mbox{\hyperlink{utils_8c_a9059fa76eb5e8e86f870405d63e72c4c}{MAX\+\_\+\+HEIGHT}}\mbox{]}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{syntax_8c_a5832ef034bae1a81c3d4fab47e3c1f9c}\label{syntax_8c_a5832ef034bae1a81c3d4fab47e3c1f9c}} 
+\index{syntax.c@{syntax.c}!print\_next@{print\_next}}
+\index{print\_next@{print\_next}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{print\_next}{print\_next}}
+{\footnotesize\ttfamily int print\+\_\+next\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{syntax_8c_aec056a5a0739a0bef539e2557678eb84}\label{syntax_8c_aec056a5a0739a0bef539e2557678eb84}} 
+\index{syntax.c@{syntax.c}!rprofile@{rprofile}}
+\index{rprofile@{rprofile}!syntax.c@{syntax.c}}
+\doxysubsubsection{\texorpdfstring{rprofile}{rprofile}}
+{\footnotesize\ttfamily int rprofile\mbox{[}\mbox{\hyperlink{utils_8c_a9059fa76eb5e8e86f870405d63e72c4c}{MAX\+\_\+\+HEIGHT}}\mbox{]}\hspace{0.3cm}{\ttfamily [static]}}
 

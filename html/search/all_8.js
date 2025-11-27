@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['main_28',['main',['../main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main.c']]],
-  ['main_2ec_29',['main.c',['../main_8c.html',1,'']]],
-  ['make_5fid_30',['make_id',['../syntax_8c.html#aa04548508148a1bc6c70bc30e0818a8a',1,'syntax.c']]]
+  ['jit_5fand_5frun_97',['jit_and_run',['../IRgen_8c.html#ae5d3896a6d96ab8780d57768d7a9aa7f',1,'IRgen.c']]]
 ];

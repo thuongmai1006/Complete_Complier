@@ -1,26 +1,14 @@
 	.text
 	.file	"JIT"
-	.globl	choice
+	.globl	calculate
 	.p2align	4, 0x90
-	.type	choice,@function
-choice:
+	.type	calculate,@function
+calculate:
 	.cfi_startproc
-	movl	%edi, %eax
-	movl	$-1, %ecx
-	.p2align	4, 0x90
-.LBB0_1:
-	addl	$1, %ecx
-	cmpl	$10, %ecx
-	jl	.LBB0_1
-	movl	%eax, %ecx
-	addl	%esi, %ecx
-	je	.LBB0_3
-	retq
-.LBB0_3:
-	movl	%esi, %eax
+	leal	(%rdi,%rsi), %eax
 	retq
 .Lfunc_end0:
-	.size	choice, .Lfunc_end0-choice
+	.size	calculate, .Lfunc_end0-calculate
 	.cfi_endproc
 
 	.section	".note.GNU-stack","",@progbits

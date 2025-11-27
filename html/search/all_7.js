@@ -1,11 +1,24 @@
 var searchData=
 [
-  ['left_20',['left',['../structAST.html#a5fbaf27eb059a24a3bd046387b883dd6',1,'AST']]],
-  ['lexeme_21',['lexeme',['../structToken.html#a303873dd8cdd12edae1107fd43a7bc78',1,'Token']]],
-  ['lexer_22',['Lexer',['../structLexer.html',1,'']]],
-  ['lexer_23',['lexer',['../structParser.html#a8a8214126b0b0455e3ce375f3e9b20bf',1,'Parser']]],
-  ['lexer_2ec_24',['lexer.c',['../lexer_8c.html',1,'']]],
-  ['lexer_2eh_25',['lexer.h',['../lexer_8h.html',1,'']]],
-  ['lexer_5finit_26',['lexer_init',['../lexer_8c.html#ac89236d97f0a89b8c483b749e45c27e9',1,'lexer_init(Lexer *lex, char *input):&#160;lexer.c'],['../lexer_8h.html#ac89236d97f0a89b8c483b749e45c27e9',1,'lexer_init(Lexer *lex, char *input):&#160;lexer.c']]],
-  ['lexer_5fnext_5ftoken_27',['lexer_next_token',['../lexer_8c.html#a5792ea1ddbd0d1ba3efb4c842a55f93c',1,'lexer_next_token(Lexer *lex):&#160;lexer.c'],['../lexer_8h.html#a5792ea1ddbd0d1ba3efb4c842a55f93c',1,'lexer_next_token(Lexer *lex):&#160;lexer.c']]]
+  ['i_76',['i',['../structVar.html#ad8ec542c20f737971cfb6c144c897d65',1,'Var']]],
+  ['id_77',['id',['../structType.html#a6bb46be9fac8b3da27c9d36898dd6e33',1,'Type']]],
+  ['id_5fcnt_78',['id_cnt',['../structLexer.html#a034473d422705c3e498195081a1bea82',1,'Lexer']]],
+  ['id_5fno_79',['id_no',['../structToken.html#a26f7faeba881776c32341e2288e2a109',1,'Token']]],
+  ['identifier_80',['identifier',['../lexer_8c.html#a3a839c34b3c0e51beece2751968de8f5',1,'lexer.c']]],
+  ['if_81',['if',['../test__if__else_8c.html#a7c8fd009c488d980e37f8d03fbe84a59',1,'test_if_else.c']]],
+  ['indent_5fnext_82',['indent_next',['../syntax_8c.html#a0da887c72084e034d8aa49ab6b18d2eb',1,'syntax.c']]],
+  ['infinity_83',['INFINITY',['../syntax_8c.html#a956e2723d559858d08644ac99146e910',1,'INFINITY():&#160;syntax.c'],['../utils_8c.html#a956e2723d559858d08644ac99146e910',1,'INFINITY():&#160;utils.c']]],
+  ['init_84',['init',['../structAST.html#a6b808f5c8f1d2ce23f17ca9e135e1ad7',1,'AST']]],
+  ['initializemodule_85',['InitializeModule',['../codegen_8c.html#ac4b3c3a0b3b8ae58fade9230f04fd308',1,'codegen.c']]],
+  ['input_86',['input',['../structLexer.html#a005286e751a97e032b379bd45879ee6f',1,'Lexer']]],
+  ['insert_87',['insert',['../utils_8c.html#a7bab772aac53a7766321aeb722264632',1,'utils.c']]],
+  ['irgen_2ec_88',['IRgen.c',['../IRgen_8c.html',1,'']]],
+  ['is_5fassignment_89',['is_assignment',['../syntax_8c.html#a3656332e57776d007c01c6ece44a1323',1,'syntax.c']]],
+  ['is_5fbinop_90',['is_binOp',['../syntax_8c.html#a9c9a49905d9b9bce40d13254bbad9d72',1,'syntax.c']]],
+  ['is_5fdefined_91',['is_defined',['../structSymbol.html#a096269a6983da6382fdbcc8b58c8f45c',1,'Symbol']]],
+  ['is_5felif_92',['is_elif',['../lexer_8c.html#ad1c0a6256f6a142f27325ad5fb737033',1,'lexer.c']]],
+  ['is_5ffunction_5fdefinition_93',['is_function_definition',['../main_8c.html#a0869916ccfef99e529bd9da6c852f021',1,'main.c']]],
+  ['is_5fkey_94',['is_key',['../lexer_8c.html#ac57c268e59663393389dd7ea9de94bf2',1,'lexer.c']]],
+  ['is_5freturntype_95',['is_returnType',['../syntax_8c.html#a93018a37a7c10a47059eee236421c5e1',1,'syntax.c']]],
+  ['is_5funop_96',['is_unOp',['../syntax_8c.html#a712517b5318fe6cffdf3878c3b22a737',1,'syntax.c']]]
 ];

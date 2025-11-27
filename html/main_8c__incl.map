@@ -1,8 +1,12 @@
 <map id="main.c" name="main.c">
-<area shape="rect" id="node1" title=" " alt="" coords="135,5,201,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,80,72,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="97,80,167,107"/>
-<area shape="rect" id="node4" href="$lexer_8h.html" title=" " alt="" coords="211,155,277,181"/>
-<area shape="rect" id="node6" href="$syntax_8h.html" title=" " alt="" coords="243,80,322,107"/>
-<area shape="rect" id="node5" title=" " alt="" coords="207,229,281,256"/>
+<area shape="rect" id="node1" title=" " alt="" coords="350,5,416,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="35,155,102,181"/>
+<area shape="rect" id="node3" title=" " alt="" coords="333,229,404,256"/>
+<area shape="rect" id="node4" href="$symbol__table_8h.html" title=" " alt="" coords="247,80,370,107"/>
+<area shape="rect" id="node6" href="$syntax_8h.html" title=" " alt="" coords="406,155,485,181"/>
+<area shape="rect" id="node7" href="$lexer_8h.html" title=" " alt="" coords="458,229,524,256"/>
+<area shape="rect" id="node10" title=" " alt="" coords="560,80,643,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="126,155,235,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="260,155,330,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="454,304,528,331"/>
 </map>

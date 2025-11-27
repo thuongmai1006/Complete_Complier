@@ -1,7 +1,10 @@
 <map id="parse_term" name="parse_term">
-<area shape="rect" id="node1" title=" " alt="" coords="431,31,527,57"/>
-<area shape="rect" id="node2" href="$syntax_8c.html#afdac96ad21e61e16ca5d8294a71058fc" title=" " alt="" coords="288,56,383,83"/>
-<area shape="rect" id="node3" href="$syntax_8c.html#a1240c2de3940ec77596ce0c06ee05ac2" title=" " alt="" coords="123,5,225,32"/>
-<area shape="rect" id="node4" href="$syntax_8c.html#af6d178933d495975376145c152e4f160" title=" " alt="" coords="108,56,240,83"/>
-<area shape="rect" id="node5" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,56,60,83"/>
+<area shape="rect" id="node1" title=" " alt="" coords="753,95,849,121"/>
+<area shape="rect" id="node2" href="$syntax_8c.html#afdac96ad21e61e16ca5d8294a71058fc" title=" " alt="" coords="611,95,705,121"/>
+<area shape="rect" id="node6" href="$syntax_8c.html#af6d178933d495975376145c152e4f160" title=" " alt="" coords="256,107,388,133"/>
+<area shape="rect" id="node3" href="$syntax_8c.html#acc7b25ec3a10a980be8812d30a3d893c" title=" " alt="" coords="436,5,563,32"/>
+<area shape="rect" id="node8" href="$syntax_8c.html#a172a463d83c400196f992d32478b6d20" title=" " alt="" coords="447,107,551,133"/>
+<area shape="rect" id="node4" href="$syntax_8c.html#a694a6778e828a109ce9450e05f5cf98f" title=" " alt="" coords="119,5,197,32"/>
+<area shape="rect" id="node5" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,31,60,57"/>
+<area shape="rect" id="node7" href="$syntax_8c.html#a87ce81a9c47f7e6859ea5c0af8635206" title=" " alt="" coords="108,107,208,133"/>
 </map>

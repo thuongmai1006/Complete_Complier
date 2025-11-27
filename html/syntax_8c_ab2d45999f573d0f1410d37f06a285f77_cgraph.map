@@ -1,10 +1,12 @@
 <map id="eat" name="eat">
-<area shape="rect" id="node1" title=" " alt="" coords="5,105,48,132"/>
-<area shape="rect" id="node2" href="$lexer_8c.html#a5792ea1ddbd0d1ba3efb4c842a55f93c" title=" " alt="" coords="96,80,229,107"/>
-<area shape="rect" id="node8" href="$syntax_8c.html#afac37876ab64c6f5abe2eb0d55ea4901" title=" " alt="" coords="111,131,215,157"/>
-<area shape="rect" id="node3" href="$lexer_8c.html#ac3bd61f918e5bc94882f99035d2f9227" title=" " alt="" coords="462,55,539,81"/>
-<area shape="rect" id="node4" href="$lexer_8c.html#a3a839c34b3c0e51beece2751968de8f5" title=" " alt="" coords="303,29,383,56"/>
-<area shape="rect" id="node5" href="$lexer_8c.html#a6b2fecdc2978d8d1176f987582c94324" title=" " alt="" coords="307,131,379,157"/>
-<area shape="rect" id="node6" href="$lexer_8c.html#a4869cb441e46d817d3fbc5896a8f5705" title=" " alt="" coords="456,156,545,183"/>
-<area shape="rect" id="node7" href="$lexer_8c.html#ac7c736774dd80d977ad9ec9298b5f654" title=" " alt="" coords="277,80,408,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,173,48,199"/>
+<area shape="rect" id="node2" href="$lexer_8c.html#a5792ea1ddbd0d1ba3efb4c842a55f93c" title=" " alt="" coords="96,147,229,174"/>
+<area shape="rect" id="node10" href="$syntax_8c.html#afac37876ab64c6f5abe2eb0d55ea4901" title=" " alt="" coords="111,198,215,225"/>
+<area shape="rect" id="node3" href="$lexer_8c.html#ac3bd61f918e5bc94882f99035d2f9227" title=" " alt="" coords="601,46,679,73"/>
+<area shape="rect" id="node4" href="$lexer_8c.html#a3a839c34b3c0e51beece2751968de8f5" title=" " alt="" coords="303,97,383,123"/>
+<area shape="rect" id="node6" href="$lexer_8c.html#a4869cb441e46d817d3fbc5896a8f5705" title=" " alt="" coords="460,147,549,174"/>
+<area shape="rect" id="node8" href="$lexer_8c.html#a6b2fecdc2978d8d1176f987582c94324" title=" " alt="" coords="307,198,379,225"/>
+<area shape="rect" id="node9" href="$lexer_8c.html#ac7c736774dd80d977ad9ec9298b5f654" title=" " alt="" coords="277,249,408,275"/>
+<area shape="rect" id="node5" href="$lexer_8c.html#ad1c0a6256f6a142f27325ad5fb737033" title=" " alt="" coords="474,46,535,73"/>
+<area shape="rect" id="node7" href="$lexer_8c.html#ae419a45a1a5cc1add284245fe833dc0d" title=" " alt="" coords="456,97,553,123"/>
 </map>

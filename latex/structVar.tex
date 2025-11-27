@@ -1,37 +1,76 @@
 \hypertarget{structVar}{}\doxysection{Var Struct Reference}
 \label{structVar}\index{Var@{Var}}
+
+
+{\ttfamily \#include $<$syntax.\+h$>$}
+
+
+
+Collaboration diagram for Var\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=124pt]{structVar__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 char \mbox{\hyperlink{structVar_a7d29f64d0a6ef86512c212946f381d13}{name}} \mbox{[}64\mbox{]}
 \item 
-int \mbox{\hyperlink{structVar_a0906c25074fa4aff129a3f5fa43c17d2}{value}}
+double \mbox{\hyperlink{structVar_a5548c81a85be1e9b4ed20b43d631de48}{used}}
 \item 
-int \mbox{\hyperlink{structVar_a3b8b62e5ea9d6e179cc903f93c4f103d}{used}}
-\end{DoxyCompactItemize}
+\mbox{\hyperlink{structToken}{Token}} \mbox{\hyperlink{structVar_aa60b21c77c90753650e075eee4e124d9}{op}}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>int \mbox{\hyperlink{structVar_ad8ec542c20f737971cfb6c144c897d65}{i}}\\
+\>float \mbox{\hyperlink{structVar_a76819effa87a7bac212f63ef839f8d58}{f}}\\
+\} \mbox{\hyperlink{structVar_a1f0590c7f1298c93c762bff723bd9a9e}{num\_val}}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structVar_a76819effa87a7bac212f63ef839f8d58}\label{structVar_a76819effa87a7bac212f63ef839f8d58}} 
+\index{Var@{Var}!f@{f}}
+\index{f@{f}!Var@{Var}}
+\doxysubsubsection{\texorpdfstring{f}{f}}
+{\footnotesize\ttfamily float Var\+::f}
+
+\mbox{\Hypertarget{structVar_ad8ec542c20f737971cfb6c144c897d65}\label{structVar_ad8ec542c20f737971cfb6c144c897d65}} 
+\index{Var@{Var}!i@{i}}
+\index{i@{i}!Var@{Var}}
+\doxysubsubsection{\texorpdfstring{i}{i}}
+{\footnotesize\ttfamily int Var\+::i}
+
 \mbox{\Hypertarget{structVar_a7d29f64d0a6ef86512c212946f381d13}\label{structVar_a7d29f64d0a6ef86512c212946f381d13}} 
 \index{Var@{Var}!name@{name}}
 \index{name@{name}!Var@{Var}}
 \doxysubsubsection{\texorpdfstring{name}{name}}
 {\footnotesize\ttfamily char Var\+::name\mbox{[}64\mbox{]}}
 
-\mbox{\Hypertarget{structVar_a3b8b62e5ea9d6e179cc903f93c4f103d}\label{structVar_a3b8b62e5ea9d6e179cc903f93c4f103d}} 
+\mbox{\Hypertarget{structVar_a1f0590c7f1298c93c762bff723bd9a9e}\label{structVar_a1f0590c7f1298c93c762bff723bd9a9e}} 
+\index{Var@{Var}!num\_val@{num\_val}}
+\index{num\_val@{num\_val}!Var@{Var}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily union \{ ... \}  Var\+::num\+\_\+val}
+
+\mbox{\Hypertarget{structVar_aa60b21c77c90753650e075eee4e124d9}\label{structVar_aa60b21c77c90753650e075eee4e124d9}} 
+\index{Var@{Var}!op@{op}}
+\index{op@{op}!Var@{Var}}
+\doxysubsubsection{\texorpdfstring{op}{op}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structToken}{Token}} Var\+::op}
+
+\mbox{\Hypertarget{structVar_a5548c81a85be1e9b4ed20b43d631de48}\label{structVar_a5548c81a85be1e9b4ed20b43d631de48}} 
 \index{Var@{Var}!used@{used}}
 \index{used@{used}!Var@{Var}}
 \doxysubsubsection{\texorpdfstring{used}{used}}
-{\footnotesize\ttfamily int Var\+::used}
-
-\mbox{\Hypertarget{structVar_a0906c25074fa4aff129a3f5fa43c17d2}\label{structVar_a0906c25074fa4aff129a3f5fa43c17d2}} 
-\index{Var@{Var}!value@{value}}
-\index{value@{value}!Var@{Var}}
-\doxysubsubsection{\texorpdfstring{value}{value}}
-{\footnotesize\ttfamily int Var\+::value}
+{\footnotesize\ttfamily double Var\+::used}
 
 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{syntax_8c}{syntax.\+c}}\end{DoxyCompactItemize}
+\mbox{\hyperlink{syntax_8h}{syntax.\+h}}\end{DoxyCompactItemize}

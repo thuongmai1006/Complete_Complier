@@ -6,14 +6,18 @@
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
-Include dependency graph for lexer.\+c\+:
-\nopagebreak
+Include dependency graph for lexer.\+c\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{lexer_8c__incl}
 \end{center}
 \end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{lexer_8c_ad408a0aa3d932ac7eb5fe0c22a7f71b3}{PUSH}}(ch)~do \{ \mbox{\hyperlink{test__if__else_8c_a7c8fd009c488d980e37f8d03fbe84a59}{if}} (bi + 1 $<$ sizeof(buf)) buf\mbox{[}bi++\mbox{]} = (char)(ch); \} while (0)
+\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -23,7 +27,13 @@ static void \mbox{\hyperlink{lexer_8c_ac7c736774dd80d977ad9ec9298b5f654}{skip\+\
 \item 
 static \mbox{\hyperlink{structToken}{Token}} \mbox{\hyperlink{lexer_8c_a4869cb441e46d817d3fbc5896a8f5705}{token\+\_\+gen}} (\mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}} t, int v, const char $\ast$lex, size\+\_\+t p)
 \item 
+static \mbox{\hyperlink{structToken}{Token}} \mbox{\hyperlink{lexer_8c_ae419a45a1a5cc1add284245fe833dc0d}{token\+\_\+gen2}} (\mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}} t, int v, const char $\ast$lex, size\+\_\+t p, size\+\_\+t id\+\_\+no)
+\item 
 static \mbox{\hyperlink{structToken}{Token}} \mbox{\hyperlink{lexer_8c_a6b2fecdc2978d8d1176f987582c94324}{number}} (\mbox{\hyperlink{structLexer}{Lexer}} $\ast$lex)
+\item 
+int \mbox{\hyperlink{lexer_8c_ac57c268e59663393389dd7ea9de94bf2}{is\+\_\+key}} (char $\ast$str)
+\item 
+int \mbox{\hyperlink{lexer_8c_ad1c0a6256f6a142f27325ad5fb737033}{is\+\_\+elif}} (char $\ast$buf, size\+\_\+t $\ast$buf\+\_\+idx, \mbox{\hyperlink{structLexer}{Lexer}} $\ast$lex)
 \item 
 static \mbox{\hyperlink{structToken}{Token}} \mbox{\hyperlink{lexer_8c_a3a839c34b3c0e51beece2751968de8f5}{identifier}} (\mbox{\hyperlink{structLexer}{Lexer}} $\ast$lex)
 \item 
@@ -31,6 +41,15 @@ void \mbox{\hyperlink{lexer_8c_ac89236d97f0a89b8c483b749e45c27e9}{lexer\+\_\+ini
 \item 
 \mbox{\hyperlink{structToken}{Token}} \mbox{\hyperlink{lexer_8c_a5792ea1ddbd0d1ba3efb4c842a55f93c}{lexer\+\_\+next\+\_\+token}} (\mbox{\hyperlink{structLexer}{Lexer}} $\ast$lex)
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{lexer_8c_ad408a0aa3d932ac7eb5fe0c22a7f71b3}\label{lexer_8c_ad408a0aa3d932ac7eb5fe0c22a7f71b3}} 
+\index{lexer.c@{lexer.c}!PUSH@{PUSH}}
+\index{PUSH@{PUSH}!lexer.c@{lexer.c}}
+\doxysubsubsection{\texorpdfstring{PUSH}{PUSH}}
+{\footnotesize\ttfamily \#define PUSH(\begin{DoxyParamCaption}\item[{}]{ch }\end{DoxyParamCaption})~do \{ \mbox{\hyperlink{test__if__else_8c_a7c8fd009c488d980e37f8d03fbe84a59}{if}} (bi + 1 $<$ sizeof(buf)) buf\mbox{[}bi++\mbox{]} = (char)(ch); \} while (0)}
+
 
 
 \doxysubsection{Function Documentation}
@@ -59,7 +78,7 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=234pt]{lexer_8c_a3a839c34b3c0e51beece2751968de8f5_cgraph}
+\includegraphics[width=343pt]{lexer_8c_a3a839c34b3c0e51beece2751968de8f5_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -70,6 +89,34 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{lexer_8c_a3a839c34b3c0e51beece2751968de8f5_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{lexer_8c_ad1c0a6256f6a142f27325ad5fb737033}\label{lexer_8c_ad1c0a6256f6a142f27325ad5fb737033}} 
+\index{lexer.c@{lexer.c}!is\_elif@{is\_elif}}
+\index{is\_elif@{is\_elif}!lexer.c@{lexer.c}}
+\doxysubsubsection{\texorpdfstring{is\_elif()}{is\_elif()}}
+{\footnotesize\ttfamily int is\+\_\+elif (\begin{DoxyParamCaption}\item[{char $\ast$}]{buf,  }\item[{size\+\_\+t $\ast$}]{buf\+\_\+idx,  }\item[{\mbox{\hyperlink{structLexer}{Lexer}} $\ast$}]{lex }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{lexer_8c_ad1c0a6256f6a142f27325ad5fb737033_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lexer_8c_ad1c0a6256f6a142f27325ad5fb737033_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{lexer_8c_ac57c268e59663393389dd7ea9de94bf2}\label{lexer_8c_ac57c268e59663393389dd7ea9de94bf2}} 
+\index{lexer.c@{lexer.c}!is\_key@{is\_key}}
+\index{is\_key@{is\_key}!lexer.c@{lexer.c}}
+\doxysubsubsection{\texorpdfstring{is\_key()}{is\_key()}}
+{\footnotesize\ttfamily int is\+\_\+key (\begin{DoxyParamCaption}\item[{char $\ast$}]{str }\end{DoxyParamCaption})}
+
 \mbox{\Hypertarget{lexer_8c_ac89236d97f0a89b8c483b749e45c27e9}\label{lexer_8c_ac89236d97f0a89b8c483b749e45c27e9}} 
 \index{lexer.c@{lexer.c}!lexer\_init@{lexer\_init}}
 \index{lexer\_init@{lexer\_init}!lexer.c@{lexer.c}}
@@ -112,8 +159,7 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{number()}{number()}}
 {\footnotesize\ttfamily static \mbox{\hyperlink{structToken}{Token}} number (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLexer}{Lexer}} $\ast$}]{lex }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -134,8 +180,7 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{skip\_whitespace()}{skip\_whitespace()}}
 {\footnotesize\ttfamily static void skip\+\_\+whitespace (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLexer}{Lexer}} $\ast$}]{lex }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -162,5 +207,19 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{lexer_8c_a4869cb441e46d817d3fbc5896a8f5705_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{lexer_8c_ae419a45a1a5cc1add284245fe833dc0d}\label{lexer_8c_ae419a45a1a5cc1add284245fe833dc0d}} 
+\index{lexer.c@{lexer.c}!token\_gen2@{token\_gen2}}
+\index{token\_gen2@{token\_gen2}!lexer.c@{lexer.c}}
+\doxysubsubsection{\texorpdfstring{token\_gen2()}{token\_gen2()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{structToken}{Token}} token\+\_\+gen2 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{lexer_8h_aa520fbf142ba1e7e659590c07da31921}{Token\+Type}}}]{t,  }\item[{int}]{v,  }\item[{const char $\ast$}]{lex,  }\item[{size\+\_\+t}]{p,  }\item[{size\+\_\+t}]{id\+\_\+no }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lexer_8c_ae419a45a1a5cc1add284245fe833dc0d_icgraph}
 \end{center}
 \end{figure}

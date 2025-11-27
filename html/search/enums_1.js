@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tokentype_144',['TokenType',['../lexer_8h.html#aa520fbf142ba1e7e659590c07da31921',1,'lexer.h']]]
+  ['symkind_447',['SymKind',['../semantic_8c.html#a2749637539e7da17962743f94c9c2864',1,'semantic.c']]]
 ];

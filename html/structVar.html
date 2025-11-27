@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Compiler: Var Struct Reference</title>
+<title>My Project: Var Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Compiler
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -68,17 +68,63 @@ $(function() {
 <div class="title">Var Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="syntax_8h_source.html">syntax.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for Var:</div>
+<div class="dyncontent">
+<div class="center"><img src="structVar__coll__graph.png" border="0" usemap="#aVar_coll__map" alt="Collaboration graph"/></div>
+<map name="aVar_coll__map" id="aVar_coll__map">
+<area shape="rect" title=" " alt="" coords="13,95,56,121"/>
+<area shape="rect" href="structToken.html" title=" " alt="" coords="5,5,64,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a7d29f64d0a6ef86512c212946f381d13"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVar.html#a7d29f64d0a6ef86512c212946f381d13">name</a> [64]</td></tr>
 <tr class="separator:a7d29f64d0a6ef86512c212946f381d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0906c25074fa4aff129a3f5fa43c17d2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVar.html#a0906c25074fa4aff129a3f5fa43c17d2">value</a></td></tr>
-<tr class="separator:a0906c25074fa4aff129a3f5fa43c17d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b8b62e5ea9d6e179cc903f93c4f103d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVar.html#a3b8b62e5ea9d6e179cc903f93c4f103d">used</a></td></tr>
-<tr class="separator:a3b8b62e5ea9d6e179cc903f93c4f103d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5548c81a85be1e9b4ed20b43d631de48"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVar.html#a5548c81a85be1e9b4ed20b43d631de48">used</a></td></tr>
+<tr class="separator:a5548c81a85be1e9b4ed20b43d631de48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa60b21c77c90753650e075eee4e124d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structToken.html">Token</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVar.html#aa60b21c77c90753650e075eee4e124d9">op</a></td></tr>
+<tr class="separator:aa60b21c77c90753650e075eee4e124d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f0590c7f1298c93c762bff723bd9a9e"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:a46ff2e3846821ebbf3b572a746cf81f5"><td class="memItemLeft" >&#160;&#160;&#160;int&#160;&#160;&#160;<a class="el" href="structVar.html#ad8ec542c20f737971cfb6c144c897d65">i</a></td></tr>
+<tr class="separator:a46ff2e3846821ebbf3b572a746cf81f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ff7212acc2ee844902e53709efb0e0c"><td class="memItemLeft" >&#160;&#160;&#160;float&#160;&#160;&#160;<a class="el" href="structVar.html#a76819effa87a7bac212f63ef839f8d58">f</a></td></tr>
+<tr class="separator:a8ff7212acc2ee844902e53709efb0e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f0590c7f1298c93c762bff723bd9a9e"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVar.html#a1f0590c7f1298c93c762bff723bd9a9e">num_val</a></td></tr>
+<tr class="separator:a1f0590c7f1298c93c762bff723bd9a9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a76819effa87a7bac212f63ef839f8d58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76819effa87a7bac212f63ef839f8d58">&#9670;&nbsp;</a></span>f</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Var::f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad8ec542c20f737971cfb6c144c897d65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8ec542c20f737971cfb6c144c897d65">&#9670;&nbsp;</a></span>i</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Var::i</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a7d29f64d0a6ef86512c212946f381d13"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7d29f64d0a6ef86512c212946f381d13">&#9670;&nbsp;</a></span>name</h2>
 
@@ -93,28 +139,42 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3b8b62e5ea9d6e179cc903f93c4f103d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b8b62e5ea9d6e179cc903f93c4f103d">&#9670;&nbsp;</a></span>used</h2>
+<a id="a1f0590c7f1298c93c762bff723bd9a9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f0590c7f1298c93c762bff723bd9a9e">&#9670;&nbsp;</a></span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int Var::used</td>
+          <td class="memname">union { ... }  Var::num_val</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a0906c25074fa4aff129a3f5fa43c17d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0906c25074fa4aff129a3f5fa43c17d2">&#9670;&nbsp;</a></span>value</h2>
+<a id="aa60b21c77c90753650e075eee4e124d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa60b21c77c90753650e075eee4e124d9">&#9670;&nbsp;</a></span>op</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int Var::value</td>
+          <td class="memname"><a class="el" href="structToken.html">Token</a> Var::op</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5548c81a85be1e9b4ed20b43d631de48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5548c81a85be1e9b4ed20b43d631de48">&#9670;&nbsp;</a></span>used</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Var::used</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -122,7 +182,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="syntax_8c.html">syntax.c</a></li>
+<li><a class="el" href="syntax_8h_source.html">syntax.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -298,18 +298,19 @@ int main(void) {
 		   "int X =20; if (X>23) { I=0;} else {I=1;}",
 		   "if (X>2) {U=9;} else {U=0;} ",
 		   "int x = 5;\nif (x > 23) {int y = 1;}\n else if(x>2) {int z = 2;} \n else {z=1;}\n",*/
-		//"int sum=0;\nfor (int i=0; i<10; i++)\n{sum=sum+i;};\n ",
+		"int sum=0;\nfor (int i=0; i<10; i++)\n{sum=sum+i;};\n ",
 		//"float a=18.5;",
-		//"int add (int a, int b){\n\tint sum=0;\n\tfor (int i=0; i<10; i++){\n\t\tsum=sum+i;\n\t}\n return sum;\n}",
+		"int add (int a, int b){\n\tint sum=0;\n\tfor (int i=0; i<10; i++){\n\t\tsum=sum+i;\n\t}\n return sum;\n}",
 		//" int main () { int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}; \n return sum; }",
-		//"int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
-		//"3+3;",
-		//"int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
-		//"int sum(int a, int b, int c, float d){\n\ta + b + c;\n\t3+3;\n\treturn a + b;\n}",
+		"int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
+		"3+3;",
+		"int sum=0; for (int i=0; i<10; i++) {sum=sum+i;}",
+		"int sum(int a, int b, int c, float d){\n\ta + b + c;\n\t3+3;\n\treturn a + b;\n}",
         "int choice(int a, int b, int choice) { for (int i = 0; i < 10; i++) { a + b; }\n if (a + b) { return a;} else {return b;}}",
         //"int fib(int x){if (x < 3) {return 1;} else {return fib(x-1) + fib(x-2)};}",
-		//"if (X>23) { I=0;} else {I=1;}",
-		//"if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
+//		"if (X>23) { I=0;} else {I=1;}",
+//		"if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
+        "3 + 4 * 5;",
 		NULL
 	};
 

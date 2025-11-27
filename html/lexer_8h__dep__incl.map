@@ -1,7 +1,10 @@
 <map id="lexer.h" name="lexer.h">
 <area shape="rect" id="node1" title=" " alt="" coords="74,5,139,32"/>
 <area shape="rect" id="node2" href="$lexer_8c.html" title=" " alt="" coords="5,80,69,107"/>
-<area shape="rect" id="node3" href="$main_8c.html" title=" " alt="" coords="73,155,140,181"/>
-<area shape="rect" id="node4" href="$syntax_8h.html" title=" " alt="" coords="145,80,223,107"/>
-<area shape="rect" id="node5" href="$syntax_8c.html" title=" " alt="" coords="164,155,241,181"/>
+<area shape="rect" id="node3" href="$main_8c.html" title=" " alt="" coords="121,229,188,256"/>
+<area shape="rect" id="node4" href="$syntax_8h.html" title=" " alt="" coords="181,80,259,107"/>
+<area shape="rect" id="node5" href="$symbol__table_8h.html" title=" " alt="" coords="195,155,317,181"/>
+<area shape="rect" id="node8" href="$syntax_8c.html" title=" " alt="" coords="341,155,419,181"/>
+<area shape="rect" id="node6" href="$codegen_8c.html" title=" " alt="" coords="212,229,300,256"/>
+<area shape="rect" id="node7" href="$symbol__table_8c.html" title=" " alt="" coords="325,229,446,256"/>
 </map>
