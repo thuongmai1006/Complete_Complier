@@ -353,7 +353,7 @@ static AST* parse_term(Parser* ps){
 		if_AST->right = NULL;
 		eat(ps, TOK_RCURLY);
 		if (ps->current.type == TOK_ELSE|| ps->current.type == TOK_ELIF ) { //
-			if_AST->right = parse_term (ps);
+			if_AST->right = parse_term(ps);
 		}
 		return if_AST;
 	}
@@ -378,9 +378,7 @@ static AST* parse_term(Parser* ps){
 		AST* else_AST = (AST*)calloc(1, sizeof(AST));
 		else_AST->type = AST_ELSE;
 		eat(ps, TOK_ELSE);
-		eat(ps, TOK_LCURLY);
 		else_AST->left = parse_statement(ps);
-		eat(ps, TOK_RCURLY);
 		return else_AST;
 	}
 	// Handle WHILE LOOP
@@ -661,14 +659,16 @@ double eval_ast_assignment( AST *node) {
 	case AST_FUNC:          fprintf(stderr, "Error: Cannot evaluate function definition\n"); return 0;
 	case AST_DECLARATION:   return eval_ast_decl(node);
 	case AST_ID:            return get_var(node->name);
-	case AST_IF:            {double cond = eval_ast_assignment(node->cond);
-		                 if (truthy(cond)) {    // truthy check for non zero for float and int
-					 if (node->left) {return eval_ast_assignment(node->left);}
-				 } else {
-					 // false, execute ELSE branch
-					 if (node->right) {return eval_ast_assignment(node->right); }
-				 }
-		                 return 0.0;}
+	case AST_IF:            {
+		double cond = eval_ast_assignment(node->cond);
+		if (truthy(cond)) {                     // truthy check for non zero for float and int
+			if (node->left) {return eval_ast_assignment(node->left);}
+		} else {
+			// false, execute ELSE branch
+			if (node->right) {return eval_ast_assignment(node->right); }
+		}
+		return 0.0;
+	}
 	case AST_WHILE: {
 		const int MAX_ITERS = 19;
 		int iters = 0;
@@ -690,11 +690,14 @@ double eval_ast_assignment( AST *node) {
 	case AST_ELIF: {
 		int cond = eval_ast_assignment(node->cond);
 		int true_eval = eval_ast_assignment(node->left);
-		if (node->right) {
-			int false_eval = eval_ast_assignment(node->right);
-			return cond ? true_eval : false_eval;
+		if (cond) return true_eval;
+		else{
+			if (node->right) {
+				int false_eval = eval_ast_assignment(node->right);
+				return cond ? true_eval : false_eval;
+			}
 		}
-		return true_eval;
+		return 0.0;
 	}
 
 	case AST_ELSE:          return eval_ast_assignment(node->left);

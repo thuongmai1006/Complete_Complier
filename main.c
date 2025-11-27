@@ -297,7 +297,7 @@ int main(void) {
 		   "(1 + 2) * 3 - 4 / 2;",
 		   "int X =20; if (X>23) { I=0;} else {I=1;}",
 		   "if (X>2) {U=9;} else {U=0;} ",
-		   "int x = 5;\nif (x > 23) {int y = 1;}\n else if(x>2) {int z = 2;} \n else {z=1;}\n",*/
+           */
 		"int sum=0;\nfor (int i=0; i<10; i++)\n{sum=sum+i;};\n ",
 		//"float a=18.5;",
 		"int add (int a, int b){\n\tint sum=0;\n\tfor (int i=0; i<10; i++){\n\t\tsum=sum+i;\n\t}\n return sum;\n}",
@@ -311,6 +311,7 @@ int main(void) {
 //		"if (X>23) { I=0;} else {I=1;}",
 //		"if (X>23) {K = 20;}\nelse{K= 10;}\nint x = 5;\n3+4;",
         "3 + 4 * 5;",
+	    "int x = 5;\nif (x > 23) {int y = 1;}\n else if(x>2) {int z = 2;} \n else {z=1;}\n",
 		NULL
 	};
 
@@ -416,6 +417,7 @@ int main(void) {
             printf("\n=== Executing function ===\n");
             double result = eval_function_call(tree, NULL, 0);
             printf("Function returned: %.2f\n", result);
+            codegen_run(tree);
         }
         else
         {
@@ -425,7 +427,6 @@ int main(void) {
             puts("== Parse tree down eher ==");
             print_tree_better(tree);
         }
-        codegen_run(tree);
         free_ast(tree);
     }
     return 0;
